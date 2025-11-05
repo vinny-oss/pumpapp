@@ -169,9 +169,28 @@ function renderPumpCard(state) {
 
 // Set pump card state (shallow merge + render)
 function setPumpCardState(patch) {
-  Object.assign(pumpCardState, patch);
+  // Deep merge for nested objects
+  for (const key in patch) {
+    if (typeof patch[key] === 'object' && pumpCardState[key]) {
+      pumpCardState[key] = { ...pumpCardState[key], ...patch[key] };
+    } else {
+      pumpCardState[key] = patch[key];
+    }
+  }
   renderPumpCard(pumpCardState);
 }
 
 // Initialize on page load
-renderPumpCard(pumpCardState);
+document.addEventListener('DOMContentLoaded', () => {
+  console.log('Initializing Pump Card with state:', pumpCardState);
+  renderPumpCard(pumpCardState);
+});
+
+// Also call immediately in case DOMContentLoaded already fired
+if (document.readyState === 'loading') {
+  // Still loading, wait for DOMContentLoaded
+} else {
+  // DOM is ready
+  console.log('DOM ready, initializing Pump Card with state:', pumpCardState);
+  renderPumpCard(pumpCardState);
+}
