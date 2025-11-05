@@ -150,7 +150,7 @@ body {
   pointer-events: none;
 }
 
-.chip {
+.corner-chip {
   position: absolute;
   display: flex;
   flex-direction: column;
@@ -160,6 +160,16 @@ body {
   border: 1px solid rgba(255,255,255,0.08);
   border-radius: var(--radius-sm);
   box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
+}
+
+.corner-chip.ok {
+  border-color: rgba(44,214,121,.45);
+  box-shadow: 0 0 0 1px rgba(44,214,121,.28), 0 8px 18px rgba(44,214,121,.12);
+}
+
+.corner-chip.warn {
+  opacity: .95;
 }
 
 .chip-tl { top: 0; left: 0; }
