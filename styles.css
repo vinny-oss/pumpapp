@@ -58,6 +58,7 @@ body {
   font-size: 22px;
   font-weight: 600;
   text-align: center;
+  justify-self: center;
 }
 
 .icon-btn {
@@ -78,13 +79,13 @@ body {
 .pill-btn {
   appearance: none;
   border: 0;
-  padding: 7px 12px;
+  padding: 4px 8px;
   border-radius: 999px;
-  font-size: 14px;
+  font-size: 11px;
   font-weight: 700;
   color: #000;
   background: var(--action);
-  box-shadow: 0 6px 14px rgba(255,159,10,.35);
+  box-shadow: 0 4px 10px rgba(255,159,10,.3);
   white-space: nowrap;
 }
 
@@ -107,9 +108,9 @@ body {
 
 /* Today row */
 .row-card {
-  display: flex;
+  display: grid;
+  grid-template-columns: 24px 1fr 24px;
   align-items: center;
-  justify-content: space-between;
   gap: 10px;
   padding: 12px 14px;
   margin: 2px 0 14px;
@@ -122,8 +123,13 @@ body {
   transition: transform .08s ease, background-color .2s ease, border-color .2s ease;
 }
 .row-card:hover { transform: translateY(-1px); border-color: rgba(255,255,255,0.12); }
-.row-left { display: inline-flex; align-items: center; gap: 8px; }
-.row-text { font-size: 16px; font-weight: 600; letter-spacing: .1px; }
+.row-text {
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: .1px;
+  text-align: center;
+  justify-self: center;
+}
 .icon { width: 18px; height: 18px; color: var(--text); display: inline-block; }
 .icon.muted { color: var(--muted); }
 
