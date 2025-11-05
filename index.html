@@ -1,49 +1,52 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>💪 PUMP APP</title>
-    <!-- Last updated: 2025-11-05 20:30 -->
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            min-height: 100vh;
-            background: #ffffff;
-            padding: 40px 20px;
-            text-align: center;
-        }
-
-        .app-title {
-            font-size: 3rem;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 10px;
-        }
-
-        .test-message {
-            font-size: 1.5rem;
-            color: #666;
-            font-weight: normal;
-        }
-
-        @media (max-width: 768px) {
-            .app-title {
-                font-size: 2rem;
-            }
-        }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>PumpApp • Dashboard</title>
+  <link rel="stylesheet" href="./styles.css" />
+  <script defer src="./app.js"></script>
 </head>
 <body>
-    <h1 class="app-title">🔥 IT WORKS NOW! 🔥</h1>
-    <p class="test-message">If you see this, GitHub Pages is working!</p>
+  <!-- SVG icon sprite (inline, no external deps) -->
+  <svg aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden">
+    <symbol id="icon-menu" viewBox="0 0 24 24">
+      <path d="M3 6h18v2H3zM3 11h18v2H3zM3 16h18v2H3z" fill="currentColor"/>
+    </symbol>
+    <symbol id="icon-calendar" viewBox="0 0 24 24">
+      <path d="M7 2h2v2h6V2h2v2h3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h3V2zm15 8H2v10a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V10z" fill="currentColor"/>
+    </symbol>
+    <symbol id="icon-chevron-right" viewBox="0 0 24 24">
+      <path d="M9 4l7 8-7 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+  </svg>
+
+  <div class="app">
+    <header class="app-header" role="banner">
+      <button class="icon-btn" aria-label="Open menu">
+        <svg class="icon"><use href="#icon-menu"/></svg>
+      </button>
+
+      <h1 class="title">Dashboard</h1>
+
+      <button class="pill-btn" aria-label="Go Premium">Go Premium</button>
+    </header>
+
+    <main id="content" class="content" role="main">
+      <section class="container">
+        <a class="row-card" href="#" aria-label="Open Today">
+          <div class="row-left">
+            <svg class="icon"><use href="#icon-calendar"/></svg>
+            <span class="row-text">Today</span>
+          </div>
+          <svg class="icon muted"><use href="#icon-chevron-right"/></svg>
+        </a>
+
+        <section class="card placeholder">
+          <p>Coming next: <strong>Pump Gauge</strong> + metrics</p>
+        </section>
+      </section>
+    </main>
+  </div>
 </body>
 </html>
