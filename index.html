@@ -43,8 +43,34 @@
           <svg class="icon muted"><use href="#icon-chevron-right"/></svg>
         </a>
 
-        <section class="card placeholder">
-          <p>Coming next: <strong>Pump Gauge</strong> + metrics</p>
+        <section class="card pump-gauge-card">
+          <div class="gauge-chips">
+            <div class="chip chip-tl">
+              <span class="chip-label">H2O</span>
+              <span class="chip-value">8/8</span>
+            </div>
+            <div class="chip chip-tr">
+              <span class="chip-label">Pump</span>
+              <span class="chip-value">1/1</span>
+            </div>
+            <div class="chip chip-bl">
+              <span class="chip-label">Fuel</span>
+              <span class="chip-value">1800</span>
+            </div>
+            <div class="chip chip-br">
+              <span class="chip-label">Rest</span>
+              <span class="chip-value">7.5h</span>
+            </div>
+          </div>
+
+          <div class="gauge-container">
+            <div class="gauge" data-value="0.64" role="progressbar" aria-valuenow="64" aria-valuemin="0" aria-valuemax="100" aria-label="Daily pump progress">
+              <div class="gauge-inner">
+                <div class="gauge-number">0</div>
+                <div class="gauge-label">pumped</div>
+              </div>
+            </div>
+          </div>
         </section>
       </section>
     </main>
