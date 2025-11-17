@@ -1,145 +1,217 @@
-# 💪 PUMP APP - Gamified Fitness Tracker
+# 💪 Avatar Lab - Bodybuilding Character Creator
 
-A fun, gamified fitness tracking app that focuses on the 4 essential pillars of fitness:
-- 💪 **Lift/Gym** - Physical exercise
-- 💧 **Water/Hydration** - Stay hydrated
-- 😴 **Sleep/Rest** - Quality rest and recovery
-- 🍔 **Fuel/Nutrition** - Proper nutrition
+A single-page bodybuilding character creator powered by NanoBanana AI image generation. Design your ideal bodybuilding avatar with customizable features and see it come to life!
 
-## Features
+## ✨ Features
 
-- **Interactive Character** - Watch your character transform based on which pillars you complete!
-- **16 Unique States** - The character displays differently for every combination of pillars
-- **Streak Tracking** - Build daily streaks by completing all 4 pillars
-- **Local Storage** - Your progress is automatically saved in your browser
-- **Responsive Design** - Works great on desktop and mobile devices
-- **Beautiful Animations** - Smooth transitions and celebrations when you complete pillars
+- **Character Customization**
+  - Hair styles: Bald, Buzz cut, Short, Medium, Long, Afro, Mohawk, Ponytail
+  - Glasses: None, Sunglasses, Round glasses, Square glasses, Sport shades
+  - Facial hair: None, Stubble, Short beard, Full beard, Mustache, Goatee
+  - Physical stats: Height (cm), Weight (lb), Body fat percentage
 
-## Getting Started
+- **Fine-Tune Controls**
+  - Quick +/- buttons to adjust weight and body fat
+  - Keyboard arrow key support for rapid adjustments
+  - Real-time preview of character build description
 
-### Prerequisites
-- Node.js (v18 or higher recommended)
+- **Video Game Aesthetic**
+  - Dark room with subtle spotlight effect (Fortnite-style lobby)
+  - Pulsing ambient lighting animation
+  - HUD overlay with character stats
+  - Clean, modern AI product UI (ChatGPT/Claude inspired)
 
-### Installation
+- **Theme Support**
+  - Light/dark mode toggle
+  - Theme preference saved to browser localStorage
+  - Smooth transitions with respect for `prefers-reduced-motion`
 
-1. Install dependencies:
-```bash
-npm install
-```
+- **AI Integration Ready**
+  - NanoBanana API integration stubbed and ready
+  - Prompt preview shows exactly what will be sent to the API
+  - Loading overlay during generation
+  - Status badge shows when avatar is up-to-date vs needs regeneration
 
-2. Start the development server:
-```bash
-npm run dev
-```
+## 🚀 Getting Started
 
-3. Open your browser to the URL shown (usually http://localhost:5173)
+### Option 1: Open Directly (Recommended)
 
-### Building for Production
+Simply open `index.html` in your web browser. That's it! No build tools, no dependencies, no installation required.
 
-```bash
-npm run build
-```
+### Option 2: Local Development Server
 
-The production-ready files will be in the `dist` folder.
-
-### Preview Production Build
+If you prefer a local server for development:
 
 ```bash
-npm run preview
+# Using Python 3
+python3 -m http.server 8000
+
+# Using Node.js http-server
+npx http-server -p 8000
 ```
 
-## How to Use
+Then open `http://localhost:8000` in your browser.
 
-1. **Track Your Pillars** - Click on each pillar card to mark it as complete
-2. **Watch Your Character Grow** - The character gets bigger and more "pumped" as you complete more pillars
-3. **Build Streaks** - Complete all 4 pillars daily to build your streak
-4. **Reset if Needed** - Use the "Reset Today" button to start over
+### Option 3: GitHub Pages
 
-## How to Customize
+This app is deployed at: **https://vinny-oss.github.io/pumpapp/**
 
-### Changing Character Appearances
+To enable GitHub Pages deployment:
+1. Go to repository Settings → Pages
+2. Set source to deploy from the `claude/fitness-ai-gamified-app-011CUgCQxNoRp7urg9MrcYUq` branch
+3. Or merge this branch into `main` or `gh-pages` and deploy from there
 
-Edit `src/components/Character.tsx` and modify the `getCharacterEmoji()` function to change what the character looks like for different pillar combinations.
+## 🎮 How to Use
 
-### Modifying Pillar Colors and Descriptions
+1. **Select Character Features**
+   - Choose hair style, glasses, and facial hair from the dropdowns
+   - Set height (140-220 cm), weight (100-400 lb), and body fat (5-40%)
 
-In `src/App.tsx`, find the `pillars` array and customize:
-- `title` - The pillar name
-- `emoji` - The emoji displayed
-- `description` - The description text
-- `color` - The accent color (use hex codes)
+2. **Fine-Tune Your Build**
+   - Use the +/- buttons to quickly adjust weight and body fat
+   - Or use arrow keys when focused on the input fields
+   - Watch the build summary update in real-time
 
-### Adjusting Animations
+3. **Generate Your Avatar**
+   - Review the prompt preview to see what will be sent to NanoBanana
+   - Click "Generate Character" to create your avatar
+   - Or click "Apply Changes" after fine-tuning to update
 
-CSS animations are located in:
-- `src/components/Character.css` - Character animations
-- `src/components/PillarCard.css` - Card animations
-- `src/App.css` - Global app styles
+4. **Toggle Theme**
+   - Click the theme toggle button in the top-right
+   - Your preference is automatically saved
 
-### Adding New Features
+## 🔧 Technical Details
 
-The app architecture:
-- `src/types.ts` - TypeScript interfaces and types
-- `src/utils.ts` - Helper functions and local storage logic
-- `src/App.tsx` - Main app component
-- `src/components/` - Reusable components
+### Architecture
 
-## File Structure
+- **Single-file application**: Everything in `index.html` (26KB)
+- **No build process required**: Vanilla JavaScript, CSS, HTML
+- **No external dependencies**: Pure web standards
+- **State management**: Simple global state object with dirty tracking
+- **API integration**: Stubbed with clear TODO markers
+
+### File Structure
 
 ```
 pumpapp/
-├── src/
-│   ├── components/
-│   │   ├── Character.tsx       # Character display with 16 states
-│   │   ├── Character.css
-│   │   ├── PillarCard.tsx      # Individual pillar tracking cards
-│   │   ├── PillarCard.css
-│   │   ├── Stats.tsx           # Streak statistics display
-│   │   └── Stats.css
-│   ├── types.ts                # TypeScript type definitions
-│   ├── utils.ts                # Helper functions and logic
-│   ├── App.tsx                 # Main app component
-│   ├── App.css                 # Main app styles
-│   ├── index.css               # Global styles
-│   └── main.tsx                # App entry point
-├── package.json
-└── README.md
+├── index.html          # Complete Avatar Lab application (only file needed)
+├── README.md           # This file
+└── .gitignore
 ```
 
-## Tech Stack
+### Key Functions
 
-- **React 18** - UI framework
-- **TypeScript** - Type safety
-- **Vite** - Build tool and dev server
-- **CSS3** - Styling with animations
+**State Management:**
+```javascript
+const state = {
+  hairStyle, glasses, facialHair,
+  height, weight, bodyFat,
+  lastGenerated, isGenerating, isDirty
+}
+```
 
-## Data Storage
+**NanoBanana Integration:**
+```javascript
+buildNanoBananaPrompt(state)  // Builds the prompt text
+callNanoBanana(promptText)     // Calls the API (currently stubbed)
+```
 
-All data is stored in your browser's local storage under the key `pump_app_state`. This includes:
-- Current pillar completion status
-- Historical daily progress
-- Current and best streaks
+**UI Updates:**
+```javascript
+renderUI()          // Updates all displays
+updatePromptPreview() // Updates prompt preview
+updateStatus()      // Updates status badge
+```
 
-## Tips for Development
+## 🔌 Integrating NanoBanana Backend
 
-1. **Hot Reload** - The dev server automatically reloads when you save files
-2. **TypeScript Errors** - Check the terminal for TypeScript errors
-3. **Browser Console** - Open DevTools to see any runtime errors
-4. **Local Storage** - Use DevTools > Application > Local Storage to view saved data
+The app is ready for backend integration. Look for these markers in `index.html`:
 
-## Future Enhancement Ideas
+```javascript
+/**
+ * Call NanoBanana API (currently stubbed)
+ * TODO: Wire this to actual NanoBanana image generation endpoint
+ */
+async function callNanoBanana(promptText) {
+  // Replace the stub with your actual API call:
+  // const response = await fetch('YOUR_NANOBANANA_ENDPOINT', {
+  //   method: 'POST',
+  //   headers: { 'Content-Type': 'application/json' },
+  //   body: JSON.stringify({ prompt: promptText })
+  // });
+  // const data = await response.json();
+  // Display the generated image...
+}
+```
 
-- Add custom goals per pillar (e.g., "Drink 8 glasses of water")
-- Implement charts to visualize progress over time
-- Add achievements and badges
-- Create different character themes
-- Add social sharing features
-- Implement reminders/notifications
+## 🎨 Customization
 
-## License
+### Changing Colors
+
+Edit the CSS variables in the `:root` selector:
+
+```css
+:root {
+  --accent: #0066cc;        /* Primary accent color */
+  --bg-primary: #ffffff;    /* Background color */
+  --stage-bg: #0a0a0a;      /* Character stage background */
+  /* ... more variables */
+}
+```
+
+### Adding Character Options
+
+Add new options to the `<select>` elements in the HTML, and they'll automatically work with the existing state management.
+
+### Modifying the Prompt
+
+Edit the `buildNanoBananaPrompt()` function to change how the prompt is constructed:
+
+```javascript
+function buildNanoBananaPrompt(state) {
+  // Customize the prompt template here
+  return `Your custom prompt with ${state.height}cm...`;
+}
+```
+
+## 🌐 Browser Support
+
+- Modern browsers (Chrome, Firefox, Safari, Edge)
+- Requires ES6+ JavaScript support
+- CSS Grid and Custom Properties support
+- Works on mobile and desktop
+
+## 📱 Mobile Responsive
+
+- Single-column layout on screens < 968px
+- Touch-friendly buttons and controls
+- Responsive text sizing
+- Safe area insets for notched devices
+
+## ♿ Accessibility
+
+- ARIA labels on all interactive elements
+- Keyboard navigation support (Tab, Arrow keys, Enter)
+- Focus visible indicators
+- Respects `prefers-reduced-motion` setting
+- Semantic HTML structure
+
+## 🔮 Future Enhancement Ideas
+
+- Save/load character presets
+- Character gallery with saved avatars
+- Comparison view (before/after)
+- Export character data as JSON
+- Social sharing features
+- Animation controls for the spotlight effect
+- More customization options (skin tone, clothing, etc.)
+
+## 📄 License
 
 Feel free to use and modify this project for personal or commercial use!
 
 ---
 
-Built with ❤️ for the fitness community!
+**Built with vanilla web technologies** 🚀
+**Powered by NanoBanana AI** 🍌 (coming soon)
