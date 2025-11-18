@@ -149,10 +149,95 @@
     .garage-screen {
       max-width: 420px;
       margin: 0 auto;
-      padding: 16px 16px 24px;
+      padding: 12px 16px 16px;
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 12px;
+    }
+
+    @media (max-height: 780px) {
+      .garage-screen {
+        padding-top: 8px;
+        padding-bottom: 10px;
+        gap: 10px;
+      }
+
+      .character-card {
+        padding-top: 14px;
+        padding-bottom: 14px;
+      }
+
+      .primary-cta {
+        padding-block: 12px;
+      }
+    }
+
+    /* ========== CHARACTER EDIT SCREEN ========== */
+    .character-screen {
+      max-width: 420px;
+      margin: 0 auto;
+      padding: 12px 16px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    @media (max-height: 780px) {
+      .character-screen {
+        padding-top: 8px;
+        padding-bottom: 10px;
+        gap: 10px;
+      }
+    }
+
+    .character-attributes-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .attribute-card {
+      border-radius: 16px;
+      padding: 10px 10px 12px;
+      background: radial-gradient(circle at top, #020617, #020617 60%, #020617);
+      border: 1px solid rgba(148, 163, 184, 0.45);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .attribute-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .attribute-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #e5e7eb;
+    }
+
+    .attribute-input {
+      width: 100%;
+      border-radius: 10px;
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      background: #020617;
+      color: #f9fafb;
+      font-size: 13px;
+      padding: 6px 8px;
+      outline: none;
+    }
+
+    .attribute-input:focus {
+      border-color: rgba(59, 130, 246, 0.9);
+      box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.7);
+    }
+
+    .primary-cta--character {
+      margin-top: 4px;
     }
 
     /* ========== PUMP METER ========== */
@@ -631,20 +716,6 @@
         <p class="character-hint">Log all four pillars to power up your character.</p>
       </div>
 
-      <!-- Stat Row -->
-      <div class="stat-row">
-        <div class="stat-chip" onclick="document.getElementById('weightInput').style.display='block'; document.getElementById('weightInput').focus();">
-          <span class="stat-label">Weight</span>
-          <span class="stat-value" id="weightDisplay">185 lb</span>
-          <input type="number" id="weightInput" value="185" min="100" max="400" step="1" style="display:none; width: 60px; text-align: center; background: transparent; border: 1px solid #3b82f6; color: #f9fafb; border-radius: 4px; padding: 4px;" onblur="this.style.display='none';">
-        </div>
-        <div class="stat-chip" onclick="document.getElementById('bodyFatInput').style.display='block'; document.getElementById('bodyFatInput').focus();">
-          <span class="stat-label">Body Fat</span>
-          <span class="stat-value" id="bodyFatDisplay">15%</span>
-          <input type="number" id="bodyFatInput" value="15" min="5" max="40" step="1" style="display:none; width: 60px; text-align: center; background: transparent; border: 1px solid #3b82f6; color: #f9fafb; border-radius: 4px; padding: 4px;" onblur="this.style.display='none';">
-        </div>
-      </div>
-
       <!-- Primary CTA -->
       <button class="primary-cta" id="generateBtn">
         Save today's Pump card
@@ -669,9 +740,95 @@
 
   <!-- ========== PAGE 3: EDIT CHARACTER ========== -->
   <div class="page" id="edit-character">
-    <div class="placeholder-content">
-      <h2>✏️ Edit Character</h2>
-      <p>Coming soon - Customize your character appearance</p>
+    <div class="character-screen">
+      <!-- Character Preview Card -->
+      <div class="character-card">
+        <div class="viewport">
+          <div class="character-placeholder" id="characterEditPlaceholder">
+            <svg class="character-silhouette" viewBox="0 0 100 150" fill="currentColor">
+              <ellipse cx="50" cy="20" rx="15" ry="18"/>
+              <rect x="35" y="38" width="30" height="40" rx="5"/>
+              <rect x="20" y="38" width="12" height="35" rx="4"/>
+              <rect x="68" y="38" width="12" height="35" rx="4"/>
+              <rect x="38" y="78" width="10" height="45" rx="4"/>
+              <rect x="52" y="78" width="10" height="45" rx="4"/>
+            </svg>
+            <div>Your character preview will appear here.</div>
+          </div>
+        </div>
+        <p class="character-hint">Edit your stats and style, then save to update your Pump character.</p>
+      </div>
+
+      <!-- Character Attributes Grid -->
+      <div class="character-attributes-grid">
+        <div class="attribute-card">
+          <div class="attribute-header">
+            <span class="attribute-label">Height</span>
+          </div>
+          <input type="number" class="attribute-input" id="char-height" min="0" step="1" placeholder="inches">
+        </div>
+
+        <div class="attribute-card">
+          <div class="attribute-header">
+            <span class="attribute-label">Weight</span>
+          </div>
+          <input type="number" class="attribute-input" id="char-weight" min="0" step="1" placeholder="lb">
+        </div>
+
+        <div class="attribute-card">
+          <div class="attribute-header">
+            <span class="attribute-label">Body fat %</span>
+          </div>
+          <input type="number" class="attribute-input" id="char-bodyfat" min="0" max="60" step="0.5" placeholder="%">
+        </div>
+
+        <div class="attribute-card">
+          <div class="attribute-header">
+            <span class="attribute-label">Ab count</span>
+          </div>
+          <input type="number" class="attribute-input" id="char-abs" min="0" max="10" step="1" placeholder="packs">
+        </div>
+
+        <div class="attribute-card">
+          <div class="attribute-header">
+            <span class="attribute-label">Hair</span>
+          </div>
+          <select class="attribute-input" id="char-hair">
+            <option value="default">Default</option>
+            <option value="bald">Bald</option>
+            <option value="afro">Afro</option>
+            <option value="spiky">Spiky</option>
+          </select>
+        </div>
+
+        <div class="attribute-card">
+          <div class="attribute-header">
+            <span class="attribute-label">Pants</span>
+          </div>
+          <select class="attribute-input" id="char-pants">
+            <option value="shorts">Shorts</option>
+            <option value="joggers">Joggers</option>
+            <option value="armor">Armor</option>
+            <option value="feathers">Feather pants</option>
+          </select>
+        </div>
+
+        <div class="attribute-card">
+          <div class="attribute-header">
+            <span class="attribute-label">Shoes</span>
+          </div>
+          <select class="attribute-input" id="char-shoes">
+            <option value="sneakers">Sneakers</option>
+            <option value="boots">Boots</option>
+            <option value="barefoot">Barefoot</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Primary CTA -->
+      <button class="primary-cta primary-cta--character" id="saveCharacterBtn">
+        Save character changes
+      </button>
     </div>
   </div>
 
@@ -698,7 +855,18 @@
       bestStreak: 0,
 
       // Profile cards library
-      profileCards: []
+      profileCards: [],
+
+      // Character attributes
+      character: {
+        height: null,
+        weight: null,
+        bodyFat: null,
+        abs: null,
+        hair: 'default',
+        pants: 'shorts',
+        shoes: 'sneakers'
+      }
     };
 
     // ========== DOM ELEMENTS ==========
@@ -735,7 +903,17 @@
       // Character
       generateBtn: document.getElementById('generateBtn'),
       loadingOverlay: document.getElementById('loadingOverlay'),
-      characterPlaceholder: document.getElementById('characterPlaceholder')
+      characterPlaceholder: document.getElementById('characterPlaceholder'),
+
+      // Character Edit
+      charHeight: document.getElementById('char-height'),
+      charWeight: document.getElementById('char-weight'),
+      charBodyFat: document.getElementById('char-bodyfat'),
+      charAbs: document.getElementById('char-abs'),
+      charHair: document.getElementById('char-hair'),
+      charPants: document.getElementById('char-pants'),
+      charShoes: document.getElementById('char-shoes'),
+      saveCharacterBtn: document.getElementById('saveCharacterBtn')
     };
 
     // ========== NAVIGATION ==========
@@ -756,7 +934,58 @@
         }
       });
 
+      // Load character attributes when navigating to Character Edit
+      if (pageName === 'edit-character') {
+        loadCharacterAttributes();
+      }
+
       saveState();
+    }
+
+    // ========== CHARACTER EDIT MANAGEMENT ==========
+    function loadCharacterAttributes() {
+      if (!elements.charHeight) return;
+
+      elements.charHeight.value = state.character.height || '';
+      elements.charWeight.value = state.character.weight || '';
+      elements.charBodyFat.value = state.character.bodyFat || '';
+      elements.charAbs.value = state.character.abs || '';
+      elements.charHair.value = state.character.hair || 'default';
+      elements.charPants.value = state.character.pants || 'shorts';
+      elements.charShoes.value = state.character.shoes || 'sneakers';
+    }
+
+    function saveCharacterAttributes() {
+      if (!elements.charHeight) return;
+
+      // Parse numeric values
+      const height = elements.charHeight.value ? parseFloat(elements.charHeight.value) : null;
+      const weight = elements.charWeight.value ? parseFloat(elements.charWeight.value) : null;
+      const bodyFat = elements.charBodyFat.value ? parseFloat(elements.charBodyFat.value) : null;
+      const abs = elements.charAbs.value ? parseInt(elements.charAbs.value) : null;
+
+      // Update state
+      state.character = {
+        height: height,
+        weight: weight,
+        bodyFat: bodyFat,
+        abs: abs,
+        hair: elements.charHair.value,
+        pants: elements.charPants.value,
+        shoes: elements.charShoes.value
+      };
+
+      saveState();
+
+      // Show success message
+      const originalText = elements.saveCharacterBtn.textContent;
+      elements.saveCharacterBtn.textContent = '✓ Character saved!';
+      elements.saveCharacterBtn.style.background = 'linear-gradient(90deg, #22c55e, #16a34a)';
+
+      setTimeout(() => {
+        elements.saveCharacterBtn.textContent = originalText;
+        elements.saveCharacterBtn.style.background = '';
+      }, 2000);
     }
 
     // ========== UTILITY FUNCTIONS ==========
@@ -1014,6 +1243,11 @@
 
     // Generate character
     elements.generateBtn.addEventListener('click', generateProfileCard);
+
+    // Character edit
+    if (elements.saveCharacterBtn) {
+      elements.saveCharacterBtn.addEventListener('click', saveCharacterAttributes);
+    }
 
     // ========== INITIALIZATION ==========
     function init() {
