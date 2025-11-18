@@ -17,6 +17,8 @@
       --border-color: #e0e0e0;
       --accent: #0066cc;
       --accent-hover: #0052a3;
+      --success: #28a745;
+      --danger: #dc3545;
       --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
       --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
       --shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
@@ -38,6 +40,8 @@
       --border-color: #333333;
       --accent: #3d8bfd;
       --accent-hover: #5c9eff;
+      --success: #2dce89;
+      --danger: #f5365c;
       --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
       --shadow-md: 0 4px 12px rgba(0,0,0,0.3);
       --shadow-lg: 0 8px 24px rgba(0,0,0,0.4);
@@ -145,6 +149,8 @@
       border-radius: 12px;
       padding: 1.5rem;
       box-shadow: var(--shadow-md);
+      display: flex;
+      flex-direction: column;
     }
 
     .panel-title {
@@ -158,86 +164,39 @@
       border-bottom: 1px solid var(--border-color);
     }
 
-    /* ========== METRIC CARDS ========== */
-    .metric-card {
+    /* ========== PILLAR CARDS ========== */
+    .pillar-card {
       background: var(--metric-bg);
       border: 1px solid var(--border-color);
       border-radius: 10px;
       padding: 1.25rem;
       margin-bottom: 1rem;
       transition: all 0.2s ease;
+      cursor: pointer;
     }
 
-    .metric-card:hover {
+    .pillar-card:hover {
       box-shadow: var(--shadow-md);
       transform: translateY(-2px);
     }
 
-    .metric-card.expandable {
-      cursor: pointer;
-    }
-
-    .metric-card.expanded {
+    .pillar-card.expanded {
       background: var(--bg-tertiary);
     }
 
-    .metric-label {
-      font-size: 0.85rem;
-      font-weight: 500;
-      color: var(--text-secondary);
-      margin-bottom: 0.5rem;
+    .pillar-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      margin-bottom: 0.5rem;
     }
 
-    .metric-value {
-      font-size: 2rem;
-      font-weight: 700;
-      color: var(--metric-text);
-      margin-bottom: 0.75rem;
-    }
-
-    .metric-controls {
-      display: flex;
-      gap: 0.5rem;
-      align-items: center;
-    }
-
-    .metric-input {
-      flex: 1;
-      padding: 0.5rem;
-      border: 1px solid var(--border-color);
-      border-radius: 6px;
-      background: var(--bg-primary);
-      color: var(--text-primary);
-      font-size: 0.9rem;
-    }
-
-    .metric-input:focus {
-      outline: none;
-      border-color: var(--accent);
-    }
-
-    .icon-btn {
-      width: 36px;
-      height: 36px;
-      border: 1px solid var(--border-color);
-      background: var(--bg-primary);
-      border-radius: 6px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      color: var(--text-primary);
-      transition: all 0.2s ease;
-      font-size: 1.2rem;
-    }
-
-    .icon-btn:hover {
-      background: var(--accent);
-      color: white;
-      border-color: var(--accent);
+    .pillar-label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
     }
 
     .expand-icon {
@@ -246,30 +205,100 @@
       transition: transform 0.3s ease;
     }
 
-    .metric-card.expanded .expand-icon {
+    .pillar-card.expanded .expand-icon {
       transform: rotate(180deg);
     }
 
-    /* ========== STRENGTH CHART ========== */
-    .strength-chart {
+    .pillar-status {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--metric-text);
+      margin-bottom: 0.5rem;
+    }
+
+    .pillar-goal {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 0.75rem;
+    }
+
+    .pillar-goal input {
+      width: 60px;
+      background: transparent;
+      border: none;
+      border-bottom: 1px dashed var(--border-color);
+      color: var(--text-primary);
+      font-weight: 600;
+      padding: 0 0.25rem;
+    }
+
+    .pillar-goal input:focus {
+      outline: none;
+      border-bottom-color: var(--accent);
+    }
+
+    /* ========== PILLAR LOGS ========== */
+    .pillar-logs {
       display: none;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border-color);
+      max-height: 300px;
+      overflow-y: auto;
+    }
+
+    .pillar-card.expanded .pillar-logs {
+      display: block;
+    }
+
+    .log-entry {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem;
+      background: var(--bg-primary);
+      border-radius: 6px;
+      margin-bottom: 0.5rem;
+      border: 2px solid transparent;
+      transition: all 0.2s ease;
+    }
+
+    .log-entry.met {
+      border-color: var(--success);
+      background: rgba(40, 167, 69, 0.1);
+    }
+
+    .log-entry.missed {
+      border-color: var(--danger);
+      background: rgba(220, 53, 69, 0.1);
+    }
+
+    .log-date {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    .log-value {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .add-log-section {
       margin-top: 1rem;
       padding-top: 1rem;
       border-top: 1px solid var(--border-color);
     }
 
-    .metric-card.expanded .strength-chart {
-      display: block;
-    }
-
-    .chart-entry {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
+    .log-input-group {
+      display: flex;
       gap: 0.5rem;
-      margin-bottom: 0.75rem;
+      margin-bottom: 0.5rem;
     }
 
-    .chart-input {
+    .log-input {
+      flex: 1;
       padding: 0.5rem;
       border: 1px solid var(--border-color);
       border-radius: 6px;
@@ -278,34 +307,25 @@
       font-size: 0.85rem;
     }
 
-    .chart-input:focus {
+    .log-input:focus {
       outline: none;
       border-color: var(--accent);
     }
 
-    .chart-entry-label {
-      font-size: 0.8rem;
-      color: var(--text-secondary);
-      margin-bottom: 0.25rem;
-    }
-
-    .add-exercise-btn {
-      width: 100%;
-      padding: 0.5rem;
-      background: var(--bg-tertiary);
-      border: 1px dashed var(--border-color);
+    .add-log-btn {
+      padding: 0.5rem 1rem;
+      background: var(--accent);
+      color: white;
+      border: none;
       border-radius: 6px;
-      color: var(--text-secondary);
       font-size: 0.85rem;
+      font-weight: 600;
       cursor: pointer;
       transition: all 0.2s ease;
     }
 
-    .add-exercise-btn:hover {
-      background: var(--accent);
-      color: white;
-      border-color: var(--accent);
-      border-style: solid;
+    .add-log-btn:hover {
+      background: var(--accent-hover);
     }
 
     /* ========== CENTER PANEL (CHARACTER) ========== */
@@ -315,8 +335,131 @@
       border-radius: 12px;
       padding: 1.5rem;
       box-shadow: var(--shadow-lg);
-      position: sticky;
-      top: 100px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ========== PUMP METER ========== */
+    .pump-meter-container {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    .pump-meter-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 0.5rem;
+    }
+
+    .pump-meter {
+      width: 100%;
+      height: 30px;
+      background: var(--bg-tertiary);
+      border-radius: 15px;
+      overflow: hidden;
+      border: 2px solid var(--border-color);
+      position: relative;
+    }
+
+    .pump-meter-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--metric-text));
+      transition: width 0.5s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: white;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+    }
+
+    .pump-meter-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      z-index: 1;
+    }
+
+    /* ========== STREAK COUNTER ========== */
+    .streak-container {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 1.5rem;
+      padding: 1rem;
+      background: var(--bg-tertiary);
+      border-radius: 10px;
+    }
+
+    .streak-item {
+      text-align: center;
+    }
+
+    .streak-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .streak-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* ========== BODY METRICS (IN CENTER) ========== */
+    .body-metrics {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .body-metric {
+      background: var(--metric-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .body-metric-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .body-metric-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--metric-text);
+      margin-bottom: 0.5rem;
+    }
+
+    .body-metric input {
+      width: 100%;
+      padding: 0.5rem;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      font-size: 0.9rem;
+      text-align: center;
+    }
+
+    .body-metric input:focus {
+      outline: none;
+      border-color: var(--accent);
     }
 
     .viewport {
@@ -327,8 +470,9 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      min-height: 600px;
+      min-height: 400px;
       margin-bottom: 1.5rem;
+      flex: 1;
     }
 
     .viewport::before {
@@ -359,9 +503,9 @@
     }
 
     .character-silhouette {
-      width: 250px;
-      height: 350px;
-      margin: 0 auto 1.5rem;
+      width: 200px;
+      height: 280px;
+      margin: 0 auto 1rem;
       opacity: 0.15;
     }
 
@@ -430,13 +574,6 @@
       transform: none;
     }
 
-    .last-generated {
-      text-align: center;
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      margin-top: 1rem;
-    }
-
     @media (prefers-reduced-motion: reduce) {
       * {
         animation-duration: 0.01ms !important;
@@ -462,77 +599,102 @@
   <div class="container">
     <!-- LEFT PANEL -->
     <div class="left-panel panel">
-      <div class="panel-title">Body Metrics</div>
+      <div class="panel-title">Training</div>
 
-      <!-- Body Weight -->
-      <div class="metric-card">
-        <div class="metric-label">Body Weight</div>
-        <div class="metric-value" id="weightDisplay">185 lb</div>
-        <div class="metric-controls">
-          <input type="number" class="metric-input" id="weightInput" value="185" min="100" max="400" step="1">
-          <button class="icon-btn" id="weightDown" aria-label="Decrease weight">−</button>
-          <button class="icon-btn" id="weightUp" aria-label="Increase weight">+</button>
-        </div>
-      </div>
-
-      <!-- Body Fat % -->
-      <div class="metric-card">
-        <div class="metric-label">Body Fat %</div>
-        <div class="metric-value" id="bodyFatDisplay">15%</div>
-        <div class="metric-controls">
-          <input type="number" class="metric-input" id="bodyFatInput" value="15" min="5" max="40" step="1">
-          <button class="icon-btn" id="bodyFatDown" aria-label="Decrease body fat">−</button>
-          <button class="icon-btn" id="bodyFatUp" aria-label="Increase body fat">+</button>
-        </div>
-      </div>
-
-      <!-- Strength (Expandable) -->
-      <div class="metric-card expandable" id="strengthCard">
-        <div class="metric-label">
-          <span>Strength</span>
+      <!-- Workout Pillar -->
+      <div class="pillar-card" id="workoutCard">
+        <div class="pillar-header">
+          <span class="pillar-label">💪 Workout</span>
           <span class="expand-icon">▼</span>
         </div>
-        <div class="metric-value" id="strengthDisplay">💪</div>
+        <div class="pillar-status" id="workoutStatus">0 / 1</div>
+        <div class="pillar-goal">
+          Goal: <input type="number" id="workoutGoal" value="1" min="0" max="10" style="width: 40px;"> per day
+        </div>
 
-        <div class="strength-chart" id="strengthChart">
-          <div class="chart-entry-label">Track Your Lifts</div>
-          <div id="exerciseList">
-            <div class="chart-entry">
-              <div>
-                <input type="text" class="chart-input" placeholder="Exercise" value="Bench Press">
-              </div>
-              <div>
-                <input type="text" class="chart-input" placeholder="Weight" value="225 lb">
-              </div>
-            </div>
-            <div class="chart-entry">
-              <div>
-                <input type="text" class="chart-input" placeholder="Exercise" value="Squat">
-              </div>
-              <div>
-                <input type="text" class="chart-input" placeholder="Weight" value="315 lb">
-              </div>
-            </div>
-            <div class="chart-entry">
-              <div>
-                <input type="text" class="chart-input" placeholder="Exercise" value="Deadlift">
-              </div>
-              <div>
-                <input type="text" class="chart-input" placeholder="Weight" value="405 lb">
-              </div>
-            </div>
+        <div class="pillar-logs" id="workoutLogs">
+          <!-- Logs will be inserted here -->
+        </div>
+
+        <div class="add-log-section">
+          <div class="log-input-group">
+            <input type="number" class="log-input" id="workoutInput" placeholder="Workouts completed" value="0" min="0">
+            <button class="add-log-btn" id="addWorkoutBtn">Add Today</button>
           </div>
-          <button class="add-exercise-btn" id="addExerciseBtn">+ Add Exercise</button>
+        </div>
+      </div>
+
+      <!-- Hydration Pillar -->
+      <div class="pillar-card" id="hydrationCard">
+        <div class="pillar-header">
+          <span class="pillar-label">💧 Hydration</span>
+          <span class="expand-icon">▼</span>
+        </div>
+        <div class="pillar-status" id="hydrationStatus">0 / 8</div>
+        <div class="pillar-goal">
+          Goal: <input type="number" id="hydrationGoal" value="8" min="0" max="20" style="width: 40px;"> cups
+        </div>
+
+        <div class="pillar-logs" id="hydrationLogs">
+          <!-- Logs will be inserted here -->
+        </div>
+
+        <div class="add-log-section">
+          <div class="log-input-group">
+            <input type="number" class="log-input" id="hydrationInput" placeholder="Cups of water" value="0" min="0">
+            <button class="add-log-btn" id="addHydrationBtn">Add Today</button>
+          </div>
         </div>
       </div>
     </div>
 
     <!-- CENTER PANEL (CHARACTER) -->
     <div class="center-panel">
+      <!-- Streak Counter -->
+      <div class="streak-container">
+        <div class="streak-item">
+          <div class="streak-value" id="currentStreak">0</div>
+          <div class="streak-label">Day Streak</div>
+        </div>
+        <div class="streak-item">
+          <div class="streak-value" id="bestStreak">0</div>
+          <div class="streak-label">Best Streak</div>
+        </div>
+        <div class="streak-item">
+          <div class="streak-value" id="totalCards">0</div>
+          <div class="streak-label">Profile Cards</div>
+        </div>
+      </div>
+
+      <!-- Pump Meter -->
+      <div class="pump-meter-container">
+        <div class="pump-meter-label">Today's Pump</div>
+        <div class="pump-meter">
+          <div class="pump-meter-fill" id="pumpMeterFill" style="width: 0%;">
+            <span id="pumpMeterText">0%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Body Metrics -->
+      <div class="body-metrics">
+        <div class="body-metric">
+          <div class="body-metric-label">Body Weight</div>
+          <div class="body-metric-value" id="weightDisplay">185 lb</div>
+          <input type="number" id="weightInput" value="185" min="100" max="400" step="1">
+        </div>
+        <div class="body-metric">
+          <div class="body-metric-label">Body Fat %</div>
+          <div class="body-metric-value" id="bodyFatDisplay">15%</div>
+          <input type="number" id="bodyFatInput" value="15" min="5" max="40" step="1">
+        </div>
+      </div>
+
+      <!-- Character Viewport -->
       <div class="viewport">
         <div class="loading-overlay" id="loadingOverlay">
           <div class="spinner"></div>
-          <div class="loading-text">Generating your PUMP character...</div>
+          <div class="loading-text">Generating your PUMP profile card...</div>
         </div>
 
         <div class="character-placeholder" id="characterPlaceholder">
@@ -548,49 +710,59 @@
         </div>
       </div>
 
+      <!-- Generate Button -->
       <button class="generate-btn" id="generateBtn">
-        Generate Character
+        Generate Profile Card
       </button>
-
-      <div class="last-generated" id="lastGenerated">
-        Generate once per day to see your progress
-      </div>
     </div>
 
     <!-- RIGHT PANEL -->
     <div class="right-panel panel">
-      <div class="panel-title">Daily Intake</div>
+      <div class="panel-title">Nutrition & Rest</div>
 
-      <!-- H2O -->
-      <div class="metric-card">
-        <div class="metric-label">H₂O</div>
-        <div class="metric-value" id="h2oDisplay">8 cups</div>
-        <div class="metric-controls">
-          <input type="number" class="metric-input" id="h2oInput" value="8" min="0" max="20" step="1">
-          <button class="icon-btn" id="h2oDown" aria-label="Decrease water">−</button>
-          <button class="icon-btn" id="h2oUp" aria-label="Increase water">+</button>
+      <!-- Calories Pillar -->
+      <div class="pillar-card" id="caloriesCard">
+        <div class="pillar-header">
+          <span class="pillar-label">🍔 Calories</span>
+          <span class="expand-icon">▼</span>
+        </div>
+        <div class="pillar-status" id="caloriesStatus">0 / 1800</div>
+        <div class="pillar-goal">
+          Goal: <input type="number" id="caloriesGoal" value="1800" min="0" max="5000" style="width: 60px;"> kcal
+        </div>
+
+        <div class="pillar-logs" id="caloriesLogs">
+          <!-- Logs will be inserted here -->
+        </div>
+
+        <div class="add-log-section">
+          <div class="log-input-group">
+            <input type="number" class="log-input" id="caloriesInput" placeholder="Calories consumed" value="0" min="0">
+            <button class="add-log-btn" id="addCaloriesBtn">Add Today</button>
+          </div>
         </div>
       </div>
 
-      <!-- Rest -->
-      <div class="metric-card">
-        <div class="metric-label">Rest (hours)</div>
-        <div class="metric-value" id="restDisplay">7 hrs</div>
-        <div class="metric-controls">
-          <input type="number" class="metric-input" id="restInput" value="7" min="0" max="12" step="0.5">
-          <button class="icon-btn" id="restDown" aria-label="Decrease rest">−</button>
-          <button class="icon-btn" id="restUp" aria-label="Increase rest">+</button>
+      <!-- Rest Pillar -->
+      <div class="pillar-card" id="restCard">
+        <div class="pillar-header">
+          <span class="pillar-label">😴 Rest</span>
+          <span class="expand-icon">▼</span>
         </div>
-      </div>
+        <div class="pillar-status" id="restStatus">0 / 7</div>
+        <div class="pillar-goal">
+          Goal: <input type="number" id="restGoal" value="7" min="0" max="12" step="0.5" style="width: 40px;"> hrs
+        </div>
 
-      <!-- Calories -->
-      <div class="metric-card">
-        <div class="metric-label">Calories</div>
-        <div class="metric-value" id="caloriesDisplay">2500 kcal</div>
-        <div class="metric-controls">
-          <input type="number" class="metric-input" id="caloriesInput" value="2500" min="0" max="10000" step="100">
-          <button class="icon-btn" id="caloriesDown" aria-label="Decrease calories">−</button>
-          <button class="icon-btn" id="caloriesUp" aria-label="Increase calories">+</button>
+        <div class="pillar-logs" id="restLogs">
+          <!-- Logs will be inserted here -->
+        </div>
+
+        <div class="add-log-section">
+          <div class="log-input-group">
+            <input type="number" class="log-input" id="restInput" placeholder="Hours slept" value="0" min="0" step="0.5">
+            <button class="add-log-btn" id="addRestBtn">Add Today</button>
+          </div>
         </div>
       </div>
     </div>
@@ -599,23 +771,40 @@
   <script>
     // ========== STATE MANAGEMENT ==========
     const state = {
-      // Body metrics (left panel)
+      // Body metrics
       weight: 185,
       bodyFat: 15,
-      exercises: [
-        { name: 'Bench Press', weight: '225 lb' },
-        { name: 'Squat', weight: '315 lb' },
-        { name: 'Deadlift', weight: '405 lb' }
-      ],
 
-      // Daily intake (right panel)
-      h2o: 8,
-      rest: 7,
-      calories: 2500,
+      // Pillar goals (editable)
+      goals: {
+        workout: 1,
+        hydration: 8,
+        calories: 1800,
+        rest: 7
+      },
 
-      // Generation tracking
-      lastGenerated: null,
-      isGenerating: false
+      // Today's values
+      today: {
+        workout: 0,
+        hydration: 0,
+        calories: 0,
+        rest: 0
+      },
+
+      // Daily logs
+      logs: {
+        workout: [],
+        hydration: [],
+        calories: [],
+        rest: []
+      },
+
+      // Streak tracking
+      streak: 0,
+      bestStreak: 0,
+
+      // Profile cards library
+      profileCards: []
     };
 
     // ========== DOM ELEMENTS ==========
@@ -624,44 +813,68 @@
       themeToggle: document.getElementById('themeToggle'),
       themeIcon: document.getElementById('themeIcon'),
 
-      // Left panel
+      // Streak
+      currentStreak: document.getElementById('currentStreak'),
+      bestStreak: document.getElementById('bestStreak'),
+      totalCards: document.getElementById('totalCards'),
+
+      // Pump meter
+      pumpMeterFill: document.getElementById('pumpMeterFill'),
+      pumpMeterText: document.getElementById('pumpMeterText'),
+
+      // Body metrics
       weightInput: document.getElementById('weightInput'),
       weightDisplay: document.getElementById('weightDisplay'),
-      weightUp: document.getElementById('weightUp'),
-      weightDown: document.getElementById('weightDown'),
-
       bodyFatInput: document.getElementById('bodyFatInput'),
       bodyFatDisplay: document.getElementById('bodyFatDisplay'),
-      bodyFatUp: document.getElementById('bodyFatUp'),
-      bodyFatDown: document.getElementById('bodyFatDown'),
 
-      strengthCard: document.getElementById('strengthCard'),
-      strengthChart: document.getElementById('strengthChart'),
-      exerciseList: document.getElementById('exerciseList'),
-      addExerciseBtn: document.getElementById('addExerciseBtn'),
+      // Pillars - Workout
+      workoutCard: document.getElementById('workoutCard'),
+      workoutStatus: document.getElementById('workoutStatus'),
+      workoutGoal: document.getElementById('workoutGoal'),
+      workoutLogs: document.getElementById('workoutLogs'),
+      workoutInput: document.getElementById('workoutInput'),
+      addWorkoutBtn: document.getElementById('addWorkoutBtn'),
 
-      // Right panel
-      h2oInput: document.getElementById('h2oInput'),
-      h2oDisplay: document.getElementById('h2oDisplay'),
-      h2oUp: document.getElementById('h2oUp'),
-      h2oDown: document.getElementById('h2oDown'),
+      // Pillars - Hydration
+      hydrationCard: document.getElementById('hydrationCard'),
+      hydrationStatus: document.getElementById('hydrationStatus'),
+      hydrationGoal: document.getElementById('hydrationGoal'),
+      hydrationLogs: document.getElementById('hydrationLogs'),
+      hydrationInput: document.getElementById('hydrationInput'),
+      addHydrationBtn: document.getElementById('addHydrationBtn'),
 
-      restInput: document.getElementById('restInput'),
-      restDisplay: document.getElementById('restDisplay'),
-      restUp: document.getElementById('restUp'),
-      restDown: document.getElementById('restDown'),
-
+      // Pillars - Calories
+      caloriesCard: document.getElementById('caloriesCard'),
+      caloriesStatus: document.getElementById('caloriesStatus'),
+      caloriesGoal: document.getElementById('caloriesGoal'),
+      caloriesLogs: document.getElementById('caloriesLogs'),
       caloriesInput: document.getElementById('caloriesInput'),
-      caloriesDisplay: document.getElementById('caloriesDisplay'),
-      caloriesUp: document.getElementById('caloriesUp'),
-      caloriesDown: document.getElementById('caloriesDown'),
+      addCaloriesBtn: document.getElementById('addCaloriesBtn'),
 
-      // Center panel
+      // Pillars - Rest
+      restCard: document.getElementById('restCard'),
+      restStatus: document.getElementById('restStatus'),
+      restGoal: document.getElementById('restGoal'),
+      restLogs: document.getElementById('restLogs'),
+      restInput: document.getElementById('restInput'),
+      addRestBtn: document.getElementById('addRestBtn'),
+
+      // Character
       generateBtn: document.getElementById('generateBtn'),
       loadingOverlay: document.getElementById('loadingOverlay'),
-      characterPlaceholder: document.getElementById('characterPlaceholder'),
-      lastGenerated: document.getElementById('lastGenerated')
+      characterPlaceholder: document.getElementById('characterPlaceholder')
     };
+
+    // ========== UTILITY FUNCTIONS ==========
+    function getTodayString() {
+      return new Date().toISOString().split('T')[0];
+    }
+
+    function formatDate(dateString) {
+      const date = new Date(dateString);
+      return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    }
 
     // ========== THEME MANAGEMENT ==========
     function initTheme() {
@@ -682,165 +895,325 @@
       elements.themeIcon.textContent = theme === 'light' ? '🌙 Dark' : '☀️ Light';
     }
 
-    // ========== METRIC UPDATE FUNCTIONS ==========
-    function updateMetric(metric, delta) {
-      switch(metric) {
-        case 'weight':
-          state.weight = Math.max(100, Math.min(400, state.weight + delta));
-          elements.weightInput.value = state.weight;
-          elements.weightDisplay.textContent = `${state.weight} lb`;
-          break;
-        case 'bodyFat':
-          state.bodyFat = Math.max(5, Math.min(40, state.bodyFat + delta));
-          elements.bodyFatInput.value = state.bodyFat;
-          elements.bodyFatDisplay.textContent = `${state.bodyFat}%`;
-          break;
-        case 'h2o':
-          state.h2o = Math.max(0, Math.min(20, state.h2o + delta));
-          elements.h2oInput.value = state.h2o;
-          elements.h2oDisplay.textContent = `${state.h2o} cups`;
-          break;
-        case 'rest':
-          state.rest = Math.max(0, Math.min(12, state.rest + delta));
-          elements.restInput.value = state.rest;
-          elements.restDisplay.textContent = `${state.rest} hrs`;
-          break;
-        case 'calories':
-          state.calories = Math.max(0, Math.min(10000, state.calories + delta));
-          elements.caloriesInput.value = state.calories;
-          elements.caloriesDisplay.textContent = `${state.calories} kcal`;
-          break;
+    // ========== BODY METRICS ==========
+    function updateBodyMetrics() {
+      state.weight = parseInt(elements.weightInput.value);
+      state.bodyFat = parseInt(elements.bodyFatInput.value);
+      elements.weightDisplay.textContent = `${state.weight} lb`;
+      elements.bodyFatDisplay.textContent = `${state.bodyFat}%`;
+      saveState();
+    }
+
+    // ========== PILLAR MANAGEMENT ==========
+    function togglePillar(pillarName) {
+      const card = elements[`${pillarName}Card`];
+      card.classList.toggle('expanded');
+    }
+
+    function updatePillarStatus(pillarName) {
+      const current = state.today[pillarName];
+      const goal = state.goals[pillarName];
+      const statusEl = elements[`${pillarName}Status`];
+
+      if (pillarName === 'calories') {
+        statusEl.textContent = `${current} / ${goal}`;
+      } else if (pillarName === 'rest') {
+        statusEl.textContent = `${current} / ${goal}`;
+      } else if (pillarName === 'hydration') {
+        statusEl.textContent = `${current} / ${goal}`;
+      } else {
+        statusEl.textContent = `${current} / ${goal}`;
       }
     }
 
-    function syncFromInput(metric) {
-      switch(metric) {
-        case 'weight':
-          state.weight = parseInt(elements.weightInput.value);
-          elements.weightDisplay.textContent = `${state.weight} lb`;
-          break;
-        case 'bodyFat':
-          state.bodyFat = parseInt(elements.bodyFatInput.value);
-          elements.bodyFatDisplay.textContent = `${state.bodyFat}%`;
-          break;
-        case 'h2o':
-          state.h2o = parseInt(elements.h2oInput.value);
-          elements.h2oDisplay.textContent = `${state.h2o} cups`;
-          break;
-        case 'rest':
-          state.rest = parseFloat(elements.restInput.value);
-          elements.restDisplay.textContent = `${state.rest} hrs`;
-          break;
-        case 'calories':
-          state.calories = parseInt(elements.caloriesInput.value);
-          elements.caloriesDisplay.textContent = `${state.calories} kcal`;
-          break;
+    function addLog(pillarName) {
+      const inputEl = elements[`${pillarName}Input`];
+      const value = parseFloat(inputEl.value);
+      const today = getTodayString();
+      const goal = state.goals[pillarName];
+
+      // Check if log already exists for today
+      const existingIndex = state.logs[pillarName].findIndex(log => log.date === today);
+
+      if (existingIndex >= 0) {
+        // Update existing log
+        state.logs[pillarName][existingIndex].value = value;
+        state.logs[pillarName][existingIndex].met = value >= goal;
+      } else {
+        // Add new log
+        state.logs[pillarName].push({
+          date: today,
+          value: value,
+          met: value >= goal
+        });
+      }
+
+      // Update today's value
+      state.today[pillarName] = value;
+
+      // Update UI
+      renderLogs(pillarName);
+      updatePillarStatus(pillarName);
+      updatePumpMeter();
+      saveState();
+    }
+
+    function renderLogs(pillarName) {
+      const logsContainer = elements[`${pillarName}Logs`];
+      const logs = state.logs[pillarName].slice().reverse(); // Most recent first
+
+      if (logs.length === 0) {
+        logsContainer.innerHTML = '<div style="text-align: center; color: var(--text-muted); font-size: 0.85rem; padding: 1rem;">No logs yet</div>';
+        return;
+      }
+
+      logsContainer.innerHTML = logs.map(log => `
+        <div class="log-entry ${log.met ? 'met' : 'missed'}">
+          <span class="log-date">${formatDate(log.date)}</span>
+          <span class="log-value">${log.value} ${getUnit(pillarName)}</span>
+        </div>
+      `).join('');
+    }
+
+    function getUnit(pillarName) {
+      switch(pillarName) {
+        case 'workout': return 'workouts';
+        case 'hydration': return 'cups';
+        case 'calories': return 'kcal';
+        case 'rest': return 'hrs';
+        default: return '';
       }
     }
 
-    // ========== STRENGTH CHART FUNCTIONS ==========
-    function toggleStrengthChart() {
-      elements.strengthCard.classList.toggle('expanded');
+    // ========== PUMP METER ==========
+    function updatePumpMeter() {
+      let pillarsCompleted = 0;
+      const pillars = ['workout', 'hydration', 'calories', 'rest'];
+
+      pillars.forEach(pillar => {
+        if (state.today[pillar] >= state.goals[pillar]) {
+          pillarsCompleted++;
+        }
+      });
+
+      const percentage = (pillarsCompleted / 4) * 100;
+
+      elements.pumpMeterFill.style.width = `${percentage}%`;
+      elements.pumpMeterText.textContent = `${Math.round(percentage)}%`;
+
+      return percentage;
     }
 
-    function addExercise() {
-      const newEntry = document.createElement('div');
-      newEntry.className = 'chart-entry';
-      newEntry.innerHTML = `
-        <div>
-          <input type="text" class="chart-input" placeholder="Exercise">
-        </div>
-        <div>
-          <input type="text" class="chart-input" placeholder="Weight">
-        </div>
-      `;
-      elements.exerciseList.appendChild(newEntry);
-    }
-
-    // ========== CHARACTER GENERATION ==========
-    async function generateCharacter() {
-      if (state.isGenerating) return;
+    // ========== PROFILE CARD GENERATION ==========
+    async function generateProfileCard() {
+      const pumpPercentage = updatePumpMeter();
 
       elements.loadingOverlay.classList.add('active');
       elements.generateBtn.disabled = true;
-      state.isGenerating = true;
 
       try {
-        // TODO: Build prompt based on all metrics and call NanoBanana API
-        // For now, simulate with timeout
+        // TODO: Call NanoBanana API with weight, bodyFat, pumpPercentage
         await new Promise(resolve => setTimeout(resolve, 2500));
 
-        // Update placeholder
+        // Create profile card
+        const card = {
+          date: getTodayString(),
+          weight: state.weight,
+          bodyFat: state.bodyFat,
+          pumpPercent: pumpPercentage,
+          pillars: {
+            workout: state.today.workout >= state.goals.workout,
+            hydration: state.today.hydration >= state.goals.hydration,
+            calories: state.today.calories >= state.goals.calories,
+            rest: state.today.rest >= state.goals.rest
+          }
+        };
+
+        state.profileCards.push(card);
+
+        // Update streak
+        updateStreak();
+
+        // Display the card
         elements.characterPlaceholder.innerHTML = `
-          <div style="color: rgba(255, 255, 255, 0.7); text-align: center; padding: 2rem;">
-            <div style="font-size: 4rem; margin-bottom: 1.5rem;">💪</div>
-            <div style="font-size: 1.2rem; font-weight: 600; margin-bottom: 1rem;">Character Generated!</div>
-            <div style="font-size: 0.9rem; opacity: 0.7; line-height: 1.6;">
-              Weight: ${state.weight} lb | Body Fat: ${state.bodyFat}%<br>
-              H₂O: ${state.h2o} cups | Rest: ${state.rest} hrs | Calories: ${state.calories}
+          <div style="color: rgba(255, 255, 255, 0.8); text-align: center; padding: 2rem;">
+            <div style="font-size: 4rem; margin-bottom: 1rem;">💪</div>
+            <div style="font-size: 1.3rem; font-weight: 700; margin-bottom: 0.5rem;">Profile Card Generated!</div>
+            <div style="font-size: 1rem; color: rgba(255,255,255,0.6); margin-bottom: 1.5rem;">${formatDate(card.date)}</div>
+            <div style="font-size: 0.9rem; line-height: 1.8; opacity: 0.9;">
+              <strong>${card.weight} lb</strong> | <strong>${card.bodyFat}%</strong> body fat<br>
+              <div style="font-size: 2rem; margin: 1rem 0; color: ${pumpPercentage === 100 ? '#2dce89' : pumpPercentage >= 50 ? '#ffc107' : '#f5365c'};">
+                ${Math.round(pumpPercentage)}% PUMP
+              </div>
+              ${Object.entries(card.pillars).map(([key, met]) =>
+                `<div style="display: inline-block; margin: 0.25rem; padding: 0.25rem 0.75rem; background: ${met ? 'rgba(40,167,69,0.3)' : 'rgba(220,53,69,0.3)'}; border-radius: 12px; font-size: 0.8rem;">
+                  ${met ? '✓' : '✗'} ${key}
+                </div>`
+              ).join('')}
             </div>
           </div>
         `;
 
-        // Update last generated time
-        state.lastGenerated = new Date();
-        elements.lastGenerated.textContent = `Last generated: ${state.lastGenerated.toLocaleTimeString()}`;
+        saveState();
 
       } catch (error) {
         console.error('Generation failed:', error);
-        alert('Character generation failed. Please try again.');
+        alert('Profile card generation failed. Please try again.');
       } finally {
         elements.loadingOverlay.classList.remove('active');
         elements.generateBtn.disabled = false;
-        state.isGenerating = false;
+      }
+    }
+
+    // ========== STREAK MANAGEMENT ==========
+    function updateStreak() {
+      if (state.profileCards.length === 0) {
+        state.streak = 0;
+        state.bestStreak = 0;
+      } else {
+        // Sort cards by date
+        const sortedCards = state.profileCards.slice().sort((a, b) =>
+          new Date(b.date) - new Date(a.date)
+        );
+
+        // Calculate current streak
+        let currentStreak = 0;
+        let checkDate = new Date();
+
+        for (const card of sortedCards) {
+          const cardDate = new Date(card.date);
+          cardDate.setHours(0, 0, 0, 0);
+          checkDate.setHours(0, 0, 0, 0);
+
+          const diffDays = Math.floor((checkDate - cardDate) / (1000 * 60 * 60 * 24));
+
+          if (diffDays === currentStreak) {
+            currentStreak++;
+            checkDate.setDate(checkDate.getDate() - 1);
+          } else {
+            break;
+          }
+        }
+
+        state.streak = currentStreak;
+        state.bestStreak = Math.max(state.bestStreak, currentStreak);
+      }
+
+      elements.currentStreak.textContent = state.streak;
+      elements.bestStreak.textContent = state.bestStreak;
+      elements.totalCards.textContent = state.profileCards.length;
+    }
+
+    // ========== PERSISTENCE ==========
+    function saveState() {
+      localStorage.setItem('pumpAppState', JSON.stringify(state));
+    }
+
+    function loadState() {
+      const saved = localStorage.getItem('pumpAppState');
+      if (saved) {
+        const loaded = JSON.parse(saved);
+        Object.assign(state, loaded);
+
+        // Update UI with loaded state
+        elements.weightInput.value = state.weight;
+        elements.bodyFatInput.value = state.bodyFat;
+        updateBodyMetrics();
+
+        // Update goals
+        elements.workoutGoal.value = state.goals.workout;
+        elements.hydrationGoal.value = state.goals.hydration;
+        elements.caloriesGoal.value = state.goals.calories;
+        elements.restGoal.value = state.goals.rest;
+
+        // Update today's values
+        const today = getTodayString();
+        ['workout', 'hydration', 'calories', 'rest'].forEach(pillar => {
+          const todayLog = state.logs[pillar].find(log => log.date === today);
+          if (todayLog) {
+            state.today[pillar] = todayLog.value;
+            elements[`${pillar}Input`].value = todayLog.value;
+          }
+          renderLogs(pillar);
+          updatePillarStatus(pillar);
+        });
+
+        updatePumpMeter();
+        updateStreak();
       }
     }
 
     // ========== EVENT LISTENERS ==========
 
-    // Theme toggle
+    // Theme
     elements.themeToggle.addEventListener('click', toggleTheme);
 
-    // Left panel - Weight
-    elements.weightUp.addEventListener('click', () => updateMetric('weight', 1));
-    elements.weightDown.addEventListener('click', () => updateMetric('weight', -1));
-    elements.weightInput.addEventListener('input', () => syncFromInput('weight'));
+    // Body metrics
+    elements.weightInput.addEventListener('input', updateBodyMetrics);
+    elements.bodyFatInput.addEventListener('input', updateBodyMetrics);
 
-    // Left panel - Body Fat
-    elements.bodyFatUp.addEventListener('click', () => updateMetric('bodyFat', 1));
-    elements.bodyFatDown.addEventListener('click', () => updateMetric('bodyFat', -1));
-    elements.bodyFatInput.addEventListener('input', () => syncFromInput('bodyFat'));
-
-    // Left panel - Strength chart
-    elements.strengthCard.addEventListener('click', (e) => {
-      if (!e.target.closest('.strength-chart')) {
-        toggleStrengthChart();
+    // Pillar cards - toggle expand
+    elements.workoutCard.addEventListener('click', (e) => {
+      if (!e.target.closest('.add-log-section') && !e.target.closest('.pillar-goal')) {
+        togglePillar('workout');
       }
     });
-    elements.addExerciseBtn.addEventListener('click', addExercise);
+    elements.hydrationCard.addEventListener('click', (e) => {
+      if (!e.target.closest('.add-log-section') && !e.target.closest('.pillar-goal')) {
+        togglePillar('hydration');
+      }
+    });
+    elements.caloriesCard.addEventListener('click', (e) => {
+      if (!e.target.closest('.add-log-section') && !e.target.closest('.pillar-goal')) {
+        togglePillar('calories');
+      }
+    });
+    elements.restCard.addEventListener('click', (e) => {
+      if (!e.target.closest('.add-log-section') && !e.target.closest('.pillar-goal')) {
+        togglePillar('rest');
+      }
+    });
 
-    // Right panel - H2O
-    elements.h2oUp.addEventListener('click', () => updateMetric('h2o', 1));
-    elements.h2oDown.addEventListener('click', () => updateMetric('h2o', -1));
-    elements.h2oInput.addEventListener('input', () => syncFromInput('h2o'));
+    // Goals update
+    elements.workoutGoal.addEventListener('input', () => {
+      state.goals.workout = parseInt(elements.workoutGoal.value);
+      updatePillarStatus('workout');
+      updatePumpMeter();
+      saveState();
+    });
+    elements.hydrationGoal.addEventListener('input', () => {
+      state.goals.hydration = parseInt(elements.hydrationGoal.value);
+      updatePillarStatus('hydration');
+      updatePumpMeter();
+      saveState();
+    });
+    elements.caloriesGoal.addEventListener('input', () => {
+      state.goals.calories = parseInt(elements.caloriesGoal.value);
+      updatePillarStatus('calories');
+      updatePumpMeter();
+      saveState();
+    });
+    elements.restGoal.addEventListener('input', () => {
+      state.goals.rest = parseFloat(elements.restGoal.value);
+      updatePillarStatus('rest');
+      updatePumpMeter();
+      saveState();
+    });
 
-    // Right panel - Rest
-    elements.restUp.addEventListener('click', () => updateMetric('rest', 0.5));
-    elements.restDown.addEventListener('click', () => updateMetric('rest', -0.5));
-    elements.restInput.addEventListener('input', () => syncFromInput('rest'));
+    // Add logs
+    elements.addWorkoutBtn.addEventListener('click', () => addLog('workout'));
+    elements.addHydrationBtn.addEventListener('click', () => addLog('hydration'));
+    elements.addCaloriesBtn.addEventListener('click', () => addLog('calories'));
+    elements.addRestBtn.addEventListener('click', () => addLog('rest'));
 
-    // Right panel - Calories
-    elements.caloriesUp.addEventListener('click', () => updateMetric('calories', 100));
-    elements.caloriesDown.addEventListener('click', () => updateMetric('calories', -100));
-    elements.caloriesInput.addEventListener('input', () => syncFromInput('calories'));
-
-    // Center panel - Generate
-    elements.generateBtn.addEventListener('click', generateCharacter);
+    // Generate character
+    elements.generateBtn.addEventListener('click', generateProfileCard);
 
     // ========== INITIALIZATION ==========
     function init() {
       initTheme();
-      console.log('PUMP app initialized');
+      loadState();
+      console.log('PUMP app initialized with 4 pillars tracking');
     }
 
     // Run on load
