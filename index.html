@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Avatar Lab - Bodybuilding Character Creator</title>
+  <title>PUMP - Fitness Character Tracker</title>
   <style>
     /* ========== CSS VARIABLES & THEMES ========== */
     :root {
@@ -24,8 +24,8 @@
       /* Stage colors */
       --stage-bg: #0a0a0a;
       --stage-glow: rgba(0, 102, 204, 0.3);
-      --hud-bg: rgba(0, 0, 0, 0.6);
-      --hud-text: #ffffff;
+      --metric-bg: rgba(0, 102, 204, 0.1);
+      --metric-text: #0066cc;
     }
 
     [data-theme="dark"] {
@@ -44,8 +44,8 @@
 
       --stage-bg: #000000;
       --stage-glow: rgba(61, 139, 253, 0.3);
-      --hud-bg: rgba(255, 255, 255, 0.1);
-      --hud-text: #ffffff;
+      --metric-bg: rgba(61, 139, 253, 0.15);
+      --metric-text: #3d8bfd;
     }
 
     /* ========== RESET & BASE ========== */
@@ -79,9 +79,10 @@
     }
 
     .app-title {
-      font-size: 1.25rem;
-      font-weight: 600;
+      font-size: 1.5rem;
+      font-weight: 700;
       color: var(--text-primary);
+      letter-spacing: 0.5px;
     }
 
     .app-subtitle {
@@ -107,101 +108,120 @@
       border-color: var(--accent);
     }
 
-    /* ========== MAIN LAYOUT ========== */
+    /* ========== MAIN LAYOUT (3 COLUMNS) ========== */
     .container {
-      max-width: 1400px;
+      max-width: 1600px;
       margin: 0 auto;
       padding: 2rem;
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2rem;
+      grid-template-columns: 25% 50% 25%;
+      gap: 1.5rem;
+      align-items: start;
     }
 
-    @media (max-width: 968px) {
+    @media (max-width: 1200px) {
       .container {
         grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .left-panel {
+        order: 2;
+      }
+
+      .center-panel {
+        order: 1;
+      }
+
+      .right-panel {
+        order: 3;
       }
     }
 
-    /* ========== CONTROL PANEL ========== */
-    .control-panel {
+    /* ========== SIDE PANELS (LEFT & RIGHT) ========== */
+    .panel {
       background: var(--bg-secondary);
       border: 1px solid var(--border-color);
       border-radius: 12px;
-      padding: 2rem;
+      padding: 1.5rem;
       box-shadow: var(--shadow-md);
     }
 
-    .section-title {
-      font-size: 1.5rem;
-      font-weight: 600;
-      margin-bottom: 1.5rem;
-      color: var(--text-primary);
-    }
-
-    .form-group {
-      margin-bottom: 1.5rem;
-    }
-
-    .form-label {
-      display: block;
+    .panel-title {
       font-size: 0.9rem;
-      font-weight: 500;
-      margin-bottom: 0.5rem;
-      color: var(--text-secondary);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border-color);
     }
 
-    .form-select,
-    .form-input {
-      width: 100%;
-      padding: 0.75rem;
+    /* ========== METRIC CARDS ========== */
+    .metric-card {
+      background: var(--metric-bg);
       border: 1px solid var(--border-color);
-      border-radius: 8px;
+      border-radius: 10px;
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+      transition: all 0.2s ease;
+    }
+
+    .metric-card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+
+    .metric-card.expandable {
+      cursor: pointer;
+    }
+
+    .metric-card.expanded {
+      background: var(--bg-tertiary);
+    }
+
+    .metric-label {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      margin-bottom: 0.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .metric-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--metric-text);
+      margin-bottom: 0.75rem;
+    }
+
+    .metric-controls {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .metric-input {
+      flex: 1;
+      padding: 0.5rem;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
       background: var(--bg-primary);
       color: var(--text-primary);
-      font-size: 1rem;
-      transition: border-color 0.2s ease;
+      font-size: 0.9rem;
     }
 
-    .form-select:focus,
-    .form-input:focus {
+    .metric-input:focus {
       outline: none;
       border-color: var(--accent);
     }
 
-    .stat-control {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      padding: 1rem;
-      background: var(--bg-tertiary);
-      border-radius: 8px;
-      margin-bottom: 1rem;
-    }
-
-    .stat-label {
-      flex: 1;
-      font-size: 0.9rem;
-      font-weight: 500;
-      color: var(--text-secondary);
-    }
-
-    .stat-value {
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: var(--text-primary);
-      min-width: 80px;
-      text-align: center;
-    }
-
-    .stat-buttons {
-      display: flex;
-      gap: 0.5rem;
-    }
-
     .icon-btn {
-      width: 32px;
-      height: 32px;
+      width: 36px;
+      height: 36px;
       border: 1px solid var(--border-color);
       background: var(--bg-primary);
       border-radius: 6px;
@@ -211,6 +231,7 @@
       cursor: pointer;
       color: var(--text-primary);
       transition: all 0.2s ease;
+      font-size: 1.2rem;
     }
 
     .icon-btn:hover {
@@ -219,110 +240,95 @@
       border-color: var(--accent);
     }
 
-    .btn-primary {
-      width: 100%;
-      padding: 1rem;
-      background: var(--accent);
-      color: white;
-      border: none;
-      border-radius: 8px;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background 0.2s ease;
-      margin-top: 1rem;
-    }
-
-    .btn-primary:hover {
-      background: var(--accent-hover);
-    }
-
-    .btn-primary:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-
-    .btn-secondary {
-      width: 100%;
-      padding: 0.75rem;
-      background: var(--bg-tertiary);
-      color: var(--text-primary);
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
+    .expand-icon {
       font-size: 0.9rem;
-      font-weight: 600;
+      color: var(--text-muted);
+      transition: transform 0.3s ease;
+    }
+
+    .metric-card.expanded .expand-icon {
+      transform: rotate(180deg);
+    }
+
+    /* ========== STRENGTH CHART ========== */
+    .strength-chart {
+      display: none;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .metric-card.expanded .strength-chart {
+      display: block;
+    }
+
+    .chart-entry {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .chart-input {
+      padding: 0.5rem;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      font-size: 0.85rem;
+    }
+
+    .chart-input:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    .chart-entry-label {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      margin-bottom: 0.25rem;
+    }
+
+    .add-exercise-btn {
+      width: 100%;
+      padding: 0.5rem;
+      background: var(--bg-tertiary);
+      border: 1px dashed var(--border-color);
+      border-radius: 6px;
+      color: var(--text-secondary);
+      font-size: 0.85rem;
       cursor: pointer;
       transition: all 0.2s ease;
-      margin-top: 1rem;
     }
 
-    .btn-secondary:hover {
-      background: var(--bg-primary);
+    .add-exercise-btn:hover {
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
+      border-style: solid;
     }
 
-    .prompt-preview {
-      background: var(--bg-tertiary);
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      padding: 1rem;
-      margin-top: 1.5rem;
-      font-size: 0.85rem;
-      color: var(--text-secondary);
-      line-height: 1.6;
-      font-family: 'Courier New', monospace;
-    }
-
-    .prompt-preview-title {
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: var(--text-muted);
-      margin-bottom: 0.5rem;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    /* ========== CHARACTER STAGE ========== */
-    .character-stage {
+    /* ========== CENTER PANEL (CHARACTER) ========== */
+    .center-panel {
       background: var(--bg-secondary);
       border: 1px solid var(--border-color);
       border-radius: 12px;
       padding: 1.5rem;
-      box-shadow: var(--shadow-md);
-      position: relative;
-      min-height: 700px;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .hud-overlay {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 1rem;
-      position: relative;
-      z-index: 2;
-    }
-
-    .hud-chip {
-      background: var(--hud-bg);
-      backdrop-filter: blur(10px);
-      padding: 0.5rem 1rem;
-      border-radius: 8px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: var(--hud-text);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: var(--shadow-lg);
+      position: sticky;
+      top: 100px;
     }
 
     .viewport {
-      flex: 1;
       background: var(--stage-bg);
-      border-radius: 8px;
+      border-radius: 12px;
       position: relative;
       overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
-      min-height: 500px;
+      min-height: 600px;
+      margin-bottom: 1.5rem;
     }
 
     .viewport::before {
@@ -331,8 +337,8 @@
       bottom: 0;
       left: 50%;
       transform: translateX(-50%);
-      width: 300px;
-      height: 300px;
+      width: 400px;
+      height: 400px;
       background: radial-gradient(circle, var(--stage-glow) 0%, transparent 70%);
       animation: pulse 4s ease-in-out infinite;
     }
@@ -346,30 +352,30 @@
       position: relative;
       z-index: 1;
       text-align: center;
-      color: rgba(255, 255, 255, 0.3);
-      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.4);
+      font-size: 1rem;
       padding: 2rem;
-      max-width: 300px;
+      max-width: 400px;
     }
 
     .character-silhouette {
-      width: 200px;
-      height: 300px;
-      margin: 0 auto 1rem;
-      opacity: 0.1;
+      width: 250px;
+      height: 350px;
+      margin: 0 auto 1.5rem;
+      opacity: 0.15;
     }
 
     .loading-overlay {
       position: absolute;
       inset: 0;
-      background: rgba(0, 0, 0, 0.8);
-      backdrop-filter: blur(5px);
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(8px);
       display: none;
       align-items: center;
       justify-content: center;
       flex-direction: column;
       z-index: 10;
-      border-radius: 8px;
+      border-radius: 12px;
     }
 
     .loading-overlay.active {
@@ -377,9 +383,9 @@
     }
 
     .spinner {
-      width: 40px;
-      height: 40px;
-      border: 3px solid rgba(255, 255, 255, 0.2);
+      width: 50px;
+      height: 50px;
+      border: 4px solid rgba(255, 255, 255, 0.2);
       border-top-color: var(--accent);
       border-radius: 50%;
       animation: spin 0.8s linear infinite;
@@ -391,48 +397,44 @@
 
     .loading-text {
       color: white;
-      margin-top: 1rem;
-      font-size: 0.9rem;
+      margin-top: 1.5rem;
+      font-size: 1rem;
+      font-weight: 500;
     }
 
-    .build-summary {
-      margin-top: 1rem;
-      padding: 1rem;
-      background: var(--bg-tertiary);
-      border-radius: 8px;
-    }
-
-    .build-summary-title {
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: var(--text-muted);
+    .generate-btn {
+      width: 100%;
+      padding: 1.25rem;
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: var(--shadow-md);
       text-transform: uppercase;
-      margin-bottom: 0.5rem;
+      letter-spacing: 0.5px;
     }
 
-    .build-summary-text {
-      font-size: 0.9rem;
-      color: var(--text-secondary);
-      line-height: 1.5;
+    .generate-btn:hover {
+      background: var(--accent-hover);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
     }
 
-    .status-badge {
-      display: inline-block;
-      padding: 0.25rem 0.75rem;
-      border-radius: 12px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      margin-top: 0.5rem;
+    .generate-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
     }
 
-    .status-badge.up-to-date {
-      background: rgba(40, 167, 69, 0.2);
-      color: #28a745;
-    }
-
-    .status-badge.out-of-date {
-      background: rgba(255, 193, 7, 0.2);
-      color: #ffc107;
+    .last-generated {
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 1rem;
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -448,123 +450,89 @@
   <!-- APP BAR -->
   <div class="app-bar">
     <div>
-      <div class="app-title">Avatar Lab</div>
-      <div class="app-subtitle">Powered by NanoBanana (stubbed client-side)</div>
+      <div class="app-title">💪 PUMP</div>
+      <div class="app-subtitle">Track your fitness, build your character</div>
     </div>
     <button class="theme-toggle" id="themeToggle">
       <span id="themeIcon">🌙 Dark</span>
     </button>
   </div>
 
-  <!-- MAIN CONTAINER -->
+  <!-- MAIN CONTAINER (3 COLUMNS) -->
   <div class="container">
-    <!-- CONTROL PANEL -->
-    <div class="control-panel">
-      <h2 class="section-title">Character Setup</h2>
+    <!-- LEFT PANEL -->
+    <div class="left-panel panel">
+      <div class="panel-title">Body Metrics</div>
 
-      <form id="characterForm">
-        <div class="form-group">
-          <label class="form-label" for="hairStyle">Hair Style</label>
-          <select class="form-select" id="hairStyle">
-            <option value="Bald">Bald</option>
-            <option value="Buzz cut">Buzz cut</option>
-            <option value="Short">Short</option>
-            <option value="Medium">Medium</option>
-            <option value="Long">Long</option>
-            <option value="Afro">Afro</option>
-            <option value="Mohawk">Mohawk</option>
-            <option value="Ponytail">Ponytail</option>
-          </select>
+      <!-- Body Weight -->
+      <div class="metric-card">
+        <div class="metric-label">Body Weight</div>
+        <div class="metric-value" id="weightDisplay">185 lb</div>
+        <div class="metric-controls">
+          <input type="number" class="metric-input" id="weightInput" value="185" min="100" max="400" step="1">
+          <button class="icon-btn" id="weightDown" aria-label="Decrease weight">−</button>
+          <button class="icon-btn" id="weightUp" aria-label="Increase weight">+</button>
         </div>
-
-        <div class="form-group">
-          <label class="form-label" for="glasses">Glasses</label>
-          <select class="form-select" id="glasses">
-            <option value="None">None</option>
-            <option value="Sunglasses">Sunglasses</option>
-            <option value="Round glasses">Round glasses</option>
-            <option value="Square glasses">Square glasses</option>
-            <option value="Sport shades">Sport shades</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" for="facialHair">Facial Hair</label>
-          <select class="form-select" id="facialHair">
-            <option value="None">None</option>
-            <option value="Stubble">Stubble</option>
-            <option value="Short beard">Short beard</option>
-            <option value="Full beard">Full beard</option>
-            <option value="Mustache">Mustache</option>
-            <option value="Goatee">Goatee</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" for="height">Height (cm)</label>
-          <input type="number" class="form-input" id="height" value="180" min="140" max="220" step="1">
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" for="weight">Weight (lb)</label>
-          <input type="number" class="form-input" id="weight" value="185" min="100" max="400" step="5">
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" for="bodyFat">Body Fat (%)</label>
-          <input type="number" class="form-input" id="bodyFat" value="15" min="5" max="40" step="1">
-        </div>
-
-        <button type="submit" class="btn-primary" id="generateBtn">
-          Generate Character
-        </button>
-      </form>
-
-      <!-- FINE TUNE SECTION -->
-      <div style="margin-top: 2rem;">
-        <h3 class="section-title" style="font-size: 1.2rem;">Fine Tune Stats</h3>
-
-        <div class="stat-control">
-          <span class="stat-label">Weight</span>
-          <span class="stat-value" id="weightDisplay">185 lb</span>
-          <div class="stat-buttons">
-            <button class="icon-btn" id="weightDown" aria-label="Decrease weight">−</button>
-            <button class="icon-btn" id="weightUp" aria-label="Increase weight">+</button>
-          </div>
-        </div>
-
-        <div class="stat-control">
-          <span class="stat-label">Body Fat</span>
-          <span class="stat-value" id="bodyFatDisplay">15%</span>
-          <div class="stat-buttons">
-            <button class="icon-btn" id="bodyFatDown" aria-label="Decrease body fat">−</button>
-            <button class="icon-btn" id="bodyFatUp" aria-label="Increase body fat">+</button>
-          </div>
-        </div>
-
-        <button class="btn-secondary" id="applyChangesBtn" disabled>
-          Apply Changes
-        </button>
       </div>
 
-      <!-- PROMPT PREVIEW -->
-      <div class="prompt-preview">
-        <div class="prompt-preview-title">Prompt Preview</div>
-        <div id="promptPreview">Building prompt...</div>
+      <!-- Body Fat % -->
+      <div class="metric-card">
+        <div class="metric-label">Body Fat %</div>
+        <div class="metric-value" id="bodyFatDisplay">15%</div>
+        <div class="metric-controls">
+          <input type="number" class="metric-input" id="bodyFatInput" value="15" min="5" max="40" step="1">
+          <button class="icon-btn" id="bodyFatDown" aria-label="Decrease body fat">−</button>
+          <button class="icon-btn" id="bodyFatUp" aria-label="Increase body fat">+</button>
+        </div>
+      </div>
+
+      <!-- Strength (Expandable) -->
+      <div class="metric-card expandable" id="strengthCard">
+        <div class="metric-label">
+          <span>Strength</span>
+          <span class="expand-icon">▼</span>
+        </div>
+        <div class="metric-value" id="strengthDisplay">💪</div>
+
+        <div class="strength-chart" id="strengthChart">
+          <div class="chart-entry-label">Track Your Lifts</div>
+          <div id="exerciseList">
+            <div class="chart-entry">
+              <div>
+                <input type="text" class="chart-input" placeholder="Exercise" value="Bench Press">
+              </div>
+              <div>
+                <input type="text" class="chart-input" placeholder="Weight" value="225 lb">
+              </div>
+            </div>
+            <div class="chart-entry">
+              <div>
+                <input type="text" class="chart-input" placeholder="Exercise" value="Squat">
+              </div>
+              <div>
+                <input type="text" class="chart-input" placeholder="Weight" value="315 lb">
+              </div>
+            </div>
+            <div class="chart-entry">
+              <div>
+                <input type="text" class="chart-input" placeholder="Exercise" value="Deadlift">
+              </div>
+              <div>
+                <input type="text" class="chart-input" placeholder="Weight" value="405 lb">
+              </div>
+            </div>
+          </div>
+          <button class="add-exercise-btn" id="addExerciseBtn">+ Add Exercise</button>
+        </div>
       </div>
     </div>
 
-    <!-- CHARACTER STAGE -->
-    <div class="character-stage">
-      <div class="hud-overlay">
-        <div class="hud-chip" id="weightHud">Weight: 185 lb</div>
-        <div class="hud-chip" id="bodyFatHud">Body Fat: 15%</div>
-      </div>
-
+    <!-- CENTER PANEL (CHARACTER) -->
+    <div class="center-panel">
       <div class="viewport">
         <div class="loading-overlay" id="loadingOverlay">
           <div class="spinner"></div>
-          <div class="loading-text">Generating with NanoBanana...</div>
+          <div class="loading-text">Generating your PUMP character...</div>
         </div>
 
         <div class="character-placeholder" id="characterPlaceholder">
@@ -576,18 +544,54 @@
             <rect x="38" y="78" width="10" height="45" rx="4"/>
             <rect x="52" y="78" width="10" height="45" rx="4"/>
           </svg>
-          <div>Character image from NanoBanana will appear here</div>
+          <div>Your pumped character will appear here</div>
         </div>
       </div>
 
-      <div class="build-summary">
-        <div class="build-summary-title">Current Build</div>
-        <div class="build-summary-text" id="buildSummary">
-          185 lb at 15% body fat - moderate muscular, balanced look
+      <button class="generate-btn" id="generateBtn">
+        Generate Character
+      </button>
+
+      <div class="last-generated" id="lastGenerated">
+        Generate once per day to see your progress
+      </div>
+    </div>
+
+    <!-- RIGHT PANEL -->
+    <div class="right-panel panel">
+      <div class="panel-title">Daily Intake</div>
+
+      <!-- H2O -->
+      <div class="metric-card">
+        <div class="metric-label">H₂O</div>
+        <div class="metric-value" id="h2oDisplay">8 cups</div>
+        <div class="metric-controls">
+          <input type="number" class="metric-input" id="h2oInput" value="8" min="0" max="20" step="1">
+          <button class="icon-btn" id="h2oDown" aria-label="Decrease water">−</button>
+          <button class="icon-btn" id="h2oUp" aria-label="Increase water">+</button>
         </div>
-        <span class="status-badge out-of-date" id="statusBadge">
-          Avatar not generated yet
-        </span>
+      </div>
+
+      <!-- Rest -->
+      <div class="metric-card">
+        <div class="metric-label">Rest (hours)</div>
+        <div class="metric-value" id="restDisplay">7 hrs</div>
+        <div class="metric-controls">
+          <input type="number" class="metric-input" id="restInput" value="7" min="0" max="12" step="0.5">
+          <button class="icon-btn" id="restDown" aria-label="Decrease rest">−</button>
+          <button class="icon-btn" id="restUp" aria-label="Increase rest">+</button>
+        </div>
+      </div>
+
+      <!-- Calories -->
+      <div class="metric-card">
+        <div class="metric-label">Calories</div>
+        <div class="metric-value" id="caloriesDisplay">2500 kcal</div>
+        <div class="metric-controls">
+          <input type="number" class="metric-input" id="caloriesInput" value="2500" min="0" max="10000" step="100">
+          <button class="icon-btn" id="caloriesDown" aria-label="Decrease calories">−</button>
+          <button class="icon-btn" id="caloriesUp" aria-label="Increase calories">+</button>
+        </div>
       </div>
     </div>
   </div>
@@ -595,49 +599,68 @@
   <script>
     // ========== STATE MANAGEMENT ==========
     const state = {
-      hairStyle: 'Bald',
-      glasses: 'Sunglasses',
-      facialHair: 'Stubble',
-      height: 180,
+      // Body metrics (left panel)
       weight: 185,
       bodyFat: 15,
+      exercises: [
+        { name: 'Bench Press', weight: '225 lb' },
+        { name: 'Squat', weight: '315 lb' },
+        { name: 'Deadlift', weight: '405 lb' }
+      ],
+
+      // Daily intake (right panel)
+      h2o: 8,
+      rest: 7,
+      calories: 2500,
+
+      // Generation tracking
       lastGenerated: null,
-      isGenerating: false,
-      isDirty: false
+      isGenerating: false
     };
 
     // ========== DOM ELEMENTS ==========
     const elements = {
+      // Theme
       themeToggle: document.getElementById('themeToggle'),
       themeIcon: document.getElementById('themeIcon'),
-      characterForm: document.getElementById('characterForm'),
-      generateBtn: document.getElementById('generateBtn'),
-      applyChangesBtn: document.getElementById('applyChangesBtn'),
 
-      // Form inputs
-      hairStyle: document.getElementById('hairStyle'),
-      glasses: document.getElementById('glasses'),
-      facialHair: document.getElementById('facialHair'),
-      height: document.getElementById('height'),
-      weight: document.getElementById('weight'),
-      bodyFat: document.getElementById('bodyFat'),
-
-      // Fine tune buttons
+      // Left panel
+      weightInput: document.getElementById('weightInput'),
+      weightDisplay: document.getElementById('weightDisplay'),
       weightUp: document.getElementById('weightUp'),
       weightDown: document.getElementById('weightDown'),
+
+      bodyFatInput: document.getElementById('bodyFatInput'),
+      bodyFatDisplay: document.getElementById('bodyFatDisplay'),
       bodyFatUp: document.getElementById('bodyFatUp'),
       bodyFatDown: document.getElementById('bodyFatDown'),
 
-      // Displays
-      weightDisplay: document.getElementById('weightDisplay'),
-      bodyFatDisplay: document.getElementById('bodyFatDisplay'),
-      weightHud: document.getElementById('weightHud'),
-      bodyFatHud: document.getElementById('bodyFatHud'),
-      promptPreview: document.getElementById('promptPreview'),
-      buildSummary: document.getElementById('buildSummary'),
-      statusBadge: document.getElementById('statusBadge'),
+      strengthCard: document.getElementById('strengthCard'),
+      strengthChart: document.getElementById('strengthChart'),
+      exerciseList: document.getElementById('exerciseList'),
+      addExerciseBtn: document.getElementById('addExerciseBtn'),
+
+      // Right panel
+      h2oInput: document.getElementById('h2oInput'),
+      h2oDisplay: document.getElementById('h2oDisplay'),
+      h2oUp: document.getElementById('h2oUp'),
+      h2oDown: document.getElementById('h2oDown'),
+
+      restInput: document.getElementById('restInput'),
+      restDisplay: document.getElementById('restDisplay'),
+      restUp: document.getElementById('restUp'),
+      restDown: document.getElementById('restDown'),
+
+      caloriesInput: document.getElementById('caloriesInput'),
+      caloriesDisplay: document.getElementById('caloriesDisplay'),
+      caloriesUp: document.getElementById('caloriesUp'),
+      caloriesDown: document.getElementById('caloriesDown'),
+
+      // Center panel
+      generateBtn: document.getElementById('generateBtn'),
+      loadingOverlay: document.getElementById('loadingOverlay'),
       characterPlaceholder: document.getElementById('characterPlaceholder'),
-      loadingOverlay: document.getElementById('loadingOverlay')
+      lastGenerated: document.getElementById('lastGenerated')
     };
 
     // ========== THEME MANAGEMENT ==========
@@ -659,56 +682,112 @@
       elements.themeIcon.textContent = theme === 'light' ? '🌙 Dark' : '☀️ Light';
     }
 
-    // ========== NANOBANANA INTEGRATION (STUB) ==========
-
-    /**
-     * Build prompt text for NanoBanana API
-     * @param {Object} state - Current character state
-     * @returns {string} Formatted prompt
-     */
-    function buildNanoBananaPrompt(state) {
-      const physique = state.bodyFat < 12 ? 'very lean and muscular' :
-                       state.bodyFat < 18 ? 'athletic and defined' :
-                       'strong and solid';
-
-      return `Cartoon video game style bodybuilding character. ${state.hairStyle} hair, ${state.glasses}, ${state.facialHair}. Full body visible from feet to head. Height ${state.height} cm, weight ${state.weight} lb at ${state.bodyFat}% body fat, ${physique} build. Standing confidently in a dark black room similar to a Fortnite style character lobby with subtle spotlight from above.`;
+    // ========== METRIC UPDATE FUNCTIONS ==========
+    function updateMetric(metric, delta) {
+      switch(metric) {
+        case 'weight':
+          state.weight = Math.max(100, Math.min(400, state.weight + delta));
+          elements.weightInput.value = state.weight;
+          elements.weightDisplay.textContent = `${state.weight} lb`;
+          break;
+        case 'bodyFat':
+          state.bodyFat = Math.max(5, Math.min(40, state.bodyFat + delta));
+          elements.bodyFatInput.value = state.bodyFat;
+          elements.bodyFatDisplay.textContent = `${state.bodyFat}%`;
+          break;
+        case 'h2o':
+          state.h2o = Math.max(0, Math.min(20, state.h2o + delta));
+          elements.h2oInput.value = state.h2o;
+          elements.h2oDisplay.textContent = `${state.h2o} cups`;
+          break;
+        case 'rest':
+          state.rest = Math.max(0, Math.min(12, state.rest + delta));
+          elements.restInput.value = state.rest;
+          elements.restDisplay.textContent = `${state.rest} hrs`;
+          break;
+        case 'calories':
+          state.calories = Math.max(0, Math.min(10000, state.calories + delta));
+          elements.caloriesInput.value = state.calories;
+          elements.caloriesDisplay.textContent = `${state.calories} kcal`;
+          break;
+      }
     }
 
-    /**
-     * Call NanoBanana API (currently stubbed)
-     * TODO: Wire this to actual NanoBanana image generation endpoint
-     * @param {string} promptText - Prompt to send to API
-     */
-    async function callNanoBanana(promptText) {
-      // Show loading overlay
+    function syncFromInput(metric) {
+      switch(metric) {
+        case 'weight':
+          state.weight = parseInt(elements.weightInput.value);
+          elements.weightDisplay.textContent = `${state.weight} lb`;
+          break;
+        case 'bodyFat':
+          state.bodyFat = parseInt(elements.bodyFatInput.value);
+          elements.bodyFatDisplay.textContent = `${state.bodyFat}%`;
+          break;
+        case 'h2o':
+          state.h2o = parseInt(elements.h2oInput.value);
+          elements.h2oDisplay.textContent = `${state.h2o} cups`;
+          break;
+        case 'rest':
+          state.rest = parseFloat(elements.restInput.value);
+          elements.restDisplay.textContent = `${state.rest} hrs`;
+          break;
+        case 'calories':
+          state.calories = parseInt(elements.caloriesInput.value);
+          elements.caloriesDisplay.textContent = `${state.calories} kcal`;
+          break;
+      }
+    }
+
+    // ========== STRENGTH CHART FUNCTIONS ==========
+    function toggleStrengthChart() {
+      elements.strengthCard.classList.toggle('expanded');
+    }
+
+    function addExercise() {
+      const newEntry = document.createElement('div');
+      newEntry.className = 'chart-entry';
+      newEntry.innerHTML = `
+        <div>
+          <input type="text" class="chart-input" placeholder="Exercise">
+        </div>
+        <div>
+          <input type="text" class="chart-input" placeholder="Weight">
+        </div>
+      `;
+      elements.exerciseList.appendChild(newEntry);
+    }
+
+    // ========== CHARACTER GENERATION ==========
+    async function generateCharacter() {
+      if (state.isGenerating) return;
+
       elements.loadingOverlay.classList.add('active');
       elements.generateBtn.disabled = true;
       state.isGenerating = true;
 
       try {
-        // STUB: Simulate API call with timeout
-        await new Promise(resolve => setTimeout(resolve, 2000));
+        // TODO: Build prompt based on all metrics and call NanoBanana API
+        // For now, simulate with timeout
+        await new Promise(resolve => setTimeout(resolve, 2500));
 
-        // STUB: Update placeholder with generated indicator
+        // Update placeholder
         elements.characterPlaceholder.innerHTML = `
-          <div style="color: rgba(255, 255, 255, 0.6); text-align: center; padding: 2rem;">
-            <div style="font-size: 3rem; margin-bottom: 1rem;">✨</div>
-            <div style="font-size: 1rem; margin-bottom: 1rem;">Character Generated!</div>
-            <div style="font-size: 0.75rem; opacity: 0.6; line-height: 1.6; max-width: 250px; margin: 0 auto;">
-              ${promptText.substring(0, 120)}...
+          <div style="color: rgba(255, 255, 255, 0.7); text-align: center; padding: 2rem;">
+            <div style="font-size: 4rem; margin-bottom: 1.5rem;">💪</div>
+            <div style="font-size: 1.2rem; font-weight: 600; margin-bottom: 1rem;">Character Generated!</div>
+            <div style="font-size: 0.9rem; opacity: 0.7; line-height: 1.6;">
+              Weight: ${state.weight} lb | Body Fat: ${state.bodyFat}%<br>
+              H₂O: ${state.h2o} cups | Rest: ${state.rest} hrs | Calories: ${state.calories}
             </div>
           </div>
         `;
 
-        // Update state
-        state.lastGenerated = { ...state };
-        state.isDirty = false;
-
-        // Update status
-        updateStatus();
+        // Update last generated time
+        state.lastGenerated = new Date();
+        elements.lastGenerated.textContent = `Last generated: ${state.lastGenerated.toLocaleTimeString()}`;
 
       } catch (error) {
-        console.error('NanoBanana generation failed:', error);
+        console.error('Generation failed:', error);
         alert('Character generation failed. Please try again.');
       } finally {
         elements.loadingOverlay.classList.remove('active');
@@ -717,172 +796,51 @@
       }
     }
 
-    // ========== UI UPDATE FUNCTIONS ==========
-
-    function updatePromptPreview() {
-      const prompt = buildNanoBananaPrompt(state);
-      elements.promptPreview.textContent = prompt;
-    }
-
-    function updateDisplays() {
-      // Update fine tune displays
-      elements.weightDisplay.textContent = `${state.weight} lb`;
-      elements.bodyFatDisplay.textContent = `${state.bodyFat}%`;
-
-      // Update HUD chips
-      elements.weightHud.textContent = `Weight: ${state.weight} lb`;
-      elements.bodyFatHud.textContent = `Body Fat: ${state.bodyFat}%`;
-
-      // Update build summary
-      const physique = state.bodyFat < 12 ? 'very lean and muscular' :
-                       state.bodyFat < 18 ? 'athletic and defined' :
-                       'strong and solid';
-      elements.buildSummary.textContent = `${state.weight} lb at ${state.bodyFat}% body fat - ${physique} build`;
-
-      // Update form inputs to match state
-      elements.weight.value = state.weight;
-      elements.bodyFat.value = state.bodyFat;
-    }
-
-    function updateStatus() {
-      if (!state.lastGenerated) {
-        elements.statusBadge.textContent = 'Avatar not generated yet';
-        elements.statusBadge.className = 'status-badge out-of-date';
-      } else if (state.isDirty) {
-        elements.statusBadge.textContent = 'Changes not applied';
-        elements.statusBadge.className = 'status-badge out-of-date';
-      } else {
-        elements.statusBadge.textContent = 'Up to date';
-        elements.statusBadge.className = 'status-badge up-to-date';
-      }
-
-      // Enable/disable apply button
-      elements.applyChangesBtn.disabled = !state.isDirty;
-    }
-
-    function markDirty() {
-      state.isDirty = true;
-      updateStatus();
-    }
-
-    function syncFormToState() {
-      state.hairStyle = elements.hairStyle.value;
-      state.glasses = elements.glasses.value;
-      state.facialHair = elements.facialHair.value;
-      state.height = parseInt(elements.height.value);
-      state.weight = parseInt(elements.weight.value);
-      state.bodyFat = parseInt(elements.bodyFat.value);
-    }
-
-    function renderUI() {
-      updatePromptPreview();
-      updateDisplays();
-      updateStatus();
-    }
-
-    // ========== STAT ADJUSTMENT FUNCTIONS ==========
-
-    function adjustWeight(delta) {
-      state.weight = Math.max(100, Math.min(400, state.weight + delta));
-      markDirty();
-      renderUI();
-    }
-
-    function adjustBodyFat(delta) {
-      state.bodyFat = Math.max(5, Math.min(40, state.bodyFat + delta));
-      markDirty();
-      renderUI();
-    }
-
-    // ========== GENERATION FUNCTION ==========
-
-    async function generateCharacterFromControls() {
-      syncFormToState();
-      updatePromptPreview();
-      updateDisplays();
-
-      const prompt = buildNanoBananaPrompt(state);
-      await callNanoBanana(prompt);
-    }
-
     // ========== EVENT LISTENERS ==========
 
     // Theme toggle
     elements.themeToggle.addEventListener('click', toggleTheme);
 
-    // Form submission
-    elements.characterForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      generateCharacterFromControls();
-    });
+    // Left panel - Weight
+    elements.weightUp.addEventListener('click', () => updateMetric('weight', 1));
+    elements.weightDown.addEventListener('click', () => updateMetric('weight', -1));
+    elements.weightInput.addEventListener('input', () => syncFromInput('weight'));
 
-    // Form input changes
-    elements.hairStyle.addEventListener('change', () => {
-      syncFormToState();
-      renderUI();
-    });
-    elements.glasses.addEventListener('change', () => {
-      syncFormToState();
-      renderUI();
-    });
-    elements.facialHair.addEventListener('change', () => {
-      syncFormToState();
-      renderUI();
-    });
-    elements.height.addEventListener('input', () => {
-      syncFormToState();
-      renderUI();
-    });
-    elements.weight.addEventListener('input', () => {
-      syncFormToState();
-      markDirty();
-      renderUI();
-    });
-    elements.bodyFat.addEventListener('input', () => {
-      syncFormToState();
-      markDirty();
-      renderUI();
-    });
+    // Left panel - Body Fat
+    elements.bodyFatUp.addEventListener('click', () => updateMetric('bodyFat', 1));
+    elements.bodyFatDown.addEventListener('click', () => updateMetric('bodyFat', -1));
+    elements.bodyFatInput.addEventListener('input', () => syncFromInput('bodyFat'));
 
-    // Fine tune buttons
-    elements.weightUp.addEventListener('click', () => adjustWeight(5));
-    elements.weightDown.addEventListener('click', () => adjustWeight(-5));
-    elements.bodyFatUp.addEventListener('click', () => adjustBodyFat(1));
-    elements.bodyFatDown.addEventListener('click', () => adjustBodyFat(-1));
-
-    // Apply changes button
-    elements.applyChangesBtn.addEventListener('click', () => {
-      generateCharacterFromControls();
-    });
-
-    // Keyboard support
-    elements.weight.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowUp') {
-        e.preventDefault();
-        adjustWeight(5);
-      } else if (e.key === 'ArrowDown') {
-        e.preventDefault();
-        adjustWeight(-5);
+    // Left panel - Strength chart
+    elements.strengthCard.addEventListener('click', (e) => {
+      if (!e.target.closest('.strength-chart')) {
+        toggleStrengthChart();
       }
     });
+    elements.addExerciseBtn.addEventListener('click', addExercise);
 
-    elements.bodyFat.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowUp') {
-        e.preventDefault();
-        adjustBodyFat(1);
-      } else if (e.key === 'ArrowDown') {
-        e.preventDefault();
-        adjustBodyFat(-1);
-      }
-    });
+    // Right panel - H2O
+    elements.h2oUp.addEventListener('click', () => updateMetric('h2o', 1));
+    elements.h2oDown.addEventListener('click', () => updateMetric('h2o', -1));
+    elements.h2oInput.addEventListener('input', () => syncFromInput('h2o'));
+
+    // Right panel - Rest
+    elements.restUp.addEventListener('click', () => updateMetric('rest', 0.5));
+    elements.restDown.addEventListener('click', () => updateMetric('rest', -0.5));
+    elements.restInput.addEventListener('input', () => syncFromInput('rest'));
+
+    // Right panel - Calories
+    elements.caloriesUp.addEventListener('click', () => updateMetric('calories', 100));
+    elements.caloriesDown.addEventListener('click', () => updateMetric('calories', -100));
+    elements.caloriesInput.addEventListener('input', () => syncFromInput('calories'));
+
+    // Center panel - Generate
+    elements.generateBtn.addEventListener('click', generateCharacter);
 
     // ========== INITIALIZATION ==========
-
     function init() {
       initTheme();
-      syncFormToState();
-      renderUI();
-      console.log('Avatar Lab initialized. NanoBanana integration is stubbed for client-side testing.');
+      console.log('PUMP app initialized');
     }
 
     // Run on load
