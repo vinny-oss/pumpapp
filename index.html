@@ -82,6 +82,12 @@
       box-shadow: var(--shadow-sm);
     }
 
+    .app-header-left {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+
     .app-title {
       font-size: 1.5rem;
       font-weight: 700;
@@ -89,10 +95,31 @@
       letter-spacing: 0.5px;
     }
 
-    .app-subtitle {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      font-weight: 400;
+    .nav-menu {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .nav-btn {
+      background: transparent;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      transition: all 0.2s ease;
+    }
+
+    .nav-btn:hover {
+      background: var(--bg-tertiary);
+      color: var(--text-primary);
+    }
+
+    .nav-btn.active {
+      background: var(--accent);
+      color: white;
     }
 
     .theme-toggle {
@@ -110,6 +137,15 @@
       background: var(--accent);
       color: white;
       border-color: var(--accent);
+    }
+
+    /* ========== PAGE SYSTEM ========== */
+    .page {
+      display: none;
+    }
+
+    .page.active {
+      display: block;
     }
 
     /* ========== MAIN LAYOUT (3 COLUMNS) ========== */
@@ -200,13 +236,34 @@
     }
 
     .expand-icon {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      transition: transform 0.3s ease;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg-primary);
+      border: 2px solid var(--border-color);
+      border-radius: 8px;
+      font-size: 1.2rem;
+      color: var(--accent);
+      transition: all 0.3s ease;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .expand-icon:hover {
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
+      transform: scale(1.1);
     }
 
     .pillar-card.expanded .expand-icon {
       transform: rotate(180deg);
+    }
+
+    .pillar-card.expanded .expand-icon:hover {
+      transform: rotate(180deg) scale(1.1);
     }
 
     .pillar-status {
@@ -326,6 +383,7 @@
 
     .add-log-btn:hover {
       background: var(--accent-hover);
+      transform: translateY(-2px);
     }
 
     /* ========== CENTER PANEL (CHARACTER) ========== */
@@ -342,25 +400,25 @@
     /* ========== PUMP METER ========== */
     .pump-meter-container {
       text-align: center;
-      margin-bottom: 1rem;
+      margin-bottom: 1.5rem;
     }
 
     .pump-meter-label {
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: var(--text-muted);
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--text-primary);
       text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 0.5rem;
+      letter-spacing: 1px;
+      margin-bottom: 0.75rem;
     }
 
     .pump-meter {
       width: 100%;
-      height: 30px;
+      height: 40px;
       background: var(--bg-tertiary);
-      border-radius: 15px;
+      border-radius: 20px;
       overflow: hidden;
-      border: 2px solid var(--border-color);
+      border: 3px solid var(--border-color);
       position: relative;
     }
 
@@ -371,7 +429,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.75rem;
+      font-size: 0.85rem;
       font-weight: 700;
       color: white;
       text-shadow: 0 1px 2px rgba(0,0,0,0.3);
@@ -382,86 +440,13 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      font-size: 0.85rem;
+      font-size: 1rem;
       font-weight: 700;
       color: var(--text-primary);
       z-index: 1;
     }
 
-    /* ========== STREAK COUNTER ========== */
-    .streak-container {
-      display: flex;
-      justify-content: space-around;
-      margin-bottom: 1.5rem;
-      padding: 1rem;
-      background: var(--bg-tertiary);
-      border-radius: 10px;
-    }
-
-    .streak-item {
-      text-align: center;
-    }
-
-    .streak-value {
-      font-size: 2rem;
-      font-weight: 700;
-      color: var(--accent);
-    }
-
-    .streak-label {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    /* ========== BODY METRICS (IN CENTER) ========== */
-    .body-metrics {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .body-metric {
-      background: var(--metric-bg);
-      border: 1px solid var(--border-color);
-      border-radius: 10px;
-      padding: 1rem;
-      text-align: center;
-    }
-
-    .body-metric-label {
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: var(--text-secondary);
-      text-transform: uppercase;
-      margin-bottom: 0.5rem;
-    }
-
-    .body-metric-value {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--metric-text);
-      margin-bottom: 0.5rem;
-    }
-
-    .body-metric input {
-      width: 100%;
-      padding: 0.5rem;
-      border: 1px solid var(--border-color);
-      border-radius: 6px;
-      background: var(--bg-primary);
-      color: var(--text-primary);
-      font-size: 0.9rem;
-      text-align: center;
-    }
-
-    .body-metric input:focus {
-      outline: none;
-      border-color: var(--accent);
-    }
-
+    /* ========== CHARACTER VIEWPORT ========== */
     .viewport {
       background: var(--stage-bg);
       border-radius: 12px;
@@ -560,6 +545,7 @@
       box-shadow: var(--shadow-md);
       text-transform: uppercase;
       letter-spacing: 0.5px;
+      margin-bottom: 1.5rem;
     }
 
     .generate-btn:hover {
@@ -574,6 +560,96 @@
       transform: none;
     }
 
+    /* ========== BODY METRICS (IN CENTER) ========== */
+    .body-metrics {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .body-metric {
+      background: var(--metric-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .body-metric-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .body-metric-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--metric-text);
+      margin-bottom: 0.5rem;
+    }
+
+    .body-metric input {
+      width: 100%;
+      padding: 0.5rem;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      font-size: 0.9rem;
+      text-align: center;
+    }
+
+    .body-metric input:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    /* ========== STREAK COUNTER ========== */
+    .streak-container {
+      display: flex;
+      justify-content: space-around;
+      padding: 1rem;
+      background: var(--bg-tertiary);
+      border-radius: 10px;
+    }
+
+    .streak-item {
+      text-align: center;
+    }
+
+    .streak-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .streak-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* ========== PLACEHOLDER PAGES ========== */
+    .placeholder-content {
+      text-align: center;
+      padding: 4rem 2rem;
+      color: var(--text-muted);
+    }
+
+    .placeholder-content h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: var(--text-primary);
+    }
+
+    .placeholder-content p {
+      font-size: 1rem;
+    }
+
     @media (prefers-reduced-motion: reduce) {
       * {
         animation-duration: 0.01ms !important;
@@ -586,191 +662,216 @@
 <body>
   <!-- APP BAR -->
   <div class="app-bar">
-    <div>
+    <div class="app-header-left">
       <div class="app-title">💪 PUMP</div>
-      <div class="app-subtitle">Track your fitness, build your character</div>
+      <nav class="nav-menu">
+        <button class="nav-btn" data-page="edit-character">Character Edit</button>
+        <button class="nav-btn active" data-page="garage">Garage</button>
+        <button class="nav-btn" data-page="stats">Stats</button>
+      </nav>
     </div>
     <button class="theme-toggle" id="themeToggle">
       <span id="themeIcon">🌙 Dark</span>
     </button>
   </div>
 
-  <!-- MAIN CONTAINER (3 COLUMNS) -->
-  <div class="container">
-    <!-- LEFT PANEL -->
-    <div class="left-panel panel">
-      <div class="panel-title">Training</div>
+  <!-- ========== PAGE 1: GARAGE ========== -->
+  <div class="page active" id="garage">
+    <div class="container">
+      <!-- LEFT PANEL -->
+      <div class="left-panel panel">
+        <div class="panel-title">Training</div>
 
-      <!-- Workout Pillar -->
-      <div class="pillar-card" id="workoutCard">
-        <div class="pillar-header">
-          <span class="pillar-label">💪 Workout</span>
-          <span class="expand-icon">▼</span>
-        </div>
-        <div class="pillar-status" id="workoutStatus">0 / 1</div>
-        <div class="pillar-goal">
-          Goal: <input type="number" id="workoutGoal" value="1" min="0" max="10" style="width: 40px;"> per day
+        <!-- Workout Pillar -->
+        <div class="pillar-card" id="workoutCard">
+          <div class="pillar-header">
+            <span class="pillar-label">💪 Workout</span>
+            <div class="expand-icon">▼</div>
+          </div>
+          <div class="pillar-status" id="workoutStatus">0 / 1</div>
+          <div class="pillar-goal">
+            Goal: <input type="number" id="workoutGoal" value="1" min="0" max="10" style="width: 40px;"> per day
+          </div>
+
+          <div class="pillar-logs" id="workoutLogs">
+            <!-- Logs will be inserted here -->
+          </div>
+
+          <div class="add-log-section">
+            <div class="log-input-group">
+              <input type="number" class="log-input" id="workoutInput" placeholder="Workouts completed" value="0" min="0">
+              <button class="add-log-btn" id="addWorkoutBtn">Add Today</button>
+            </div>
+          </div>
         </div>
 
-        <div class="pillar-logs" id="workoutLogs">
-          <!-- Logs will be inserted here -->
-        </div>
+        <!-- Hydration Pillar -->
+        <div class="pillar-card" id="hydrationCard">
+          <div class="pillar-header">
+            <span class="pillar-label">💧 Hydration</span>
+            <div class="expand-icon">▼</div>
+          </div>
+          <div class="pillar-status" id="hydrationStatus">0 / 8</div>
+          <div class="pillar-goal">
+            Goal: <input type="number" id="hydrationGoal" value="8" min="0" max="20" style="width: 40px;"> cups
+          </div>
 
-        <div class="add-log-section">
-          <div class="log-input-group">
-            <input type="number" class="log-input" id="workoutInput" placeholder="Workouts completed" value="0" min="0">
-            <button class="add-log-btn" id="addWorkoutBtn">Add Today</button>
+          <div class="pillar-logs" id="hydrationLogs">
+            <!-- Logs will be inserted here -->
+          </div>
+
+          <div class="add-log-section">
+            <div class="log-input-group">
+              <input type="number" class="log-input" id="hydrationInput" placeholder="Cups of water" value="0" min="0">
+              <button class="add-log-btn" id="addHydrationBtn">Add Today</button>
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- Hydration Pillar -->
-      <div class="pillar-card" id="hydrationCard">
-        <div class="pillar-header">
-          <span class="pillar-label">💧 Hydration</span>
-          <span class="expand-icon">▼</span>
-        </div>
-        <div class="pillar-status" id="hydrationStatus">0 / 8</div>
-        <div class="pillar-goal">
-          Goal: <input type="number" id="hydrationGoal" value="8" min="0" max="20" style="width: 40px;"> cups
-        </div>
-
-        <div class="pillar-logs" id="hydrationLogs">
-          <!-- Logs will be inserted here -->
-        </div>
-
-        <div class="add-log-section">
-          <div class="log-input-group">
-            <input type="number" class="log-input" id="hydrationInput" placeholder="Cups of water" value="0" min="0">
-            <button class="add-log-btn" id="addHydrationBtn">Add Today</button>
+      <!-- CENTER PANEL (CHARACTER) -->
+      <div class="center-panel">
+        <!-- Pump Meter -->
+        <div class="pump-meter-container">
+          <div class="pump-meter-label">⚡ Pump Meter</div>
+          <div class="pump-meter">
+            <div class="pump-meter-fill" id="pumpMeterFill" style="width: 0%;">
+              <span id="pumpMeterText">0%</span>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
 
-    <!-- CENTER PANEL (CHARACTER) -->
-    <div class="center-panel">
-      <!-- Streak Counter -->
-      <div class="streak-container">
-        <div class="streak-item">
-          <div class="streak-value" id="currentStreak">0</div>
-          <div class="streak-label">Day Streak</div>
-        </div>
-        <div class="streak-item">
-          <div class="streak-value" id="bestStreak">0</div>
-          <div class="streak-label">Best Streak</div>
-        </div>
-        <div class="streak-item">
-          <div class="streak-value" id="totalCards">0</div>
-          <div class="streak-label">Profile Cards</div>
-        </div>
-      </div>
+        <!-- Character Viewport -->
+        <div class="viewport">
+          <div class="loading-overlay" id="loadingOverlay">
+            <div class="spinner"></div>
+            <div class="loading-text">Generating your PUMP profile card...</div>
+          </div>
 
-      <!-- Pump Meter -->
-      <div class="pump-meter-container">
-        <div class="pump-meter-label">Today's Pump</div>
-        <div class="pump-meter">
-          <div class="pump-meter-fill" id="pumpMeterFill" style="width: 0%;">
-            <span id="pumpMeterText">0%</span>
+          <div class="character-placeholder" id="characterPlaceholder">
+            <svg class="character-silhouette" viewBox="0 0 100 150" fill="currentColor">
+              <ellipse cx="50" cy="20" rx="15" ry="18"/>
+              <rect x="35" y="38" width="30" height="40" rx="5"/>
+              <rect x="20" y="38" width="12" height="35" rx="4"/>
+              <rect x="68" y="38" width="12" height="35" rx="4"/>
+              <rect x="38" y="78" width="10" height="45" rx="4"/>
+              <rect x="52" y="78" width="10" height="45" rx="4"/>
+            </svg>
+            <div>Your pumped character will appear here</div>
           </div>
         </div>
-      </div>
 
-      <!-- Body Metrics -->
-      <div class="body-metrics">
-        <div class="body-metric">
-          <div class="body-metric-label">Body Weight</div>
-          <div class="body-metric-value" id="weightDisplay">185 lb</div>
-          <input type="number" id="weightInput" value="185" min="100" max="400" step="1">
-        </div>
-        <div class="body-metric">
-          <div class="body-metric-label">Body Fat %</div>
-          <div class="body-metric-value" id="bodyFatDisplay">15%</div>
-          <input type="number" id="bodyFatInput" value="15" min="5" max="40" step="1">
-        </div>
-      </div>
+        <!-- Generate Button -->
+        <button class="generate-btn" id="generateBtn">
+          Generate Profile Card
+        </button>
 
-      <!-- Character Viewport -->
-      <div class="viewport">
-        <div class="loading-overlay" id="loadingOverlay">
-          <div class="spinner"></div>
-          <div class="loading-text">Generating your PUMP profile card...</div>
+        <!-- Body Metrics -->
+        <div class="body-metrics">
+          <div class="body-metric">
+            <div class="body-metric-label">Body Weight</div>
+            <div class="body-metric-value" id="weightDisplay">185 lb</div>
+            <input type="number" id="weightInput" value="185" min="100" max="400" step="1">
+          </div>
+          <div class="body-metric">
+            <div class="body-metric-label">Body Fat %</div>
+            <div class="body-metric-value" id="bodyFatDisplay">15%</div>
+            <input type="number" id="bodyFatInput" value="15" min="5" max="40" step="1">
+          </div>
         </div>
 
-        <div class="character-placeholder" id="characterPlaceholder">
-          <svg class="character-silhouette" viewBox="0 0 100 150" fill="currentColor">
-            <ellipse cx="50" cy="20" rx="15" ry="18"/>
-            <rect x="35" y="38" width="30" height="40" rx="5"/>
-            <rect x="20" y="38" width="12" height="35" rx="4"/>
-            <rect x="68" y="38" width="12" height="35" rx="4"/>
-            <rect x="38" y="78" width="10" height="45" rx="4"/>
-            <rect x="52" y="78" width="10" height="45" rx="4"/>
-          </svg>
-          <div>Your pumped character will appear here</div>
-        </div>
-      </div>
-
-      <!-- Generate Button -->
-      <button class="generate-btn" id="generateBtn">
-        Generate Profile Card
-      </button>
-    </div>
-
-    <!-- RIGHT PANEL -->
-    <div class="right-panel panel">
-      <div class="panel-title">Nutrition & Rest</div>
-
-      <!-- Calories Pillar -->
-      <div class="pillar-card" id="caloriesCard">
-        <div class="pillar-header">
-          <span class="pillar-label">🍔 Calories</span>
-          <span class="expand-icon">▼</span>
-        </div>
-        <div class="pillar-status" id="caloriesStatus">0 / 1800</div>
-        <div class="pillar-goal">
-          Goal: <input type="number" id="caloriesGoal" value="1800" min="0" max="5000" style="width: 60px;"> kcal
-        </div>
-
-        <div class="pillar-logs" id="caloriesLogs">
-          <!-- Logs will be inserted here -->
-        </div>
-
-        <div class="add-log-section">
-          <div class="log-input-group">
-            <input type="number" class="log-input" id="caloriesInput" placeholder="Calories consumed" value="0" min="0">
-            <button class="add-log-btn" id="addCaloriesBtn">Add Today</button>
+        <!-- Streak Counter -->
+        <div class="streak-container">
+          <div class="streak-item">
+            <div class="streak-value" id="currentStreak">0</div>
+            <div class="streak-label">Day Streak</div>
+          </div>
+          <div class="streak-item">
+            <div class="streak-value" id="bestStreak">0</div>
+            <div class="streak-label">Best Streak</div>
+          </div>
+          <div class="streak-item">
+            <div class="streak-value" id="totalCards">0</div>
+            <div class="streak-label">Profile Cards</div>
           </div>
         </div>
       </div>
 
-      <!-- Rest Pillar -->
-      <div class="pillar-card" id="restCard">
-        <div class="pillar-header">
-          <span class="pillar-label">😴 Rest</span>
-          <span class="expand-icon">▼</span>
-        </div>
-        <div class="pillar-status" id="restStatus">0 / 7</div>
-        <div class="pillar-goal">
-          Goal: <input type="number" id="restGoal" value="7" min="0" max="12" step="0.5" style="width: 40px;"> hrs
+      <!-- RIGHT PANEL -->
+      <div class="right-panel panel">
+        <div class="panel-title">Nutrition & Rest</div>
+
+        <!-- Calories Pillar -->
+        <div class="pillar-card" id="caloriesCard">
+          <div class="pillar-header">
+            <span class="pillar-label">🍔 Calories</span>
+            <div class="expand-icon">▼</div>
+          </div>
+          <div class="pillar-status" id="caloriesStatus">0 / 1800</div>
+          <div class="pillar-goal">
+            Goal: <input type="number" id="caloriesGoal" value="1800" min="0" max="5000" style="width: 60px;"> kcal
+          </div>
+
+          <div class="pillar-logs" id="caloriesLogs">
+            <!-- Logs will be inserted here -->
+          </div>
+
+          <div class="add-log-section">
+            <div class="log-input-group">
+              <input type="number" class="log-input" id="caloriesInput" placeholder="Calories consumed" value="0" min="0">
+              <button class="add-log-btn" id="addCaloriesBtn">Add Today</button>
+            </div>
+          </div>
         </div>
 
-        <div class="pillar-logs" id="restLogs">
-          <!-- Logs will be inserted here -->
-        </div>
+        <!-- Rest Pillar -->
+        <div class="pillar-card" id="restCard">
+          <div class="pillar-header">
+            <span class="pillar-label">😴 Rest</span>
+            <div class="expand-icon">▼</div>
+          </div>
+          <div class="pillar-status" id="restStatus">0 / 7</div>
+          <div class="pillar-goal">
+            Goal: <input type="number" id="restGoal" value="7" min="0" max="12" step="0.5" style="width: 40px;"> hrs
+          </div>
 
-        <div class="add-log-section">
-          <div class="log-input-group">
-            <input type="number" class="log-input" id="restInput" placeholder="Hours slept" value="0" min="0" step="0.5">
-            <button class="add-log-btn" id="addRestBtn">Add Today</button>
+          <div class="pillar-logs" id="restLogs">
+            <!-- Logs will be inserted here -->
+          </div>
+
+          <div class="add-log-section">
+            <div class="log-input-group">
+              <input type="number" class="log-input" id="restInput" placeholder="Hours slept" value="0" min="0" step="0.5">
+              <button class="add-log-btn" id="addRestBtn">Add Today</button>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
 
+  <!-- ========== PAGE 2: STATS ========== -->
+  <div class="page" id="stats">
+    <div class="placeholder-content">
+      <h2>📊 Stats</h2>
+      <p>Coming soon - View your progress analytics and history</p>
+    </div>
+  </div>
+
+  <!-- ========== PAGE 3: EDIT CHARACTER ========== -->
+  <div class="page" id="edit-character">
+    <div class="placeholder-content">
+      <h2>✏️ Edit Character</h2>
+      <p>Coming soon - Customize your character appearance</p>
+    </div>
+  </div>
+
   <script>
     // ========== STATE MANAGEMENT ==========
     const state = {
+      // Current page
+      currentPage: 'garage',
+
       // Body metrics
       weight: 185,
       bodyFat: 15,
@@ -809,6 +910,10 @@
 
     // ========== DOM ELEMENTS ==========
     const elements = {
+      // Navigation
+      navBtns: document.querySelectorAll('.nav-btn'),
+      pages: document.querySelectorAll('.page'),
+
       // Theme
       themeToggle: document.getElementById('themeToggle'),
       themeIcon: document.getElementById('themeIcon'),
@@ -865,6 +970,29 @@
       loadingOverlay: document.getElementById('loadingOverlay'),
       characterPlaceholder: document.getElementById('characterPlaceholder')
     };
+
+    // ========== NAVIGATION ==========
+    function navigateToPage(pageName) {
+      state.currentPage = pageName;
+
+      // Update pages
+      elements.pages.forEach(page => {
+        page.classList.remove('active');
+        if (page.id === pageName) {
+          page.classList.add('active');
+        }
+      });
+
+      // Update nav buttons
+      elements.navBtns.forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.dataset.page === pageName) {
+          btn.classList.add('active');
+        }
+      });
+
+      saveState();
+    }
 
     // ========== UTILITY FUNCTIONS ==========
     function getTodayString() {
@@ -1115,6 +1243,11 @@
         const loaded = JSON.parse(saved);
         Object.assign(state, loaded);
 
+        // Navigate to saved page
+        if (state.currentPage) {
+          navigateToPage(state.currentPage);
+        }
+
         // Update UI with loaded state
         elements.weightInput.value = state.weight;
         elements.bodyFatInput.value = state.bodyFat;
@@ -1144,6 +1277,13 @@
     }
 
     // ========== EVENT LISTENERS ==========
+
+    // Navigation
+    elements.navBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        navigateToPage(btn.dataset.page);
+      });
+    });
 
     // Theme
     elements.themeToggle.addEventListener('click', toggleTheme);
@@ -1213,7 +1353,7 @@
     function init() {
       initTheme();
       loadState();
-      console.log('PUMP app initialized with 4 pillars tracking');
+      console.log('PUMP app initialized - Multi-page with garage, stats, and edit character');
     }
 
     // Run on load
