@@ -145,77 +145,45 @@
       display: block;
     }
 
-    /* ========== NO SCROLL LAYOUT ========== */
-    .garage-container {
-      max-width: 1400px;
+    /* ========== GARAGE SCREEN ========== */
+    .garage-screen {
+      max-width: 420px;
       margin: 0 auto;
-      padding: 1rem;
-      height: calc(100vh - 60px);
+      padding: 16px 16px 24px;
       display: flex;
       flex-direction: column;
-      overflow: hidden;
-    }
-
-    @media (max-width: 900px) {
-      .garage-container {
-        padding: 0.5rem;
-      }
+      gap: 16px;
     }
 
     /* ========== PUMP METER ========== */
     .pump-meter-section {
-      margin-bottom: 1rem;
-    }
-
-    @media (max-width: 900px) {
-      .pump-meter-section {
-        margin-bottom: 0.5rem;
-      }
+      margin-bottom: 0;
     }
 
     .pump-meter-label {
-      font-size: 0.8rem;
-      font-weight: 700;
+      font-size: 0.7rem;
+      font-weight: 600;
       color: var(--text-primary);
       text-transform: uppercase;
-      letter-spacing: 1px;
+      letter-spacing: 0.5px;
       margin-bottom: 0.5rem;
       text-align: center;
     }
 
-    @media (max-width: 900px) {
-      .pump-meter-label {
-        font-size: 0.7rem;
-        letter-spacing: 0.5px;
-        margin-bottom: 0.3rem;
-      }
-    }
-
     .pump-meter {
       width: 100%;
-      height: 30px;
+      height: 24px;
       background: var(--bg-tertiary);
-      border-radius: 15px;
+      border-radius: 12px;
       overflow: hidden;
-      border: 2px solid var(--border-color);
+      border: 1px solid var(--border-color);
       position: relative;
-    }
-
-    @media (max-width: 900px) {
-      .pump-meter {
-        height: 20px;
-        border-radius: 10px;
-        border-width: 2px;
-      }
     }
 
     .pump-meter-fill {
       height: 100%;
-      background: linear-gradient(90deg, var(--accent), #00cc66);
+      background: linear-gradient(90deg, #3b82f6, #22c55e);
       transition: width 0.5s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
 
     .pump-meter-text {
@@ -223,136 +191,102 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      font-size: 0.9rem;
+      font-size: 0.75rem;
       font-weight: 700;
-      color: var(--text-primary);
+      color: #f9fafb;
       z-index: 1;
     }
 
-    @media (max-width: 900px) {
-      .pump-meter-text {
-        font-size: 0.7rem;
-      }
-    }
-
-    /* ========== MAIN GRID LAYOUT ========== */
-    .main-grid {
-      flex: 1;
+    /* ========== PILLAR GRID ========== */
+    .pillar-grid {
       display: grid;
-      grid-template-columns: 200px 1fr 200px;
-      gap: 1rem;
-      align-items: center;
-      min-height: 0;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
     }
 
-    @media (max-width: 900px) {
-      .main-grid {
-        display: flex;
-        flex-direction: column;
-        align-items: stretch;
-        gap: 0.5rem;
-        overflow: hidden;
-        padding: 0 0.5rem;
-      }
-
-      /* Top row: Fitness and Nutrition (2 buttons) */
-      .left-pillars {
-        order: 1;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 0.5rem;
-        width: 100%;
-      }
-
-      /* Middle: Character */
-      .center-section {
-        order: 2;
-        gap: 0.5rem;
-        align-items: center;
-      }
-
-      /* Bottom row: Hydration and Rest (2 buttons) */
-      .right-pillars {
-        order: 3;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 0.5rem;
-        width: 100%;
-      }
-
-      /* Make pillar toggles equal and properly sized */
-      .pillar-toggle {
-        margin-bottom: 0;
-        padding: 1rem 0.5rem;
-        border-radius: 8px;
-        border-width: 2px;
-      }
-    }
-
-    /* ========== PILLAR TOGGLE CARDS ========== */
-    .pillar-toggle {
-      background: var(--danger);
-      border: 3px solid var(--border-color);
-      border-radius: 12px;
-      padding: 1.5rem 1rem;
-      text-align: center;
+    .pillar-card {
+      border-radius: 16px;
+      padding: 14px 12px;
+      background: #111827;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: flex-start;
+      transition: transform 0.12s ease-out, box-shadow 0.12s ease-out, border-color 0.12s ease-out;
       cursor: pointer;
-      transition: all 0.3s ease;
-      user-select: none;
-      margin-bottom: 1rem;
     }
 
-    .pillar-toggle:hover {
-      transform: scale(1.05);
-      box-shadow: var(--shadow-lg);
+    .pillar-card:active {
+      transform: scale(0.97) translateY(1px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
     }
 
-    .pillar-toggle.done {
-      background: var(--success);
-      border-color: var(--success);
-    }
-
-    .pillar-name {
-      font-size: 0.9rem;
-      font-weight: 700;
-      color: white;
+    .pillar-title {
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 0.03em;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 0.5rem;
-    }
-
-    @media (max-width: 900px) {
-      .pillar-name {
-        font-size: 0.85rem;
-        letter-spacing: 0.3px;
-        margin-bottom: 0.3rem;
-      }
     }
 
     .pillar-status {
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: rgba(255,255,255,0.9);
-      text-transform: uppercase;
+      margin-top: 6px;
+      font-size: 12px;
+      opacity: 0.9;
     }
 
-    @media (max-width: 900px) {
-      .pillar-status {
-        font-size: 0.7rem;
-      }
+    /* Completed vs pending colors */
+    .pillar-card.completed {
+      background: radial-gradient(circle at top left, #22c55e, #16a34a 60%, #065f46);
+      border-color: rgba(187, 247, 208, 0.9);
     }
 
-    /* ========== CENTER SECTION ========== */
-    .center-section {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.75rem;
+    .pillar-card.completed .pillar-title,
+    .pillar-card.completed .pillar-status {
+      color: #ecfdf5;
+    }
+
+    .pillar-card.pending {
+      background: radial-gradient(circle at top left, #1f2937, #111827 60%, #020617);
+      border-color: rgba(248, 113, 113, 0.75);
+    }
+
+    .pillar-card.pending .pillar-title {
+      color: #fca5a5;
+    }
+
+    .pillar-card.pending .pillar-status {
+      color: #fed7d7;
+    }
+
+    /* Legacy support for .done class */
+    .pillar-card.done {
+      background: radial-gradient(circle at top left, #22c55e, #16a34a 60%, #065f46);
+      border-color: rgba(187, 247, 208, 0.9);
+    }
+
+    .pillar-card.done .pillar-title,
+    .pillar-card.done .pillar-status {
+      color: #ecfdf5;
+    }
+
+    /* ========== CHARACTER CARD ========== */
+    .character-card {
+      border-radius: 20px;
+      padding: 18px 14px 20px;
+      background: radial-gradient(circle at top, #0f172a, #020617 65%);
+      border: 1px solid rgba(59, 130, 246, 0.6);
+      box-shadow: 0 10px 26px rgba(15, 23, 42, 0.9);
+      text-align: center;
+      color: #e5e7eb;
     }
 
     .viewport {
-      width: 350px;
-      height: 350px;
+      width: 100%;
+      max-width: 300px;
+      aspect-ratio: 1;
+      margin: 0 auto;
       background: var(--stage-bg);
       border-radius: 12px;
       position: relative;
@@ -360,15 +294,12 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: var(--shadow-lg);
     }
 
-    @media (max-width: 900px) {
-      .viewport {
-        width: 200px;
-        height: 200px;
-        border-radius: 8px;
-      }
+    .character-hint {
+      margin-top: 12px;
+      font-size: 12px;
+      opacity: 0.8;
     }
 
     .viewport::before {
@@ -458,157 +389,80 @@
       font-weight: 500;
     }
 
-    /* ========== BODY METRICS ========== */
-    .body-metrics {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0.75rem;
-      width: 350px;
+    /* ========== STAT ROW ========== */
+    .stat-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
     }
 
-    @media (max-width: 900px) {
-      .body-metrics {
-        width: 100%;
-        gap: 0.5rem;
-      }
+    .stat-chip {
+      flex: 1;
+      border-radius: 999px;
+      padding: 8px 10px;
+      background: #020617;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
-    .body-metric {
-      background: var(--bg-secondary);
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      padding: 0.75rem;
-      text-align: center;
+    .stat-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      color: #9ca3af;
     }
 
-    @media (max-width: 900px) {
-      .body-metric {
-        padding: 0.5rem;
-        border-radius: 6px;
-      }
-    }
-
-    .body-metric-label {
-      font-size: 0.7rem;
+    .stat-value {
+      font-size: 15px;
       font-weight: 600;
-      color: var(--text-secondary);
-      text-transform: uppercase;
-      margin-bottom: 0.25rem;
+      color: #f9fafb;
     }
 
-    @media (max-width: 900px) {
-      .body-metric-label {
-        font-size: 0.65rem;
-        margin-bottom: 0.2rem;
-      }
-    }
-
-    .body-metric-value {
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: var(--accent);
-      margin-bottom: 0.25rem;
-    }
-
-    @media (max-width: 900px) {
-      .body-metric-value {
-        font-size: 1rem;
-        margin-bottom: 0.2rem;
-      }
-    }
-
-    .body-metric input {
-      width: 100%;
-      padding: 0.4rem;
-      border: 1px solid var(--border-color);
-      border-radius: 4px;
-      background: var(--bg-primary);
-      color: var(--text-primary);
-      font-size: 0.85rem;
-      text-align: center;
-    }
-
-    @media (max-width: 900px) {
-      .body-metric input {
-        padding: 0.3rem;
-        font-size: 0.75rem;
-      }
-    }
-
-    .body-metric input:focus {
-      outline: none;
-      border-color: var(--accent);
-    }
-
-    .generate-btn {
-      width: 350px;
-      padding: 1rem;
-      background: var(--accent);
-      color: white;
+    /* ========== PRIMARY CTA ========== */
+    .primary-cta {
       border: none;
-      border-radius: 8px;
-      font-size: 1rem;
-      font-weight: 700;
+      border-radius: 999px;
+      padding: 14px 18px;
+      font-size: 15px;
+      font-weight: 600;
+      text-align: center;
+      background: linear-gradient(90deg, #3b82f6, #22c55e);
+      color: #f9fafb;
+      box-shadow: 0 12px 30px rgba(37, 99, 235, 0.4);
+      transition: transform 0.12s ease-out, box-shadow 0.12s ease-out, filter 0.12s ease-out;
       cursor: pointer;
-      transition: all 0.2s ease;
-      box-shadow: var(--shadow-md);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
     }
 
-    @media (max-width: 900px) {
-      .generate-btn {
-        width: 100%;
-        padding: 0.75rem;
-        font-size: 0.85rem;
-        border-radius: 6px;
-        letter-spacing: 0.3px;
-      }
+    .primary-cta:active {
+      transform: scale(0.97) translateY(1px);
+      box-shadow: 0 6px 16px rgba(15, 23, 42, 0.9);
+      filter: brightness(0.95);
     }
 
-    .generate-btn:hover {
-      background: var(--accent-hover);
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-lg);
-    }
-
-    .generate-btn:disabled {
+    .primary-cta:disabled {
       opacity: 0.5;
       cursor: not-allowed;
       transform: none;
     }
 
-    /* ========== STREAK INFO ========== */
-    .streak-info {
+    /* ========== STREAK ROW ========== */
+    .streak-row {
       display: flex;
-      gap: 1.5rem;
       justify-content: center;
-      font-size: 0.75rem;
-      color: var(--text-muted);
-    }
-
-    @media (max-width: 900px) {
-      .streak-info {
-        gap: 0.75rem;
-        font-size: 0.7rem;
-      }
+      gap: 16px;
+      font-size: 11px;
+      color: #9ca3af;
     }
 
     .streak-item {
-      display: flex;
-      align-items: center;
-      gap: 0.25rem;
+      opacity: 0.85;
     }
 
-    @media (max-width: 900px) {
-      .streak-item {
-        gap: 0.2rem;
-      }
-    }
-
-    .streak-value {
+    .streak-item strong {
       font-weight: 700;
-      color: var(--accent);
+      color: #3b82f6;
     }
 
     /* ========== PLACEHOLDER PAGES ========== */
@@ -655,100 +509,87 @@
 
   <!-- ========== PAGE 1: GARAGE ========== -->
   <div class="page active" id="garage">
-    <div class="garage-container">
+    <div class="garage-screen">
       <!-- Pump Meter -->
       <div class="pump-meter-section">
         <div class="pump-meter-label">⚡ Pump Meter</div>
         <div class="pump-meter">
           <div class="pump-meter-fill" id="pumpMeterFill" style="width: 0%;">
-            <span id="pumpMeterText">0%</span>
+            <span class="pump-meter-text" id="pumpMeterText">0%</span>
           </div>
         </div>
       </div>
 
-      <!-- Main Grid -->
-      <div class="main-grid">
-        <!-- Left Pillars -->
-        <div class="left-pillars">
-          <div class="pillar-toggle" id="fitnessToggle" data-pillar="fitness">
-            <div class="pillar-name">Fitness</div>
-            <div class="pillar-status">Not Done</div>
+      <!-- Pillar Grid (all 4 pillars) -->
+      <div class="pillar-grid">
+        <button class="pillar-card" id="fitnessToggle" data-pillar="fitness">
+          <span class="pillar-title">Fitness</span>
+          <span class="pillar-status">To do</span>
+        </button>
+
+        <button class="pillar-card" id="nutritionToggle" data-pillar="nutrition">
+          <span class="pillar-title">Nutrition</span>
+          <span class="pillar-status">To do</span>
+        </button>
+
+        <button class="pillar-card" id="hydrationToggle" data-pillar="hydration">
+          <span class="pillar-title">Hydration</span>
+          <span class="pillar-status">To do</span>
+        </button>
+
+        <button class="pillar-card" id="restToggle" data-pillar="rest">
+          <span class="pillar-title">Rest</span>
+          <span class="pillar-status">To do</span>
+        </button>
+      </div>
+
+      <!-- Character Card -->
+      <div class="character-card">
+        <div class="viewport">
+          <div class="loading-overlay" id="loadingOverlay">
+            <div class="spinner"></div>
+            <div class="loading-text">Generating...</div>
           </div>
-          <div class="pillar-toggle" id="nutritionToggle" data-pillar="nutrition">
-            <div class="pillar-name">Nutrition</div>
-            <div class="pillar-status">Not Done</div>
+
+          <div class="character-placeholder" id="characterPlaceholder">
+            <svg class="character-silhouette" viewBox="0 0 100 150" fill="currentColor">
+              <ellipse cx="50" cy="20" rx="15" ry="18"/>
+              <rect x="35" y="38" width="30" height="40" rx="5"/>
+              <rect x="20" y="38" width="12" height="35" rx="4"/>
+              <rect x="68" y="38" width="12" height="35" rx="4"/>
+              <rect x="38" y="78" width="10" height="45" rx="4"/>
+              <rect x="52" y="78" width="10" height="45" rx="4"/>
+            </svg>
+            <div>Your character will appear here</div>
           </div>
         </div>
+        <p class="character-hint">Log all four pillars to power up your character.</p>
+      </div>
 
-        <!-- Center Section -->
-        <div class="center-section">
-          <!-- Character Viewport -->
-          <div class="viewport">
-            <div class="loading-overlay" id="loadingOverlay">
-              <div class="spinner"></div>
-              <div class="loading-text">Generating...</div>
-            </div>
-
-            <div class="character-placeholder" id="characterPlaceholder">
-              <svg class="character-silhouette" viewBox="0 0 100 150" fill="currentColor">
-                <ellipse cx="50" cy="20" rx="15" ry="18"/>
-                <rect x="35" y="38" width="30" height="40" rx="5"/>
-                <rect x="20" y="38" width="12" height="35" rx="4"/>
-                <rect x="68" y="38" width="12" height="35" rx="4"/>
-                <rect x="38" y="78" width="10" height="45" rx="4"/>
-                <rect x="52" y="78" width="10" height="45" rx="4"/>
-              </svg>
-              <div>Your character will appear here</div>
-            </div>
-          </div>
-
-          <!-- Body Metrics -->
-          <div class="body-metrics">
-            <div class="body-metric">
-              <div class="body-metric-label">Weight</div>
-              <div class="body-metric-value" id="weightDisplay">185 lb</div>
-              <input type="number" id="weightInput" value="185" min="100" max="400" step="1">
-            </div>
-            <div class="body-metric">
-              <div class="body-metric-label">Body Fat %</div>
-              <div class="body-metric-value" id="bodyFatDisplay">15%</div>
-              <input type="number" id="bodyFatInput" value="15" min="5" max="40" step="1">
-            </div>
-          </div>
-
-          <!-- Generate Button -->
-          <button class="generate-btn" id="generateBtn">
-            Generate Profile Card
-          </button>
-
-          <!-- Streak Info -->
-          <div class="streak-info">
-            <div class="streak-item">
-              <span>Streak:</span>
-              <span class="streak-value" id="currentStreak">0</span>
-            </div>
-            <div class="streak-item">
-              <span>Best:</span>
-              <span class="streak-value" id="bestStreak">0</span>
-            </div>
-            <div class="streak-item">
-              <span>Cards:</span>
-              <span class="streak-value" id="totalCards">0</span>
-            </div>
-          </div>
+      <!-- Stat Row -->
+      <div class="stat-row">
+        <div class="stat-chip" onclick="document.getElementById('weightInput').style.display='block'; document.getElementById('weightInput').focus();">
+          <span class="stat-label">Weight</span>
+          <span class="stat-value" id="weightDisplay">185 lb</span>
+          <input type="number" id="weightInput" value="185" min="100" max="400" step="1" style="display:none; width: 60px; text-align: center; background: transparent; border: 1px solid #3b82f6; color: #f9fafb; border-radius: 4px; padding: 4px;" onblur="this.style.display='none';">
         </div>
-
-        <!-- Right Pillars -->
-        <div class="right-pillars">
-          <div class="pillar-toggle" id="hydrationToggle" data-pillar="hydration">
-            <div class="pillar-name">Hydration</div>
-            <div class="pillar-status">Not Done</div>
-          </div>
-          <div class="pillar-toggle" id="restToggle" data-pillar="rest">
-            <div class="pillar-name">Rest</div>
-            <div class="pillar-status">Not Done</div>
-          </div>
+        <div class="stat-chip" onclick="document.getElementById('bodyFatInput').style.display='block'; document.getElementById('bodyFatInput').focus();">
+          <span class="stat-label">Body Fat</span>
+          <span class="stat-value" id="bodyFatDisplay">15%</span>
+          <input type="number" id="bodyFatInput" value="15" min="5" max="40" step="1" style="display:none; width: 60px; text-align: center; background: transparent; border: 1px solid #3b82f6; color: #f9fafb; border-radius: 4px; padding: 4px;" onblur="this.style.display='none';">
         </div>
+      </div>
+
+      <!-- Primary CTA -->
+      <button class="primary-cta" id="generateBtn">
+        Save today's Pump card
+      </button>
+
+      <!-- Streak Row -->
+      <div class="streak-row">
+        <span class="streak-item">Streak: <strong id="currentStreak">0</strong></span>
+        <span class="streak-item">Best: <strong id="bestStreak">0</strong></span>
+        <span class="streak-item">Cards: <strong id="totalCards">0</strong></span>
       </div>
     </div>
   </div>
@@ -909,10 +750,14 @@
 
       if (isDone) {
         toggleEl.classList.add('done');
-        statusEl.textContent = 'Done';
+        toggleEl.classList.add('completed');
+        toggleEl.classList.remove('pending');
+        statusEl.textContent = 'Completed';
       } else {
         toggleEl.classList.remove('done');
-        statusEl.textContent = 'Not Done';
+        toggleEl.classList.remove('completed');
+        toggleEl.classList.add('pending');
+        statusEl.textContent = 'To do';
       }
     }
 
