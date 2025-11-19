@@ -405,27 +405,21 @@
       inset: 0;
       width: 0%;
       border-radius: inherit;
+      background: linear-gradient(90deg, #ef4444, #f97316 35%, #eab308 55%, #22c55e 85%);
+      transition: width 0.45s cubic-bezier(0.22, 0.61, 0.36, 1);
+    }
+
+    .pump-meter-label {
+      position: absolute;
+      inset: 0;
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 12px;
       font-weight: 600;
       color: #f9fafb;
+      pointer-events: none;
       text-shadow: 0 0 6px rgba(15, 23, 42, 0.9);
-      background: linear-gradient(
-        90deg,
-        #ef4444,
-        #f97316 35%,
-        #eab308 55%,
-        #22c55e 85%
-      );
-      box-shadow: none;
-      transition: width 0.45s cubic-bezier(0.22, 0.61, 0.36, 1);
-    }
-
-    .pump-meter-percent-label {
-      position: relative;
-      z-index: 1;
     }
 
     .pump-meter-subtitle {
@@ -632,6 +626,41 @@
       color: #3b82f6;
     }
 
+    /* ========== DEV PANEL ========== */
+    .dev-panel {
+      display: flex;
+      gap: 6px;
+      padding: 8px;
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      border-radius: 8px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+
+    .dev-panel button {
+      flex: 1;
+      min-width: 60px;
+      padding: 6px 10px;
+      background: rgba(239, 68, 68, 0.2);
+      border: 1px solid rgba(239, 68, 68, 0.5);
+      border-radius: 6px;
+      color: #fca5a5;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .dev-panel button:hover {
+      background: rgba(239, 68, 68, 0.3);
+      border-color: rgba(239, 68, 68, 0.7);
+    }
+
+    .dev-panel button:active {
+      transform: scale(0.95);
+    }
+
     /* ========== PLACEHOLDER PAGES ========== */
     .placeholder-content {
       text-align: center;
@@ -682,9 +711,8 @@
         <p class="screen-label">Pump meter</p>
         <div class="pump-meter">
           <div class="pump-meter-bar">
-            <div class="pump-meter-fill" id="pumpMeterFill">
-              <span class="pump-meter-percent-label" id="pumpMeterText">0%</span>
-            </div>
+            <div class="pump-meter-fill" id="pumpFill"></div>
+            <span class="pump-meter-label" id="pumpLabel">0%</span>
           </div>
 
           <p class="pump-meter-subtitle" id="pumpMeterSubtitle">
@@ -692,6 +720,15 @@
           </p>
         </div>
       </section>
+
+      <!-- Dev Panel for testing -->
+      <div class="dev-panel" id="devPanel">
+        <button data-dev-pump="0">Pump 0</button>
+        <button data-dev-pump="25">Pump 25</button>
+        <button data-dev-pump="50">Pump 50</button>
+        <button data-dev-pump="75">Pump 75</button>
+        <button data-dev-pump="100">Pump 100</button>
+      </div>
 
       <!-- Character Card -->
       <section class="screen-character">
@@ -975,15 +1012,31 @@
     const ImageService = {
       async createBaseCharacter(characterState) {
         console.log("Mock createBaseCharacter", characterState);
-        await sleep(800);
-        return "/assets/mock-base.png";
+        await sleep(500);
+
+        // very simple mapping just so it feels alive
+        const variant =
+          characterState.abCount >= 6 ? "pump" :
+          characterState.bodyFatPercent <= 12 ? "lean" :
+          "base";
+
+        // use real URLs that exist on the public internet
+        const baseUrlMap = {
+          base:  "https://placehold.co/400x400/020617/ffffff?text=Base",
+          lean:  "https://placehold.co/400x400/020617/22c55e?text=Lean",
+          pump:  "https://placehold.co/400x400/020617/f97316?text=Pump"
+        };
+
+        return baseUrlMap[variant];
       },
 
       async createPumpCard(baseImageUrl, cardInput) {
         console.log("Mock createPumpCard", { baseImageUrl, cardInput });
-        await sleep(800);
-        const id = Math.floor(Math.random() * 4) + 1;
-        return `/assets/mock-card-${id}.png`;
+        await sleep(600);
+
+        const effectId = Math.floor(Math.random() * 4) + 1;
+
+        return `https://placehold.co/400x400/020617/22c55e?text=Card+${effectId}`;
       }
     };
 
@@ -1075,20 +1128,26 @@
     }
 
     function updatePumpMeter(percent) {
+      const fill = document.getElementById("pumpFill");
+      const label = document.getElementById("pumpLabel");
+      if (!fill || !label) return;
+
+      // tiny visible sliver even at 0
+      const widthPercent = Math.max(percent, 3);
+
+      fill.style.width = widthPercent + "%";
+      label.textContent = `${percent}%`;
+
+      // Keep the existing subtitle and full state logic
       const meter = document.querySelector('.pump-meter');
-      const fill = document.getElementById('pumpMeterFill');
-      const label = document.getElementById('pumpMeterText');
       const subtitle = document.getElementById('pumpMeterSubtitle');
 
-      if (!meter || !fill || !label) return;
-
-      fill.style.width = percent + '%';
-      label.textContent = percent + '%';
-
-      if (percent >= 100) {
-        meter.classList.add('pump-meter--full');
-      } else {
-        meter.classList.remove('pump-meter--full');
+      if (meter) {
+        if (percent >= 100) {
+          meter.classList.add('pump-meter--full');
+        } else {
+          meter.classList.remove('pump-meter--full');
+        }
       }
 
       if (subtitle) {
@@ -1278,6 +1337,43 @@
       }
     }
 
+    // Dev helper to seed fake cards for testing
+    function seedFakeCards() {
+      const today = new Date();
+      store.records.cards = [];
+
+      for (let i = 0; i < 3; i++) {
+        const d = new Date(today);
+        d.setDate(d.getDate() - i);
+        const date = d.toISOString().slice(0, 10);
+
+        store.records.cards.push({
+          date,
+          pumpPercent: 100,
+          pillars: { fitness: true, nutrition: true, hydration: true, rest: true },
+          baseImageUrl: store.character.baseImageUrl || "https://placehold.co/400x400/020617/ffffff?text=Base",
+          cardImageUrl: `https://placehold.co/400x400/020617/22c55e?text=Card+${i + 1}`,
+          effectType: "defaultVeins",
+          streakAtDay: 3 - i
+        });
+      }
+
+      store.records.streak = 3;
+      store.records.bestStreak = 3;
+
+      renderRecords();
+      saveStore();
+      console.log("Seeded 3 fake cards");
+    }
+
+    // Make seedFakeCards available globally for dev console
+    window.seedFakeCards = seedFakeCards;
+
+    // Debug snapshot of the store
+    window.dumpStore = function dumpStore() {
+      console.log(JSON.parse(JSON.stringify(store)));
+    };
+
     // ========== NAVIGATION ==========
     function navigateToPage(pageName) {
       store.currentPage = pageName;
@@ -1431,6 +1527,24 @@
         saveStore();
       });
     }
+
+    // Dev Panel - Pump meter testing
+    document.querySelectorAll("#devPanel [data-dev-pump]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const value = Number(btn.getAttribute("data-dev-pump"));
+        const t = store.pumpToday;
+
+        // force flags to match the requested percent
+        const count = value / 25;
+        const flags = ["fitnessDone", "nutritionDone", "hydrationDone", "restDone"];
+
+        flags.forEach((flag, index) => {
+          t[flag] = index < count;
+        });
+
+        renderSession();
+      });
+    });
 
     // ========== INITIALIZATION ==========
     function init() {
