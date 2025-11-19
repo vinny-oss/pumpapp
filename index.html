@@ -180,24 +180,35 @@
     .screen-top {
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      gap: 6px;
     }
 
-    .garage-screen .screen-top {
-      min-height: 48px;
+    .screen-label {
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      text-align: center;
+      color: #e5e7eb;
+      opacity: 0.9;
     }
 
-    .character-screen .screen-top {
-      min-height: 48px;
+    .screen-character {
+      margin-top: 4px;
     }
 
     .screen-grid {
+      margin-top: 8px;
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 12px;
     }
 
+    .primary-cta {
+      margin-top: 10px;
+    }
+
     .screen-footer {
+      margin-top: 4px;
       display: flex;
       justify-content: center;
       gap: 16px;
@@ -225,6 +236,7 @@
 
       .primary-cta {
         padding-block: 12px;
+        margin-top: 8px;
       }
     }
 
@@ -232,16 +244,15 @@
     .top-stat-row {
       display: flex;
       gap: 8px;
-      justify-content: space-between;
     }
 
     .stat-pill {
       flex: 1;
       min-height: var(--strip-height);
       border-radius: 999px;
-      padding: 6px 8px;
+      padding: 6px 10px;
       background: #020617;
-      border: 1px solid rgba(148, 163, 184, 0.6);
+      border: 1px solid rgba(148, 163, 184, 0.7);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -261,39 +272,59 @@
       color: #f9fafb;
     }
 
-    /* ========== OPTION CARDS (Character Edit Grid) ========== */
-    .option-card {
-      border-radius: 16px;
-      padding: 14px 12px;
+    /* ========== GRID CARDS (Unified for both screens) ========== */
+    .grid-card {
+      border-radius: 18px;
+      padding: 12px 14px;
       background: radial-gradient(circle at top, #020617, #020617 60%, #020617);
-      border: 1px solid rgba(148, 163, 184, 0.45);
+      border: 1px solid rgba(248, 113, 113, 0.7);
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       align-items: flex-start;
       text-align: left;
-      transition: transform 0.12s ease-out, box-shadow 0.12s ease-out, border-color 0.12s ease-out;
+      transition: transform 0.12s ease-out, box-shadow 0.12s ease-out;
       cursor: pointer;
     }
 
-    .option-card:active {
+    .grid-card:active {
       transform: scale(0.97) translateY(1px);
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
     }
 
-    .option-title {
+    .grid-title {
       font-size: 14px;
       font-weight: 600;
       letter-spacing: 0.06em;
       text-transform: uppercase;
-      color: #e5e7eb;
+      color: #f9fafb;
     }
 
-    .option-value {
-      margin-top: 6px;
+    .grid-subtitle {
+      margin-top: 4px;
       font-size: 12px;
-      color: #9ca3af;
+      color: #e5e7eb;
+      opacity: 0.85;
+    }
+
+    /* Garage pillar states */
+    .grid-card.pillar-completed,
+    .grid-card.completed,
+    .grid-card.done {
+      border-color: rgba(34, 197, 94, 0.9);
+      background: radial-gradient(circle at top left, #22c55e, #16a34a 60%, #166534);
+    }
+
+    .grid-card.pillar-completed .grid-subtitle,
+    .grid-card.completed .grid-subtitle,
+    .grid-card.done .grid-subtitle {
+      color: #ecfdf5;
+    }
+
+    /* Character options use neutral outline */
+    .character-grid .grid-card {
+      border-color: rgba(148, 163, 184, 0.7);
     }
 
     /* ========== PUMP METER ========== */
@@ -304,33 +335,14 @@
       align-items: stretch;
     }
 
-    .pump-meter-header {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 6px;
-      font-size: 11px;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: #e5e7eb;
-    }
-
-    .pump-meter-icon {
-      font-size: 12px;
-    }
-
-    .pump-meter-title {
-      opacity: 0.9;
-    }
-
     .pump-meter-bar {
       position: relative;
       width: 100%;
       height: var(--strip-height);
       border-radius: 999px;
-      background: linear-gradient(90deg, #020617, #020617);
+      background: #020617;
       box-shadow:
-        0 0 0 1px rgba(148, 163, 184, 0.35),
+        0 0 0 1px rgba(148, 163, 184, 0.7),
         inset 0 2px 4px rgba(15, 23, 42, 0.9);
       overflow: hidden;
     }
@@ -395,89 +407,22 @@
       }
     }
 
-    /* ========== PILLAR CARDS ========== */
-    .pillar-card {
-      border-radius: 16px;
-      padding: 14px 12px;
-      background: #111827;
-      border: 1px solid rgba(148, 163, 184, 0.4);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      align-items: flex-start;
-      transition: transform 0.12s ease-out, box-shadow 0.12s ease-out, border-color 0.12s ease-out;
-      cursor: pointer;
-    }
-
-    .pillar-card:active {
-      transform: scale(0.97) translateY(1px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-    }
-
-    .pillar-title {
-      font-size: 15px;
-      font-weight: 600;
-      letter-spacing: 0.03em;
-      text-transform: uppercase;
-    }
-
-    .pillar-status {
-      margin-top: 6px;
-      font-size: 12px;
-      opacity: 0.9;
-    }
-
-    /* Completed vs pending colors */
-    .pillar-card.completed {
-      background: radial-gradient(circle at top left, #22c55e, #16a34a 60%, #065f46);
-      border-color: rgba(187, 247, 208, 0.9);
-    }
-
-    .pillar-card.completed .pillar-title,
-    .pillar-card.completed .pillar-status {
-      color: #ecfdf5;
-    }
-
-    .pillar-card.pending {
-      background: radial-gradient(circle at top left, #1f2937, #111827 60%, #020617);
-      border-color: rgba(248, 113, 113, 0.75);
-    }
-
-    .pillar-card.pending .pillar-title {
-      color: #fca5a5;
-    }
-
-    .pillar-card.pending .pillar-status {
-      color: #fed7d7;
-    }
-
-    /* Legacy support for .done class */
-    .pillar-card.done {
-      background: radial-gradient(circle at top left, #22c55e, #16a34a 60%, #065f46);
-      border-color: rgba(187, 247, 208, 0.9);
-    }
-
-    .pillar-card.done .pillar-title,
-    .pillar-card.done .pillar-status {
-      color: #ecfdf5;
-    }
 
     /* ========== CHARACTER CARD ========== */
     .character-card {
       border-radius: 20px;
       padding: 18px 14px 20px;
       background: radial-gradient(circle at top, #0f172a, #020617 65%);
-      border: 1px solid rgba(59, 130, 246, 0.6);
-      box-shadow: 0 10px 26px rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(59, 130, 246, 0.9);
+      box-shadow: 0 0 22px rgba(37, 99, 235, 0.4);
       text-align: center;
       color: #e5e7eb;
     }
 
     /* Yellow border for character card on Character Edit screen */
     body:has(#edit-character.active) .character-card {
-      border-color: rgba(250, 204, 21, 0.9);
-      box-shadow: 0 0 20px rgba(250, 204, 21, 0.25), 0 10px 26px rgba(15, 23, 42, 0.9);
+      border-color: rgba(250, 204, 21, 0.95);
+      box-shadow: 0 0 22px rgba(250, 204, 21, 0.4);
     }
 
     .viewport {
@@ -670,13 +615,9 @@
   <div class="page active" id="garage">
     <div class="screen-layout garage-screen">
       <!-- Top Strip: Pump Meter -->
-      <div class="screen-top">
+      <section class="screen-top">
+        <p class="screen-label">Pump meter</p>
         <div class="pump-meter">
-          <div class="pump-meter-header">
-            <span class="pump-meter-icon">⚡</span>
-            <span class="pump-meter-title">Pump meter</span>
-          </div>
-
           <div class="pump-meter-bar">
             <div class="pump-meter-fill" id="pumpMeterFill">
               <span class="pump-meter-percent-label" id="pumpMeterText">0%</span>
@@ -687,53 +628,55 @@
             Complete your first pillar to start the Pump.
           </p>
         </div>
-      </div>
+      </section>
 
       <!-- Character Card -->
-      <div class="character-card">
-        <div class="viewport">
-          <div class="loading-overlay" id="loadingOverlay">
-            <div class="spinner"></div>
-            <div class="loading-text">Generating...</div>
-          </div>
+      <section class="screen-character">
+        <div class="character-card">
+          <div class="viewport">
+            <div class="loading-overlay" id="loadingOverlay">
+              <div class="spinner"></div>
+              <div class="loading-text">Generating...</div>
+            </div>
 
-          <div class="character-placeholder" id="characterPlaceholder">
-            <svg class="character-silhouette" viewBox="0 0 100 150" fill="currentColor">
-              <ellipse cx="50" cy="20" rx="15" ry="18"/>
-              <rect x="35" y="38" width="30" height="40" rx="5"/>
-              <rect x="20" y="38" width="12" height="35" rx="4"/>
-              <rect x="68" y="38" width="12" height="35" rx="4"/>
-              <rect x="38" y="78" width="10" height="45" rx="4"/>
-              <rect x="52" y="78" width="10" height="45" rx="4"/>
-            </svg>
-            <div>Your character will appear here</div>
+            <div class="character-placeholder" id="characterPlaceholder">
+              <svg class="character-silhouette" viewBox="0 0 100 150" fill="currentColor">
+                <ellipse cx="50" cy="20" rx="15" ry="18"/>
+                <rect x="35" y="38" width="30" height="40" rx="5"/>
+                <rect x="20" y="38" width="12" height="35" rx="4"/>
+                <rect x="68" y="38" width="12" height="35" rx="4"/>
+                <rect x="38" y="78" width="10" height="45" rx="4"/>
+                <rect x="52" y="78" width="10" height="45" rx="4"/>
+              </svg>
+              <div>Your character will appear here</div>
+            </div>
           </div>
+          <p class="character-hint">Log all four pillars to power up your character.</p>
         </div>
-        <p class="character-hint">Log all four pillars to power up your character.</p>
-      </div>
+      </section>
 
       <!-- Grid of 4 Pillar Buttons -->
-      <div class="screen-grid garage-grid">
-        <button class="pillar-card" id="fitnessToggle" data-pillar="fitness">
-          <span class="pillar-title">Fitness</span>
-          <span class="pillar-status">To do</span>
+      <section class="screen-grid garage-grid">
+        <button class="grid-card pillar-card" id="fitnessToggle" data-pillar="fitness">
+          <span class="grid-title pillar-title">Fitness</span>
+          <span class="grid-subtitle pillar-status">To do</span>
         </button>
 
-        <button class="pillar-card" id="nutritionToggle" data-pillar="nutrition">
-          <span class="pillar-title">Nutrition</span>
-          <span class="pillar-status">To do</span>
+        <button class="grid-card pillar-card" id="nutritionToggle" data-pillar="nutrition">
+          <span class="grid-title pillar-title">Nutrition</span>
+          <span class="grid-subtitle pillar-status">To do</span>
         </button>
 
-        <button class="pillar-card" id="hydrationToggle" data-pillar="hydration">
-          <span class="pillar-title">Hydration</span>
-          <span class="pillar-status">To do</span>
+        <button class="grid-card pillar-card" id="hydrationToggle" data-pillar="hydration">
+          <span class="grid-title pillar-title">Hydration</span>
+          <span class="grid-subtitle pillar-status">To do</span>
         </button>
 
-        <button class="pillar-card" id="restToggle" data-pillar="rest">
-          <span class="pillar-title">Rest</span>
-          <span class="pillar-status">To do</span>
+        <button class="grid-card pillar-card" id="restToggle" data-pillar="rest">
+          <span class="grid-title pillar-title">Rest</span>
+          <span class="grid-subtitle pillar-status">To do</span>
         </button>
-      </div>
+      </section>
 
       <!-- Primary CTA -->
       <button class="primary-cta primary-cta-garage" id="generateBtn">
@@ -741,11 +684,11 @@
       </button>
 
       <!-- Footer Row -->
-      <div class="screen-footer garage-footer">
+      <footer class="screen-footer garage-footer">
         <span class="streak-item">Streak: <strong id="currentStreak">0</strong></span>
         <span class="streak-item">Best: <strong id="bestStreak">0</strong></span>
         <span class="streak-item">Cards: <strong id="totalCards">0</strong></span>
-      </div>
+      </footer>
     </div>
   </div>
 
@@ -761,7 +704,8 @@
   <div class="page" id="edit-character">
     <div class="screen-layout character-screen">
       <!-- Top Strip: Three Stat Pills -->
-      <div class="screen-top">
+      <section class="screen-top">
+        <p class="screen-label">Character stats</p>
         <div class="top-stat-row">
           <div class="stat-pill">
             <div class="stat-pill-label">Weight</div>
@@ -776,48 +720,50 @@
             <div class="stat-pill-value" id="char-stat-height">70 in</div>
           </div>
         </div>
-      </div>
+      </section>
 
       <!-- Character Card -->
-      <div class="character-card">
-        <div class="viewport">
-          <div class="character-placeholder" id="characterEditPlaceholder">
-            <svg class="character-silhouette" viewBox="0 0 100 150" fill="currentColor">
-              <ellipse cx="50" cy="20" rx="15" ry="18"/>
-              <rect x="35" y="38" width="30" height="40" rx="5"/>
-              <rect x="20" y="38" width="12" height="35" rx="4"/>
-              <rect x="68" y="38" width="12" height="35" rx="4"/>
-              <rect x="38" y="78" width="10" height="45" rx="4"/>
-              <rect x="52" y="78" width="10" height="45" rx="4"/>
-            </svg>
-            <div>Your character preview will appear here.</div>
+      <section class="screen-character">
+        <div class="character-card">
+          <div class="viewport">
+            <div class="character-placeholder" id="characterEditPlaceholder">
+              <svg class="character-silhouette" viewBox="0 0 100 150" fill="currentColor">
+                <ellipse cx="50" cy="20" rx="15" ry="18"/>
+                <rect x="35" y="38" width="30" height="40" rx="5"/>
+                <rect x="20" y="38" width="12" height="35" rx="4"/>
+                <rect x="68" y="38" width="12" height="35" rx="4"/>
+                <rect x="38" y="78" width="10" height="45" rx="4"/>
+                <rect x="52" y="78" width="10" height="45" rx="4"/>
+              </svg>
+              <div>Your character preview will appear here.</div>
+            </div>
           </div>
+          <p class="character-hint">Edit your stats and style, then save to update your Pump character.</p>
         </div>
-        <p class="character-hint">Edit your stats and style, then save to update your Pump character.</p>
-      </div>
+      </section>
 
       <!-- Grid of 4 Option Buttons -->
-      <div class="screen-grid character-grid">
-        <button class="option-card" id="optionHead" data-option="head">
-          <span class="option-title">Head</span>
-          <span class="option-value" id="option-head-value">Default</span>
+      <section class="screen-grid character-grid">
+        <button class="grid-card option-card" id="optionHead" data-option="head">
+          <span class="grid-title option-title">Head</span>
+          <span class="grid-subtitle option-value" id="option-head-value">Default</span>
         </button>
 
-        <button class="option-card" id="optionSkin" data-option="skin">
-          <span class="option-title">Skin tone</span>
-          <span class="option-value" id="option-skin-value">Default</span>
+        <button class="grid-card option-card" id="optionSkin" data-option="skin">
+          <span class="grid-title option-title">Skin tone</span>
+          <span class="grid-subtitle option-value" id="option-skin-value">Default</span>
         </button>
 
-        <button class="option-card" id="optionAbs" data-option="abs">
-          <span class="option-title">Ab count</span>
-          <span class="option-value" id="option-abs-value">0</span>
+        <button class="grid-card option-card" id="optionAbs" data-option="abs">
+          <span class="grid-title option-title">Ab count</span>
+          <span class="grid-subtitle option-value" id="option-abs-value">0 packs</span>
         </button>
 
-        <button class="option-card" id="optionPants" data-option="pants">
-          <span class="option-title">Pants</span>
-          <span class="option-value" id="option-pants-value">Shorts</span>
+        <button class="grid-card option-card" id="optionPants" data-option="pants">
+          <span class="grid-title option-title">Pants</span>
+          <span class="grid-subtitle option-value" id="option-pants-value">Shorts</span>
         </button>
-      </div>
+      </section>
 
       <!-- Primary CTA -->
       <button class="primary-cta primary-cta-character" id="saveCharacterBtn">
@@ -825,9 +771,9 @@
       </button>
 
       <!-- Footer Row -->
-      <div class="screen-footer character-footer">
+      <footer class="screen-footer character-footer">
         <span>Character changes will apply to future Pump cards.</span>
-      </div>
+      </footer>
     </div>
   </div>
 
@@ -955,10 +901,21 @@
     function renderCharacterOptions() {
       if (!elements.optionHeadValue) return;
 
-      elements.optionHeadValue.textContent = state.character.hair || 'Default';
-      elements.optionSkinValue.textContent = state.character.skinTone || 'Default';
-      elements.optionAbsValue.textContent = state.character.abs || '0';
-      elements.optionPantsValue.textContent = state.character.pants || 'Shorts';
+      // Capitalize first letter of hair value
+      const hairValue = state.character.hair || 'default';
+      elements.optionHeadValue.textContent = hairValue.charAt(0).toUpperCase() + hairValue.slice(1);
+
+      // Capitalize first letter of skin tone value
+      const skinValue = state.character.skinTone || 'default';
+      elements.optionSkinValue.textContent = skinValue.charAt(0).toUpperCase() + skinValue.slice(1);
+
+      // Format ab count with "packs" suffix
+      const absValue = state.character.abs || 0;
+      elements.optionAbsValue.textContent = absValue + ' packs';
+
+      // Capitalize first letter of pants value
+      const pantsValue = state.character.pants || 'shorts';
+      elements.optionPantsValue.textContent = pantsValue.charAt(0).toUpperCase() + pantsValue.slice(1);
     }
 
     function handleCharacterEdit() {
