@@ -408,6 +408,61 @@
       flex: 1;
     }
 
+    /* Appearance pill inline menu */
+    .option-pill-menu {
+      display: none;
+      margin-top: 8px;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .option-pill.is-editing .option-pill-menu {
+      display: flex;
+    }
+
+    /* Each choice button in the menu */
+    .option-pill-choice {
+      width: 100%;
+      border-radius: 999px;
+      padding: 6px 10px;
+      background: radial-gradient(circle at top, #020617, #020617 70%);
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      color: #e5e7eb;
+      font-size: 13px;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      transition: border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .option-pill-choice:hover {
+      border-color: rgba(148, 163, 184, 0.9);
+    }
+
+    /* Selected choice */
+    .option-pill-choice.is-selected {
+      border-color: #4ade80;
+      background: radial-gradient(circle at top, #022c22, #022c22 70%);
+      color: #bbf7d0;
+    }
+
+    /* Small dot indicator */
+    .option-pill-choice::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.9);
+      margin-right: 8px;
+      flex-shrink: 0;
+    }
+
+    .option-pill-choice.is-selected::before {
+      background: #4ade80;
+      border-color: #4ade80;
+    }
+
     /* Hide browser number spinners if any number inputs remain */
     input[type="number"]::-webkit-inner-spin-button,
     input[type="number"]::-webkit-outer-spin-button {
@@ -425,19 +480,6 @@
       grid-template-columns: repeat(2, 1fr);
       gap: 8px;
       margin-top: 8px;
-    }
-
-    /* Appearance pills use the same .option-pill base class */
-    .appearance-pill-select {
-      margin-top: 4px;
-      padding: 6px 10px;
-      border-radius: 12px;
-      border: 1px solid rgba(250, 204, 21, 0.6);
-      background: #020617;
-      color: #f9fafb;
-      font-size: 13px;
-      font-weight: 500;
-      width: 100%;
     }
 
     /* ========== GRID CARDS (Unified for both screens) ========== */
@@ -1024,30 +1066,59 @@
 
       <!-- Appearance Option Pills -->
       <section class="appearance-pills">
-        <div class="option-pill" id="head-pill" data-appearance="head">
+        <div class="option-pill" data-appearance="head">
           <div class="option-pill-title">HEAD</div>
-          <div class="option-pill-value" id="head-value">Default</div>
+          <div class="option-pill-value" data-appearance-display="head">Default</div>
+
+          <div class="option-pill-menu" data-appearance-menu="head">
+            <button class="option-pill-choice" data-value="default">Default</button>
+            <button class="option-pill-choice" data-value="bald">Bald</button>
+            <button class="option-pill-choice" data-value="mohawk">Mohawk</button>
+            <button class="option-pill-choice" data-value="long">Long hair</button>
+          </div>
         </div>
 
-        <div class="option-pill" id="skin-pill" data-appearance="skin">
+        <div class="option-pill" data-appearance="skinTone">
           <div class="option-pill-title">SKIN TONE</div>
-          <div class="option-pill-value" id="skin-value">Default</div>
+          <div class="option-pill-value" data-appearance-display="skinTone">Default</div>
+
+          <div class="option-pill-menu" data-appearance-menu="skinTone">
+            <button class="option-pill-choice" data-value="default">Default</button>
+            <button class="option-pill-choice" data-value="light">Light</button>
+            <button class="option-pill-choice" data-value="medium">Medium</button>
+            <button class="option-pill-choice" data-value="dark">Dark</button>
+          </div>
         </div>
 
-        <div class="option-pill" id="abs-pill" data-appearance="abs">
+        <div class="option-pill" data-appearance="abs">
           <div class="option-pill-title">AB COUNT</div>
-          <div class="option-pill-value" id="abs-value">0 packs</div>
+          <div class="option-pill-value" data-appearance-display="abs">Belly</div>
+
+          <div class="option-pill-menu" data-appearance-menu="abs">
+            <button class="option-pill-choice" data-value="belly">Belly</button>
+            <button class="option-pill-choice" data-value="2">2 pack</button>
+            <button class="option-pill-choice" data-value="4">4 pack</button>
+            <button class="option-pill-choice" data-value="6">6 pack</button>
+            <button class="option-pill-choice" data-value="8">8 pack</button>
+          </div>
         </div>
 
-        <div class="option-pill" id="pants-pill" data-appearance="pants">
+        <div class="option-pill" data-appearance="pants">
           <div class="option-pill-title">PANTS</div>
-          <div class="option-pill-value" id="pants-value">Shorts</div>
+          <div class="option-pill-value" data-appearance-display="pants">Shorts</div>
+
+          <div class="option-pill-menu" data-appearance-menu="pants">
+            <button class="option-pill-choice" data-value="shorts">Shorts</button>
+            <button class="option-pill-choice" data-value="joggers">Joggers</button>
+            <button class="option-pill-choice" data-value="leggings">Leggings</button>
+            <button class="option-pill-choice" data-value="sweatpants">Sweatpants</button>
+          </div>
         </div>
       </section>
 
       <!-- Primary CTA -->
       <button class="primary-cta primary-cta-locker" id="lockerGenerateBtn">
-        Generate character
+        Edit character
       </button>
 
       <!-- Footer Row -->
@@ -1081,7 +1152,7 @@
         heightIn: null,
         weightLb: null,
         bodyFatPercent: null,
-        abCount: 0,
+        abCount: "belly",
         skinTone: "default",
         pantsStyle: "shorts",
         headStyle: "default",
@@ -1149,18 +1220,18 @@
           mohawk: "Mohawk",
           long: "Long hair"
         },
-        skin: {
+        skinTone: {
           default: "Default",
           light: "Light",
           medium: "Medium",
           dark: "Dark"
         },
         abs: {
-          0: "0 packs",
-          2: "2 packs",
-          4: "4 packs",
-          6: "6 packs",
-          8: "8 packs"
+          belly: "Belly",
+          "2": "2 pack",
+          "4": "4 pack",
+          "6": "6 pack",
+          "8": "8 pack"
         },
         pants: {
           shorts: "Shorts",
@@ -1206,16 +1277,11 @@
         if (heightInchesNum) heightInchesNum.textContent = inches || "-";
       }
 
-      // Update appearance pills
-      const headValue = document.getElementById("head-value");
-      const skinValue = document.getElementById("skin-value");
-      const absValue = document.getElementById("abs-value");
-      const pantsValue = document.getElementById("pants-value");
-
-      if (headValue) headValue.textContent = getAppearanceDisplayText("head", store.character.headStyle);
-      if (skinValue) skinValue.textContent = getAppearanceDisplayText("skin", store.character.skinTone);
-      if (absValue) absValue.textContent = getAppearanceDisplayText("abs", store.character.abCount);
-      if (pantsValue) pantsValue.textContent = getAppearanceDisplayText("pants", store.character.pantsStyle);
+      // Update appearance pills display values and selected states
+      renderAppearancePill("head", store.character.headStyle);
+      renderAppearancePill("skinTone", store.character.skinTone);
+      renderAppearancePill("abs", store.character.abCount);
+      renderAppearancePill("pants", store.character.pantsStyle);
 
       // Update preview image
       const img = document.getElementById("locker-character-image");
@@ -1279,76 +1345,76 @@
       saveStore();
     }
 
-    // Edit appearance pills
-    function editAppearancePill(type) {
-      const pill = document.getElementById(`${type}-pill`);
-      const valueEl = document.getElementById(`${type}-value`);
+    // Render a single appearance pill (display value + menu selected state)
+    function renderAppearancePill(key, value) {
+      const pill = document.querySelector(`.option-pill[data-appearance="${key}"]`);
+      if (!pill) return;
 
-      if (!pill || !valueEl || pill.classList.contains('is-editing')) return;
+      // Update display value
+      const displayEl = pill.querySelector("[data-appearance-display]");
+      if (displayEl) {
+        const displayText = getAppearanceDisplayText(key, value);
+        displayEl.textContent = displayText;
+      }
 
-      pill.classList.add('is-editing');
-
-      const options = {
-        head: [
-          { value: 'default', text: 'Default' },
-          { value: 'bald', text: 'Bald' },
-          { value: 'mohawk', text: 'Mohawk' },
-          { value: 'long', text: 'Long hair' }
-        ],
-        skin: [
-          { value: 'default', text: 'Default' },
-          { value: 'light', text: 'Light' },
-          { value: 'medium', text: 'Medium' },
-          { value: 'dark', text: 'Dark' }
-        ],
-        abs: [
-          { value: 0, text: '0 packs' },
-          { value: 2, text: '2 packs' },
-          { value: 4, text: '4 packs' },
-          { value: 6, text: '6 packs' },
-          { value: 8, text: '8 packs' }
-        ],
-        pants: [
-          { value: 'shorts', text: 'Shorts' },
-          { value: 'joggers', text: 'Joggers' },
-          { value: 'leggings', text: 'Leggings' },
-          { value: 'sweatpants', text: 'Sweatpants' }
-        ]
-      };
-
-      const currentValue = type === 'head' ? store.character.headStyle :
-                          type === 'skin' ? store.character.skinTone :
-                          type === 'abs' ? store.character.abCount :
-                          store.character.pantsStyle;
-
-      const selectHtml = options[type].map(opt =>
-        `<option value="${opt.value}" ${opt.value == currentValue ? 'selected' : ''}>${opt.text}</option>`
-      ).join('');
-
-      valueEl.innerHTML = `<select class="appearance-pill-select" id="${type}-select">${selectHtml}</select>`;
-
-      const select = document.getElementById(`${type}-select`);
-
-      const saveAppearance = () => {
-        const value = type === 'abs' ? Number(select.value) : select.value;
-        if (type === 'head') {
-          store.character.headStyle = value;
-        } else if (type === 'skin') {
-          store.character.skinTone = value;
-        } else if (type === 'abs') {
-          store.character.abCount = value;
-        } else if (type === 'pants') {
-          store.character.pantsStyle = value;
-        }
-        pill.classList.remove('is-editing');
-        renderLocker();
-        saveStore();
-      };
-
-      select.addEventListener('change', saveAppearance);
-      select.addEventListener('blur', saveAppearance);
-      select.focus();
+      // Update selected state in menu
+      pill.querySelectorAll(".option-pill-choice").forEach(choice => {
+        const choiceValue = choice.dataset.value;
+        // Convert to same type for comparison
+        const isSelected = String(choiceValue) === String(value);
+        choice.classList.toggle("is-selected", isSelected);
+      });
     }
+
+    // Attach appearance pill click handlers
+    function attachLockerAppearancePills() {
+      const pills = document.querySelectorAll(".option-pill[data-appearance]");
+
+      pills.forEach(pill => {
+        const key = pill.dataset.appearance;
+
+        // Tap pill background to toggle menu
+        pill.addEventListener("click", e => {
+          if (e.target.closest(".option-pill-choice")) return;
+
+          const alreadyEditing = pill.classList.contains("is-editing");
+          document
+            .querySelectorAll(".option-pill[data-appearance]")
+            .forEach(p => p.classList.remove("is-editing"));
+
+          if (!alreadyEditing) {
+            pill.classList.add("is-editing");
+          }
+        });
+
+        // Tap choices
+        pill.querySelectorAll(".option-pill-choice").forEach(choice => {
+          choice.addEventListener("click", e => {
+            e.stopPropagation();
+            const value = choice.dataset.value;
+
+            // Update store
+            if (key === "head") {
+              store.character.headStyle = value;
+            } else if (key === "skinTone") {
+              store.character.skinTone = value;
+            } else if (key === "abs") {
+              store.character.abCount = value;
+            } else if (key === "pants") {
+              store.character.pantsStyle = value;
+            }
+
+            renderLocker();
+            saveStore();
+
+            // Close menu after selection
+            pill.classList.remove("is-editing");
+          });
+        });
+      });
+    }
+
+    attachLockerAppearancePills();
 
     // ========== SESSION SCREEN FUNCTIONS ==========
     function ensurePumpToday() {
@@ -1718,12 +1784,6 @@
 
     attachLockerPillEditing();
 
-    // Locker screen - Appearance pill editing
-    document.getElementById('head-pill')?.addEventListener('click', () => editAppearancePill('head'));
-    document.getElementById('skin-pill')?.addEventListener('click', () => editAppearancePill('skin'));
-    document.getElementById('abs-pill')?.addEventListener('click', () => editAppearancePill('abs'));
-    document.getElementById('pants-pill')?.addEventListener('click', () => editAppearancePill('pants'));
-
     // Locker screen - Generate character button
     const lockerBtn = document.getElementById('lockerGenerateBtn');
     if (lockerBtn) {
@@ -1735,7 +1795,7 @@
         store.character.baseImageUrl = baseUrl;
 
         lockerBtn.disabled = false;
-        lockerBtn.textContent = "Generate character";
+        lockerBtn.textContent = "Edit character";
 
         renderLocker();
         renderSession();
