@@ -7,6 +7,9 @@
   <style>
     /* ========== CSS VARIABLES & THEMES ========== */
     :root {
+      /* Shared layout dimensions */
+      --strip-height: 40px;
+
       /* Light theme */
       --bg-primary: #ffffff;
       --bg-secondary: #f8f9fa;
@@ -69,41 +72,47 @@
     .app-bar {
       background: var(--bg-secondary);
       border-bottom: 1px solid var(--border-color);
-      padding: 0.75rem 1.5rem;
+      padding: 10px 16px;
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: center;
       position: sticky;
       top: 0;
       z-index: 100;
       box-shadow: var(--shadow-sm);
     }
 
-    .app-header-left {
+    .app-bar-inner {
+      width: 100%;
+      max-width: 420px;
+      margin: 0 auto;
       display: flex;
       align-items: center;
-      gap: 1.5rem;
+      justify-content: space-between;
     }
 
     .app-title {
-      font-size: 1.25rem;
+      font-size: 16px;
       font-weight: 700;
-      color: var(--text-primary);
+      color: #f9fafb;
       letter-spacing: 0.5px;
     }
 
     .nav-menu {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
       display: flex;
-      gap: 0.5rem;
+      gap: 8px;
     }
 
     .nav-btn {
       background: transparent;
-      border: none;
-      padding: 0.4rem 0.8rem;
-      border-radius: 6px;
+      border: 1px solid transparent;
+      padding: 6px 12px;
+      border-radius: 999px;
       cursor: pointer;
-      font-size: 0.85rem;
+      font-size: 13px;
       font-weight: 500;
       color: var(--text-secondary);
       transition: all 0.2s ease;
@@ -115,25 +124,38 @@
     }
 
     .nav-btn.active {
-      background: var(--accent);
-      color: white;
+      background: #2563eb;
+      color: #f9fafb;
+      border-color: rgba(191, 219, 254, 0.7);
+    }
+
+    /* Yellow highlight for Character Edit screen */
+    body:has(#edit-character.active) .nav-btn[data-page="edit-character"].active {
+      background: #facc15;
+      color: #111827;
+      border-color: rgba(250, 204, 21, 0.9);
     }
 
     .theme-toggle {
-      background: var(--bg-tertiary);
-      border: 1px solid var(--border-color);
-      padding: 0.4rem 0.8rem;
-      border-radius: 6px;
+      border-radius: 999px;
+      padding: 4px 8px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      background: rgba(15, 23, 42, 0.9);
+      color: #f9fafb;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       cursor: pointer;
-      font-size: 0.85rem;
-      color: var(--text-primary);
-      transition: all 0.2s ease;
+      transition: border-color 0.2s ease;
     }
 
     .theme-toggle:hover {
-      background: var(--accent);
-      color: white;
-      border-color: var(--accent);
+      border-color: rgba(209, 213, 219, 0.9);
+    }
+
+    .theme-icon {
+      line-height: 1;
     }
 
     /* ========== PAGE SYSTEM ========== */
@@ -215,6 +237,7 @@
 
     .stat-pill {
       flex: 1;
+      min-height: var(--strip-height);
       border-radius: 999px;
       padding: 6px 8px;
       background: #020617;
@@ -222,6 +245,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: center;
     }
 
     .stat-pill-label {
@@ -302,7 +326,7 @@
     .pump-meter-bar {
       position: relative;
       width: 100%;
-      height: 20px;
+      height: var(--strip-height);
       border-radius: 999px;
       background: linear-gradient(90deg, #020617, #020617);
       box-shadow:
@@ -448,6 +472,12 @@
       box-shadow: 0 10px 26px rgba(15, 23, 42, 0.9);
       text-align: center;
       color: #e5e7eb;
+    }
+
+    /* Yellow border for character card on Character Edit screen */
+    body:has(#edit-character.active) .character-card {
+      border-color: rgba(250, 204, 21, 0.9);
+      box-shadow: 0 0 20px rgba(250, 204, 21, 0.25), 0 10px 26px rgba(15, 23, 42, 0.9);
     }
 
     .viewport {
@@ -623,17 +653,17 @@
 <body>
   <!-- APP BAR -->
   <div class="app-bar">
-    <div class="app-header-left">
-      <div class="app-title">💪 PUMP</div>
+    <div class="app-bar-inner">
+      <div class="app-title">PUMP</div>
       <nav class="nav-menu">
         <button class="nav-btn" data-page="edit-character">Character Edit</button>
         <button class="nav-btn active" data-page="garage">Garage</button>
         <button class="nav-btn" data-page="stats">Stats</button>
       </nav>
+      <button class="theme-toggle" id="themeToggle">
+        <span class="theme-icon">🌙</span>
+      </button>
     </div>
-    <button class="theme-toggle" id="themeToggle">
-      <span id="themeIcon">🌙 Dark</span>
-    </button>
   </div>
 
   <!-- ========== PAGE 1: GARAGE ========== -->
@@ -846,7 +876,7 @@
 
       // Theme
       themeToggle: document.getElementById('themeToggle'),
-      themeIcon: document.getElementById('themeIcon'),
+      themeIcon: document.querySelector('.theme-icon'),
 
       // Streak
       currentStreak: document.getElementById('currentStreak'),
@@ -972,7 +1002,9 @@
     }
 
     function updateThemeIcon(theme) {
-      elements.themeIcon.textContent = theme === 'light' ? '🌙 Dark' : '☀️ Light';
+      if (elements.themeIcon) {
+        elements.themeIcon.textContent = theme === 'light' ? '🌙' : '☀️';
+      }
     }
 
     // ========== PILLAR TOGGLE ==========
