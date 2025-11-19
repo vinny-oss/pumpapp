@@ -64,9 +64,9 @@
     }
 
     body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: var(--bg-primary);
-      color: var(--text-primary);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+      background: radial-gradient(circle at top, #020617 0, #020617 40%, #000000 100%);
+      color: #e5e7eb;
       line-height: 1.6;
       transition: background-color 0.3s ease, color 0.3s ease;
       min-height: 100vh;
@@ -112,6 +112,7 @@
       flex: 1;
       height: var(--strip-height);
       border-radius: 999px;
+      padding: 0 14px;
       border: 1px solid transparent;
       background: transparent;
       font-size: 13px;
@@ -125,30 +126,28 @@
     }
 
     .nav-btn:hover {
-      background: rgba(148, 163, 184, 0.15);
-    }
-
-    .nav-btn.active {
-      color: #111827;
-      box-shadow: 0 0 16px rgba(0, 0, 0, 0.7);
+      background: rgba(31, 41, 55, 0.9);
     }
 
     /* Character Edit (Locker) active - yellow */
     body:has(#edit-character.active) .nav-btn[data-page="edit-character"].active {
-      background: var(--accent-edit);
-      border-color: rgba(250, 204, 21, 0.9);
+      background: rgba(250, 204, 21, 1);
+      color: #111827;
+      border-color: rgba(250, 204, 21, 1);
     }
 
     /* Garage (Session) active - blue */
     body:has(#garage.active) .nav-btn[data-page="garage"].active {
-      background: var(--accent-garage);
-      border-color: rgba(191, 219, 254, 0.9);
+      background: rgba(59, 130, 246, 1);
+      color: #f9fafb;
+      border-color: rgba(59, 130, 246, 1);
     }
 
     /* Stats (Records) active - green */
     body:has(#stats.active) .nav-btn[data-page="stats"].active {
-      background: var(--accent-stats);
-      border-color: rgba(187, 247, 208, 0.9);
+      background: rgba(34, 197, 94, 1);
+      color: #022c22;
+      border-color: rgba(34, 197, 94, 1);
     }
 
     .theme-toggle {
@@ -203,8 +202,7 @@
       letter-spacing: 0.16em;
       text-transform: uppercase;
       text-align: center;
-      color: #e5e7eb;
-      opacity: 0.9;
+      color: #9ca3af;
     }
 
     .screen-character {
@@ -266,8 +264,8 @@
       min-height: var(--strip-height);
       border-radius: 999px;
       padding: 6px 10px;
-      background: #020617;
-      border: 1px solid rgba(148, 163, 184, 0.7);
+      background: radial-gradient(circle at top, #020617, #020617 70%);
+      border: 1px solid rgba(55, 65, 81, 0.9);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -282,6 +280,7 @@
     }
 
     .stat-pill-value {
+      margin-top: 2px;
       font-size: 13px;
       font-weight: 600;
       color: #f9fafb;
@@ -291,21 +290,21 @@
     .grid-card {
       border-radius: 18px;
       padding: 12px 14px;
-      background: radial-gradient(circle at top, #020617, #020617 60%, #020617);
-      border: 1px solid rgba(248, 113, 113, 0.7);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+      background: radial-gradient(circle at top, #020617, #020617 80%);
+      border: 1px solid rgba(51, 65, 85, 0.9);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.7);
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       align-items: flex-start;
       text-align: left;
-      transition: transform 0.12s ease-out, box-shadow 0.12s ease-out;
+      transition: transform 0.12s ease-out, box-shadow 0.12s ease-out, border-color 0.12s ease-out;
       cursor: pointer;
     }
 
     .grid-card:active {
       transform: scale(0.97) translateY(1px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.7);
     }
 
     .grid-title {
@@ -319,28 +318,21 @@
     .grid-subtitle {
       margin-top: 4px;
       font-size: 12px;
-      color: #e5e7eb;
-      opacity: 0.85;
+      color: #9ca3af;
     }
 
-    /* Garage pillar states */
-    .grid-card.pillar-completed,
-    .grid-card.completed,
-    .grid-card.done {
+    /* Session: completed pillars get green border + slight tint, no glow */
+    .garage-screen .grid-card.pillar-completed,
+    .garage-screen .grid-card.completed,
+    .garage-screen .grid-card.done {
       border-color: rgba(34, 197, 94, 0.9);
-      background: radial-gradient(circle at top left, #22c55e, #16a34a 60%, #166534);
+      background: radial-gradient(circle at top left, #022c22, #022c22 70%);
     }
 
-    .grid-card.pillar-completed .grid-subtitle,
-    .grid-card.completed .grid-subtitle,
-    .grid-card.done .grid-subtitle {
-      color: #ecfdf5;
-    }
-
-    /* Character options and stats use neutral outline */
-    .character-grid .grid-card,
-    .stats-grid .grid-card {
-      border-color: rgba(148, 163, 184, 0.7);
+    .garage-screen .grid-card.pillar-completed .grid-subtitle,
+    .garage-screen .grid-card.completed .grid-subtitle,
+    .garage-screen .grid-card.done .grid-subtitle {
+      color: #bbf7d0;
     }
 
     /* ========== PUMP METER ========== */
@@ -356,10 +348,9 @@
       width: 100%;
       height: var(--strip-height);
       border-radius: 999px;
-      background: #020617;
-      box-shadow:
-        0 0 0 1px rgba(148, 163, 184, 0.7),
-        inset 0 2px 4px rgba(15, 23, 42, 0.9);
+      background: radial-gradient(circle at top, #020617, #020617 70%);
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      box-shadow: none;
       overflow: hidden;
     }
 
@@ -371,7 +362,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 11px;
+      font-size: 12px;
       font-weight: 600;
       color: #f9fafb;
       text-shadow: 0 0 6px rgba(15, 23, 42, 0.9);
@@ -382,13 +373,8 @@
         #eab308 55%,
         #22c55e 85%
       );
-      box-shadow:
-        0 0 0 1px rgba(248, 250, 252, 0.12),
-        0 0 18px rgba(34, 197, 94, 0.3);
-      transition:
-        width 0.45s cubic-bezier(0.22, 0.61, 0.36, 1),
-        box-shadow 0.25s ease-out,
-        transform 0.25s ease-out;
+      box-shadow: none;
+      transition: width 0.45s cubic-bezier(0.22, 0.61, 0.36, 1);
     }
 
     .pump-meter-percent-label {
@@ -406,51 +392,53 @@
 
     /* Full meter state */
     .pump-meter--full .pump-meter-fill {
-      box-shadow:
-        0 0 0 1px rgba(248, 250, 252, 0.2),
-        0 0 24px rgba(34, 197, 94, 0.75);
-      animation: pumpGlow 1.2s ease-in-out infinite alternate;
-    }
-
-    @keyframes pumpGlow {
-      from {
-        transform: translateY(0);
-        filter: brightness(1);
-      }
-      to {
-        transform: translateY(-0.5px);
-        filter: brightness(1.08);
-      }
+      filter: brightness(1.05);
     }
 
 
     /* ========== CHARACTER CARD ========== */
-    .character-card {
-      border-radius: 20px;
-      padding: 18px 14px 20px;
-      background: radial-gradient(circle at top, #0f172a, #020617 65%);
-      border: 1px solid rgba(148, 163, 184, 0.6);
-      box-shadow: 0 0 22px rgba(148, 163, 184, 0.3);
+    .screen-character .character-card {
+      position: relative;
+      border-radius: 24px;
+      padding: 18px 16px 20px;
+      background: radial-gradient(circle at top, #020617 0, #020617 55%, #020617 100%);
+      border: 1px solid rgba(31, 41, 55, 0.95);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.9);
       text-align: center;
       color: #e5e7eb;
     }
 
-    /* Character Edit (Locker) - yellow glow */
+    .screen-character .character-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      border-top: 2px solid transparent;
+      pointer-events: none;
+    }
+
+    /* Character Edit (Locker) - yellow */
     .character-screen .screen-character .character-card {
-      border-color: rgba(250, 204, 21, 0.95);
-      box-shadow: 0 0 22px rgba(250, 204, 21, 0.45);
+      border-color: rgba(250, 204, 21, 0.6);
+    }
+    .character-screen .screen-character .character-card::before {
+      border-top-color: rgba(250, 204, 21, 0.9);
     }
 
-    /* Garage (Session) - blue glow */
+    /* Garage (Session) - blue */
     .garage-screen .screen-character .character-card {
-      border-color: rgba(59, 130, 246, 0.95);
-      box-shadow: 0 0 22px rgba(59, 130, 246, 0.45);
+      border-color: rgba(59, 130, 246, 0.6);
+    }
+    .garage-screen .screen-character .character-card::before {
+      border-top-color: rgba(59, 130, 246, 0.9);
     }
 
-    /* Stats (Records) - green glow */
+    /* Stats (Records) - green */
     .stats-screen .screen-character .character-card {
-      border-color: rgba(34, 197, 94, 0.95);
-      box-shadow: 0 0 22px rgba(34, 197, 94, 0.45);
+      border-color: rgba(34, 197, 94, 0.6);
+    }
+    .stats-screen .screen-character .character-card::before {
+      border-top-color: rgba(34, 197, 94, 0.9);
     }
 
     .viewport {
@@ -562,6 +550,7 @@
 
     /* ========== PRIMARY CTA ========== */
     .primary-cta {
+      width: 100%;
       border: none;
       border-radius: 999px;
       padding: 14px 18px;
@@ -570,15 +559,15 @@
       text-align: center;
       background: linear-gradient(90deg, #3b82f6, #22c55e);
       color: #f9fafb;
-      box-shadow: 0 12px 30px rgba(37, 99, 235, 0.4);
+      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.85);
       transition: transform 0.12s ease-out, box-shadow 0.12s ease-out, filter 0.12s ease-out;
       cursor: pointer;
     }
 
     .primary-cta:active {
       transform: scale(0.97) translateY(1px);
-      box-shadow: 0 6px 16px rgba(15, 23, 42, 0.9);
-      filter: brightness(0.95);
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.9);
+      filter: brightness(0.97);
     }
 
     .primary-cta:disabled {
