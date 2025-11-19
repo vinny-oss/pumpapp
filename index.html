@@ -812,17 +812,6 @@
             <option value="feathers">Feather pants</option>
           </select>
         </div>
-
-        <div class="attribute-card">
-          <div class="attribute-header">
-            <span class="attribute-label">Shoes</span>
-          </div>
-          <select class="attribute-input" id="char-shoes">
-            <option value="sneakers">Sneakers</option>
-            <option value="boots">Boots</option>
-            <option value="barefoot">Barefoot</option>
-          </select>
-        </div>
       </div>
 
       <!-- Primary CTA -->
@@ -864,8 +853,7 @@
         bodyFat: null,
         abs: null,
         hair: 'default',
-        pants: 'shorts',
-        shoes: 'sneakers'
+        pants: 'shorts'
       }
     };
 
@@ -888,12 +876,6 @@
       pumpMeterFill: document.getElementById('pumpMeterFill'),
       pumpMeterText: document.getElementById('pumpMeterText'),
 
-      // Body metrics
-      weightInput: document.getElementById('weightInput'),
-      weightDisplay: document.getElementById('weightDisplay'),
-      bodyFatInput: document.getElementById('bodyFatInput'),
-      bodyFatDisplay: document.getElementById('bodyFatDisplay'),
-
       // Pillar toggles
       fitnessToggle: document.getElementById('fitnessToggle'),
       nutritionToggle: document.getElementById('nutritionToggle'),
@@ -912,7 +894,6 @@
       charAbs: document.getElementById('char-abs'),
       charHair: document.getElementById('char-hair'),
       charPants: document.getElementById('char-pants'),
-      charShoes: document.getElementById('char-shoes'),
       saveCharacterBtn: document.getElementById('saveCharacterBtn')
     };
 
@@ -952,7 +933,6 @@
       elements.charAbs.value = state.character.abs || '';
       elements.charHair.value = state.character.hair || 'default';
       elements.charPants.value = state.character.pants || 'shorts';
-      elements.charShoes.value = state.character.shoes || 'sneakers';
     }
 
     function saveCharacterAttributes() {
@@ -971,8 +951,7 @@
         bodyFat: bodyFat,
         abs: abs,
         hair: elements.charHair.value,
-        pants: elements.charPants.value,
-        shoes: elements.charShoes.value
+        pants: elements.charPants.value
       };
 
       saveState();
@@ -1015,15 +994,6 @@
 
     function updateThemeIcon(theme) {
       elements.themeIcon.textContent = theme === 'light' ? '🌙 Dark' : '☀️ Light';
-    }
-
-    // ========== BODY METRICS ==========
-    function updateBodyMetrics() {
-      state.weight = parseInt(elements.weightInput.value);
-      state.bodyFat = parseInt(elements.bodyFatInput.value);
-      elements.weightDisplay.textContent = `${state.weight} lb`;
-      elements.bodyFatDisplay.textContent = `${state.bodyFat}%`;
-      saveState();
     }
 
     // ========== PILLAR TOGGLE ==========
@@ -1209,10 +1179,6 @@
           navigateToPage(state.currentPage);
         }
 
-        elements.weightInput.value = state.weight;
-        elements.bodyFatInput.value = state.bodyFat;
-        updateBodyMetrics();
-
         updateAllPillarUIs();
         updatePumpMeter();
         updateStreak();
@@ -1230,10 +1196,6 @@
 
     // Theme
     elements.themeToggle.addEventListener('click', toggleTheme);
-
-    // Body metrics
-    elements.weightInput.addEventListener('input', updateBodyMetrics);
-    elements.bodyFatInput.addEventListener('input', updateBodyMetrics);
 
     // Pillar toggles
     elements.fitnessToggle.addEventListener('click', () => togglePillar('fitness'));
