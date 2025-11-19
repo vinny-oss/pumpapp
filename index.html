@@ -197,6 +197,16 @@
       gap: 6px;
     }
 
+    /* Shared section title for all screens */
+    .section-title {
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      text-align: center;
+      color: #9ca3af;
+    }
+
+    /* Legacy support */
     .screen-label {
       font-size: 11px;
       letter-spacing: 0.16em;
@@ -594,7 +604,52 @@
     }
 
 
-    /* ========== CHARACTER CARD ========== */
+    /* ========== HERO CARD - Shared across all screens ========== */
+    .hero-card {
+      position: relative;
+      border-radius: 24px;
+      padding: 18px 16px 20px;
+      background: radial-gradient(circle at top, #020617 0, #020617 55%, #020617 100%);
+      border: 1px solid rgba(31, 41, 55, 0.95);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.9);
+      text-align: center;
+      color: #e5e7eb;
+    }
+
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      border-top: 2px solid transparent;
+      pointer-events: none;
+    }
+
+    /* Locker screen - gold accent */
+    .hero-card--locker {
+      border-color: rgba(250, 204, 21, 0.6);
+    }
+    .hero-card--locker::before {
+      border-top-color: rgba(250, 204, 21, 0.9);
+    }
+
+    /* Session screen - blue accent */
+    .hero-card--session {
+      border-color: rgba(59, 130, 246, 0.6);
+    }
+    .hero-card--session::before {
+      border-top-color: rgba(59, 130, 246, 0.9);
+    }
+
+    /* Records screen - green accent */
+    .hero-card--records {
+      border-color: rgba(34, 197, 94, 0.6);
+    }
+    .hero-card--records::before {
+      border-top-color: rgba(34, 197, 94, 0.9);
+    }
+
+    /* Legacy support for old character-card class */
     .screen-character .character-card {
       position: relative;
       border-radius: 24px;
@@ -653,6 +708,14 @@
       justify-content: center;
     }
 
+    /* Shared hero subtitle for all screens */
+    .hero-subtitle {
+      margin-top: 12px;
+      font-size: 12px;
+      opacity: 0.8;
+    }
+
+    /* Legacy support */
     .character-hint {
       margin-top: 12px;
       font-size: 12px;
@@ -831,7 +894,7 @@
     <div class="screen-layout garage-screen">
       <!-- Top Strip: Pump Meter -->
       <section class="screen-top">
-        <p class="screen-label">Pump meter</p>
+        <p class="section-title">TODAY SESSION</p>
         <div class="pump-meter">
           <div class="pump-meter-bar">
             <div class="pump-meter-fill" id="pumpMeterFill"></div>
@@ -846,7 +909,7 @@
 
       <!-- Character Card -->
       <section class="screen-character">
-        <div class="character-card">
+        <div class="hero-card hero-card--session">
           <div class="viewport">
             <div class="loading-overlay" id="sessionLoadingOverlay">
               <div class="spinner"></div>
@@ -866,7 +929,7 @@
               <div>Your character will appear here</div>
             </div>
           </div>
-          <p class="character-hint">Log all four pillars to power up your character.</p>
+          <p class="hero-subtitle">Log all four pillars to power up your character.</p>
         </div>
       </section>
 
@@ -912,7 +975,7 @@
     <div class="screen-layout stats-screen">
       <!-- Top Strip: Progress Pills -->
       <section class="screen-top">
-        <p class="screen-label">Progress</p>
+        <p class="section-title">PROGRESS</p>
         <div class="top-stat-row">
           <div class="stat-pill">
             <div class="stat-pill-label">Streak</div>
@@ -931,7 +994,7 @@
 
       <!-- Character Card -->
       <section class="screen-character">
-        <div class="character-card">
+        <div class="hero-card hero-card--records">
           <div class="viewport">
             <img id="records-character-image" style="width: 100%; height: 100%; object-fit: cover; border-radius: 12px; display: none;" onerror="this.onerror=null; this.src='https://placehold.co/400x400/020617/22c55e?text=Error+Loading+Image';">
             <div class="character-placeholder" id="records-character-placeholder">
@@ -940,7 +1003,7 @@
               </p>
             </div>
           </div>
-          <p class="character-hint">Track your progress and celebrate your wins.</p>
+          <p class="hero-subtitle">Track your progress and celebrate your wins.</p>
         </div>
       </section>
 
@@ -987,7 +1050,7 @@
     <div class="screen-layout character-screen">
       <!-- Top Strip: Three Editable Stat Pills -->
       <section class="screen-top">
-        <p class="screen-label">Character stats</p>
+        <p class="section-title">CHARACTER STATS</p>
         <div class="top-stat-row">
           <!-- Weight pill -->
           <div class="option-pill" data-stat="weight">
@@ -1045,7 +1108,7 @@
 
       <!-- Character Card -->
       <section class="screen-character">
-        <div class="character-card">
+        <div class="hero-card hero-card--locker">
           <div class="viewport">
             <img id="locker-character-image" style="width: 100%; height: 100%; object-fit: cover; border-radius: 12px; display: none;" onerror="this.onerror=null; this.src='https://placehold.co/400x400/020617/facc15?text=Error+Loading+Image';">
             <div class="character-placeholder" id="locker-character-placeholder">
@@ -1060,7 +1123,7 @@
               <div>Your character preview will appear here.</div>
             </div>
           </div>
-          <p class="character-hint">Edit your stats and style, then generate your Pump character.</p>
+          <p class="hero-subtitle">These settings create your base character.</p>
         </div>
       </section>
 
