@@ -235,6 +235,52 @@
       text-align: center;
     }
 
+    /* ========== RECORDS GALLERY ========== */
+    .records-gallery {
+      margin-top: 10px;
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+
+    .records-thumb {
+      min-width: 80px;
+      border-radius: 14px;
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      background: #020617;
+      padding: 4px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size: 10px;
+      color: #9ca3af;
+      cursor: pointer;
+      transition: border-color 0.2s ease;
+    }
+
+    .records-thumb:hover {
+      border-color: rgba(34, 197, 94, 0.9);
+    }
+
+    .records-thumb img {
+      width: 100%;
+      border-radius: 10px;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .records-thumb-date {
+      font-size: 9px;
+      font-weight: 600;
+      color: #f9fafb;
+    }
+
+    .records-thumb-streak {
+      font-size: 8px;
+      color: #9ca3af;
+    }
+
     @media (max-height: 780px) {
       .screen-layout {
         padding-top: 8px;
@@ -651,12 +697,13 @@
       <section class="screen-character">
         <div class="character-card">
           <div class="viewport">
-            <div class="loading-overlay" id="loadingOverlay">
+            <div class="loading-overlay" id="sessionLoadingOverlay">
               <div class="spinner"></div>
               <div class="loading-text">Generating...</div>
             </div>
 
-            <div class="character-placeholder" id="characterPlaceholder">
+            <img id="session-character-image" style="width: 100%; height: 100%; object-fit: cover; border-radius: 12px; display: none;">
+            <div class="character-placeholder" id="session-character-placeholder">
               <svg class="character-silhouette" viewBox="0 0 100 150" fill="currentColor">
                 <ellipse cx="50" cy="20" rx="15" ry="18"/>
                 <rect x="35" y="38" width="30" height="40" rx="5"/>
@@ -696,7 +743,7 @@
       </section>
 
       <!-- Primary CTA -->
-      <button class="primary-cta primary-cta-garage" id="generateBtn">
+      <button class="primary-cta primary-cta-session" id="sessionSaveBtn">
         Save today's Pump card
       </button>
 
@@ -735,7 +782,8 @@
       <section class="screen-character">
         <div class="character-card">
           <div class="viewport">
-            <div class="character-placeholder" id="statsPlaceholder">
+            <img id="records-character-image" style="width: 100%; height: 100%; object-fit: cover; border-radius: 12px; display: none;">
+            <div class="character-placeholder" id="records-character-placeholder">
               <p class="character-placeholder-text" style="font-size: 0.9rem; color: rgba(255, 255, 255, 0.5);">
                 Your lifetime Pump summary will appear here.
               </p>
@@ -744,6 +792,9 @@
           <p class="character-hint">Track your progress and celebrate your wins.</p>
         </div>
       </section>
+
+      <!-- Card Gallery -->
+      <div class="records-gallery" id="records-gallery"></div>
 
       <!-- Grid of 4 Stats Buttons -->
       <section class="screen-grid stats-grid">
@@ -789,65 +840,82 @@
         <div class="top-stat-row">
           <div class="stat-pill">
             <div class="stat-pill-label">Weight</div>
-            <div class="stat-pill-value" id="char-stat-weight">185 lb</div>
+            <div class="stat-pill-value" id="char-stat-weight">-- lb</div>
           </div>
           <div class="stat-pill">
             <div class="stat-pill-label">Body fat</div>
-            <div class="stat-pill-value" id="char-stat-bodyfat">15%</div>
+            <div class="stat-pill-value" id="char-stat-bodyfat">--%</div>
           </div>
           <div class="stat-pill">
             <div class="stat-pill-label">Height</div>
-            <div class="stat-pill-value" id="char-stat-height">70 in</div>
+            <div class="stat-pill-value" id="char-stat-height">-- in</div>
           </div>
         </div>
+      </section>
+
+      <!-- Character Stat Inputs -->
+      <section style="display: flex; flex-direction: column; gap: 8px;">
+        <input type="number" id="char-weight" placeholder="Weight (lb)" style="padding: 10px; border-radius: 8px; border: 1px solid rgba(55, 65, 81, 0.9); background: #020617; color: #f9fafb; font-size: 14px;">
+        <input type="number" id="char-bodyfat" placeholder="Body fat %" style="padding: 10px; border-radius: 8px; border: 1px solid rgba(55, 65, 81, 0.9); background: #020617; color: #f9fafb; font-size: 14px;">
+        <input type="number" id="char-height" placeholder="Height (in)" style="padding: 10px; border-radius: 8px; border: 1px solid rgba(55, 65, 81, 0.9); background: #020617; color: #f9fafb; font-size: 14px;">
       </section>
 
       <!-- Character Card -->
       <section class="screen-character">
         <div class="character-card">
           <div class="viewport">
-            <div class="character-placeholder" id="characterEditPlaceholder">
+            <img id="locker-character-image" style="width: 100%; height: 100%; object-fit: cover; border-radius: 12px; display: none;">
+            <div class="character-placeholder" id="locker-character-placeholder">
               <svg class="character-silhouette" viewBox="0 0 100 150" fill="currentColor">
                 <ellipse cx="50" cy="20" rx="15" ry="18"/>
                 <rect x="35" y="38" width="30" height="40" rx="5"/>
-                <rect x="20" y="38" width="12" height="35" rx="4"/>
                 <rect x="68" y="38" width="12" height="35" rx="4"/>
+                <rect x="20" y="38" width="12" height="35" rx="4"/>
                 <rect x="38" y="78" width="10" height="45" rx="4"/>
                 <rect x="52" y="78" width="10" height="45" rx="4"/>
               </svg>
               <div>Your character preview will appear here.</div>
             </div>
           </div>
-          <p class="character-hint">Edit your stats and style, then save to update your Pump character.</p>
+          <p class="character-hint">Edit your stats and style, then generate your Pump character.</p>
         </div>
       </section>
 
-      <!-- Grid of 4 Option Buttons -->
-      <section class="screen-grid character-grid">
-        <button class="grid-card option-card" id="optionHead" data-option="head">
-          <span class="grid-title option-title">Head</span>
-          <span class="grid-subtitle option-value" id="option-head-value">Default</span>
-        </button>
+      <!-- Character Style Options -->
+      <section style="display: flex; flex-direction: column; gap: 8px;">
+        <select id="char-hair" style="padding: 10px; border-radius: 8px; border: 1px solid rgba(55, 65, 81, 0.9); background: #020617; color: #f9fafb; font-size: 14px;">
+          <option value="default">Head: Default</option>
+          <option value="bald">Head: Bald</option>
+          <option value="mohawk">Head: Mohawk</option>
+          <option value="long">Head: Long hair</option>
+        </select>
 
-        <button class="grid-card option-card" id="optionSkin" data-option="skin">
-          <span class="grid-title option-title">Skin tone</span>
-          <span class="grid-subtitle option-value" id="option-skin-value">Default</span>
-        </button>
+        <select id="char-skin" style="padding: 10px; border-radius: 8px; border: 1px solid rgba(55, 65, 81, 0.9); background: #020617; color: #f9fafb; font-size: 14px;">
+          <option value="default">Skin tone: Default</option>
+          <option value="light">Skin tone: Light</option>
+          <option value="medium">Skin tone: Medium</option>
+          <option value="dark">Skin tone: Dark</option>
+        </select>
 
-        <button class="grid-card option-card" id="optionAbs" data-option="abs">
-          <span class="grid-title option-title">Ab count</span>
-          <span class="grid-subtitle option-value" id="option-abs-value">0 packs</span>
-        </button>
+        <select id="char-abs" style="padding: 10px; border-radius: 8px; border: 1px solid rgba(55, 65, 81, 0.9); background: #020617; color: #f9fafb; font-size: 14px;">
+          <option value="0">Ab count: 0 packs</option>
+          <option value="2">Ab count: 2 packs</option>
+          <option value="4">Ab count: 4 packs</option>
+          <option value="6">Ab count: 6 packs</option>
+          <option value="8">Ab count: 8 packs</option>
+        </select>
 
-        <button class="grid-card option-card" id="optionPants" data-option="pants">
-          <span class="grid-title option-title">Pants</span>
-          <span class="grid-subtitle option-value" id="option-pants-value">Shorts</span>
-        </button>
+        <select id="char-pants" style="padding: 10px; border-radius: 8px; border: 1px solid rgba(55, 65, 81, 0.9); background: #020617; color: #f9fafb; font-size: 14px;">
+          <option value="shorts">Pants: Shorts</option>
+          <option value="joggers">Pants: Joggers</option>
+          <option value="leggings">Pants: Leggings</option>
+          <option value="sweatpants">Pants: Sweatpants</option>
+        </select>
       </section>
 
       <!-- Primary CTA -->
-      <button class="primary-cta primary-cta-character" id="saveCharacterBtn">
-        Edit your character
+      <button class="primary-cta primary-cta-locker" id="lockerGenerateBtn">
+        Generate character
       </button>
 
       <!-- Footer Row -->
@@ -858,208 +926,389 @@
   </div>
 
   <script>
-    // ========== STATE MANAGEMENT ==========
-    const state = {
-      // Current page
-      currentPage: 'garage',
+    // ========== UTILITY FUNCTIONS ==========
+    function sleep(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
 
-      // Body metrics
-      weight: 185,
-      bodyFat: 15,
+    function todayKey() {
+      return new Date().toISOString().slice(0, 10);
+    }
 
-      // Simple pillar toggles (true = done, false = not done)
-      pillars: {
-        fitness: false,
-        nutrition: false,
-        hydration: false,
-        rest: false
+    function isNextDay(prevDate, currentDate) {
+      const prev = new Date(prevDate);
+      const curr = new Date(currentDate);
+      const diff = curr - prev;
+      return diff > 0 && diff <= 24 * 60 * 60 * 1000;
+    }
+
+    // ========== DATA STORE ==========
+    // Single source of truth for the current user
+    const store = {
+      character: {
+        heightIn: null,
+        weightLb: null,
+        bodyFatPercent: null,
+        abCount: 0,
+        skinTone: "default",
+        pantsStyle: "shorts",
+        headStyle: "default",
+        baseImageUrl: null,
+        stylePreset: "cartoon"
+      },
+      pumpToday: {
+        date: null,
+        fitnessDone: false,
+        nutritionDone: false,
+        hydrationDone: false,
+        restDone: false
+      },
+      records: {
+        cards: [],
+        streak: 0,
+        bestStreak: 0
+      },
+      currentPage: 'garage'
+    };
+
+    // ========== IMAGE SERVICE ==========
+    const ImageService = {
+      async createBaseCharacter(characterState) {
+        console.log("Mock createBaseCharacter", characterState);
+        await sleep(800);
+        return "/assets/mock-base.png";
       },
 
-      // Streak tracking
-      streak: 0,
-      bestStreak: 0,
-
-      // Profile cards library
-      profileCards: [],
-
-      // Character attributes
-      character: {
-        height: 70,
-        weight: 185,
-        bodyFat: 15,
-        abs: 0,
-        hair: 'default',
-        skinTone: 'default',
-        pants: 'shorts'
+      async createPumpCard(baseImageUrl, cardInput) {
+        console.log("Mock createPumpCard", { baseImageUrl, cardInput });
+        await sleep(800);
+        const id = Math.floor(Math.random() * 4) + 1;
+        return `/assets/mock-card-${id}.png`;
       }
     };
 
-    // ========== DOM ELEMENTS ==========
-    const elements = {
-      // Navigation
-      navBtns: document.querySelectorAll('.nav-btn'),
-      pages: document.querySelectorAll('.page'),
+    // ========== LOCKER SCREEN FUNCTIONS ==========
+    function readLockerInputsIntoStore() {
+      const heightInput = document.getElementById("char-height");
+      const weightInput = document.getElementById("char-weight");
+      const bodyFatInput = document.getElementById("char-bodyfat");
+      const absInput = document.getElementById("char-abs");
+      const hairSelect = document.getElementById("char-hair");
+      const pantsSelect = document.getElementById("char-pants");
+      const skinSelect = document.getElementById("char-skin");
 
-      // Theme
-      themeToggle: document.getElementById('themeToggle'),
-      themeIcon: document.querySelector('.theme-icon'),
+      store.character.heightIn = Number(heightInput.value) || null;
+      store.character.weightLb = Number(weightInput.value) || null;
+      store.character.bodyFatPercent = Number(bodyFatInput.value) || null;
+      store.character.abCount = Number(absInput.value) || 0;
+      store.character.headStyle = hairSelect.value;
+      store.character.pantsStyle = pantsSelect.value;
+      store.character.skinTone = skinSelect.value;
+    }
 
-      // Streak
-      currentStreak: document.getElementById('currentStreak'),
-      bestStreak: document.getElementById('bestStreak'),
-      totalCards: document.getElementById('totalCards'),
+    function renderLocker() {
+      // Update top pills
+      const w = document.getElementById("char-stat-weight");
+      const bf = document.getElementById("char-stat-bodyfat");
+      const h = document.getElementById("char-stat-height");
 
-      // Pump meter
-      pumpMeterFill: document.getElementById('pumpMeterFill'),
-      pumpMeterText: document.getElementById('pumpMeterText'),
+      if (w) w.textContent = store.character.weightLb != null ? `${store.character.weightLb} lb` : "-- lb";
+      if (bf) bf.textContent = store.character.bodyFatPercent != null ? `${store.character.bodyFatPercent}%` : "--%";
+      if (h) h.textContent = store.character.heightIn != null ? `${store.character.heightIn} in` : "-- in";
 
-      // Pillar toggles
-      fitnessToggle: document.getElementById('fitnessToggle'),
-      nutritionToggle: document.getElementById('nutritionToggle'),
-      hydrationToggle: document.getElementById('hydrationToggle'),
-      restToggle: document.getElementById('restToggle'),
+      // Update preview image
+      const img = document.getElementById("locker-character-image");
+      const placeholder = document.getElementById("locker-character-placeholder");
 
-      // Character
-      generateBtn: document.getElementById('generateBtn'),
-      loadingOverlay: document.getElementById('loadingOverlay'),
-      characterPlaceholder: document.getElementById('characterPlaceholder'),
+      if (img && placeholder) {
+        if (store.character.baseImageUrl) {
+          img.src = store.character.baseImageUrl;
+          img.style.display = "block";
+          placeholder.style.display = "none";
+        } else {
+          img.style.display = "none";
+          placeholder.style.display = "flex";
+        }
+      }
 
-      // Character Edit - Stat Pills
-      charStatWeight: document.getElementById('char-stat-weight'),
-      charStatBodyFat: document.getElementById('char-stat-bodyfat'),
-      charStatHeight: document.getElementById('char-stat-height'),
+      // Update input values from store
+      const heightInput = document.getElementById("char-height");
+      const weightInput = document.getElementById("char-weight");
+      const bodyFatInput = document.getElementById("char-bodyfat");
+      const absInput = document.getElementById("char-abs");
+      const hairSelect = document.getElementById("char-hair");
+      const pantsSelect = document.getElementById("char-pants");
+      const skinSelect = document.getElementById("char-skin");
 
-      // Character Edit - Option Cards
-      optionHead: document.getElementById('optionHead'),
-      optionSkin: document.getElementById('optionSkin'),
-      optionAbs: document.getElementById('optionAbs'),
-      optionPants: document.getElementById('optionPants'),
-      optionHeadValue: document.getElementById('option-head-value'),
-      optionSkinValue: document.getElementById('option-skin-value'),
-      optionAbsValue: document.getElementById('option-abs-value'),
-      optionPantsValue: document.getElementById('option-pants-value'),
+      if (heightInput && store.character.heightIn) heightInput.value = store.character.heightIn;
+      if (weightInput && store.character.weightLb) weightInput.value = store.character.weightLb;
+      if (bodyFatInput && store.character.bodyFatPercent) bodyFatInput.value = store.character.bodyFatPercent;
+      if (absInput) absInput.value = store.character.abCount;
+      if (hairSelect) hairSelect.value = store.character.headStyle;
+      if (pantsSelect) pantsSelect.value = store.character.pantsStyle;
+      if (skinSelect) skinSelect.value = store.character.skinTone;
+    }
 
-      saveCharacterBtn: document.getElementById('saveCharacterBtn')
-    };
+    // ========== SESSION SCREEN FUNCTIONS ==========
+    function ensurePumpToday() {
+      const key = todayKey();
+      if (store.pumpToday.date !== key) {
+        store.pumpToday = {
+          date: key,
+          fitnessDone: false,
+          nutritionDone: false,
+          hydrationDone: false,
+          restDone: false
+        };
+      }
+    }
+
+    function computePumpPercent() {
+      const t = store.pumpToday;
+      const completed = [
+        t.fitnessDone,
+        t.nutritionDone,
+        t.hydrationDone,
+        t.restDone
+      ].filter(Boolean).length;
+      return completed * 25;
+    }
+
+    function updatePumpMeter(percent) {
+      const meter = document.querySelector('.pump-meter');
+      const fill = document.getElementById('pumpMeterFill');
+      const label = document.getElementById('pumpMeterText');
+      const subtitle = document.getElementById('pumpMeterSubtitle');
+
+      if (!meter || !fill || !label) return;
+
+      fill.style.width = percent + '%';
+      label.textContent = percent + '%';
+
+      if (percent >= 100) {
+        meter.classList.add('pump-meter--full');
+      } else {
+        meter.classList.remove('pump-meter--full');
+      }
+
+      if (subtitle) {
+        if (percent >= 100) {
+          subtitle.textContent = 'Max Pump reached. Save your card.';
+        } else if (percent === 0) {
+          subtitle.textContent = 'Complete your first pillar to start the Pump.';
+        } else {
+          subtitle.textContent = 'Keep going. Each pillar fills the bar.';
+        }
+      }
+    }
+
+    function togglePillar(name) {
+      ensurePumpToday();
+      store.pumpToday[name] = !store.pumpToday[name];
+      renderSession();
+      saveStore();
+    }
+
+    function renderSession() {
+      ensurePumpToday();
+
+      const percent = computePumpPercent();
+      updatePumpMeter(percent);
+
+      // Update button state
+      const btn = document.getElementById('sessionSaveBtn');
+      const alreadySaved = store.records.cards.some(c => c.date === store.pumpToday.date);
+
+      if (btn) {
+        btn.disabled = percent < 100 || alreadySaved || !store.character.baseImageUrl;
+        btn.textContent = alreadySaved ? "Card saved" : "Save today's Pump card";
+      }
+
+      // Update character image in Session
+      const img = document.getElementById("session-character-image");
+      const placeholder = document.getElementById("session-character-placeholder");
+      if (img && placeholder) {
+        if (store.character.baseImageUrl) {
+          img.src = store.character.baseImageUrl;
+          img.style.display = "block";
+          placeholder.style.opacity = "0.3";
+        } else {
+          img.style.display = "none";
+          placeholder.style.opacity = "1";
+        }
+      }
+
+      // Update pillar card states
+      const pillars = ['fitness', 'nutrition', 'hydration', 'rest'];
+      pillars.forEach(pillar => {
+        const btn = document.querySelector(`[data-pillar="${pillar}"]`);
+        const status = btn?.querySelector('.pillar-status');
+        const isDone = store.pumpToday[pillar + 'Done'];
+
+        if (btn && status) {
+          if (isDone) {
+            btn.classList.add('pillar-completed', 'completed', 'done');
+            status.textContent = 'Completed';
+          } else {
+            btn.classList.remove('pillar-completed', 'completed', 'done');
+            status.textContent = 'To do';
+          }
+        }
+      });
+
+      // Update footer stats
+      const currentStreak = document.getElementById('currentStreak');
+      const bestStreak = document.getElementById('bestStreak');
+      const totalCards = document.getElementById('totalCards');
+
+      if (currentStreak) currentStreak.textContent = store.records.streak;
+      if (bestStreak) bestStreak.textContent = store.records.bestStreak;
+      if (totalCards) totalCards.textContent = store.records.cards.length;
+    }
+
+    function addCardToRecords(cardImageUrl) {
+      const date = store.pumpToday.date;
+      const percent = computePumpPercent();
+
+      const pillars = {
+        fitness: store.pumpToday.fitnessDone,
+        nutrition: store.pumpToday.nutritionDone,
+        hydration: store.pumpToday.hydrationDone,
+        rest: store.pumpToday.restDone
+      };
+
+      const cards = store.records.cards;
+      const last = cards[cards.length - 1];
+      let newStreak = 1;
+
+      if (last && isNextDay(last.date, date)) {
+        newStreak = last.streakAtDay + 1;
+      }
+
+      const card = {
+        date,
+        pumpPercent: percent,
+        pillars,
+        baseImageUrl: store.character.baseImageUrl,
+        cardImageUrl,
+        effectType: "defaultVeins",
+        streakAtDay: newStreak
+      };
+
+      cards.push(card);
+      store.records.streak = newStreak;
+      store.records.bestStreak = Math.max(store.records.bestStreak, newStreak);
+    }
+
+    // ========== RECORDS SCREEN FUNCTIONS ==========
+    function renderRecords() {
+      const { cards, streak, bestStreak } = store.records;
+
+      const streakPill = document.getElementById("stats-streak");
+      const bestPill = document.getElementById("stats-best");
+      const cardsPill = document.getElementById("stats-cards");
+
+      if (streakPill) streakPill.textContent = `${streak} days`;
+      if (bestPill) bestPill.textContent = `${bestStreak} days`;
+      if (cardsPill) cardsPill.textContent = String(cards.length);
+
+      // Update grid stats too
+      const gridStreak = document.getElementById('stats-grid-streak');
+      const gridBest = document.getElementById('stats-grid-best');
+      const gridCards = document.getElementById('stats-grid-cards');
+      const gridMax = document.getElementById('stats-grid-max');
+
+      if (gridStreak) gridStreak.textContent = `${streak} days`;
+      if (gridBest) gridBest.textContent = `${bestStreak} days`;
+      if (gridCards) gridCards.textContent = String(cards.length);
+
+      if (gridMax) {
+        const maxPump = cards.length > 0
+          ? Math.max(...cards.map(card => card.pumpPercent || 0))
+          : 0;
+        gridMax.textContent = Math.round(maxPump) + '%';
+      }
+
+      const lastCard = cards[cards.length - 1];
+
+      const bigImg = document.getElementById("records-character-image");
+      const bigPlaceholder = document.getElementById("records-character-placeholder");
+
+      if (bigImg && bigPlaceholder) {
+        if (lastCard) {
+          bigImg.src = lastCard.cardImageUrl;
+          bigImg.style.display = "block";
+          bigPlaceholder.style.display = "none";
+        } else {
+          bigImg.style.display = "none";
+          bigPlaceholder.style.display = "flex";
+        }
+      }
+
+      renderRecordsGallery();
+    }
+
+    function renderRecordsGallery() {
+      const container = document.getElementById("records-gallery");
+      if (!container) return;
+      container.innerHTML = "";
+
+      store.records.cards.slice().reverse().forEach(card => {
+        const item = document.createElement("button");
+        item.className = "records-thumb";
+        item.innerHTML = `
+          <img src="${card.cardImageUrl}" alt="Pump card ${card.date}">
+          <span class="records-thumb-date">${card.date}</span>
+          <span class="records-thumb-streak">${card.streakAtDay} day streak</span>
+        `;
+        item.addEventListener("click", () => showRecordsCard(card));
+        container.appendChild(item);
+      });
+    }
+
+    function showRecordsCard(card) {
+      const bigImg = document.getElementById("records-character-image");
+      if (bigImg) {
+        bigImg.src = card.cardImageUrl;
+        bigImg.style.display = "block";
+      }
+      const placeholder = document.getElementById("records-character-placeholder");
+      if (placeholder) {
+        placeholder.style.display = "none";
+      }
+    }
 
     // ========== NAVIGATION ==========
     function navigateToPage(pageName) {
-      state.currentPage = pageName;
+      store.currentPage = pageName;
 
-      elements.pages.forEach(page => {
+      const pages = document.querySelectorAll('.page');
+      const navBtns = document.querySelectorAll('.nav-btn');
+
+      pages.forEach(page => {
         page.classList.remove('active');
         if (page.id === pageName) {
           page.classList.add('active');
         }
       });
 
-      elements.navBtns.forEach(btn => {
+      navBtns.forEach(btn => {
         btn.classList.remove('active');
         if (btn.dataset.page === pageName) {
           btn.classList.add('active');
         }
       });
 
-      // Load character data when navigating to Character Edit
+      // Render appropriate screen
       if (pageName === 'edit-character') {
-        renderCharacterTopStats();
-        renderCharacterOptions();
+        renderLocker();
+      } else if (pageName === 'garage') {
+        renderSession();
+      } else if (pageName === 'stats') {
+        renderRecords();
       }
 
-      // Load stats data when navigating to Stats
-      if (pageName === 'stats') {
-        renderStatsScreen();
-      }
-
-      saveState();
-    }
-
-    // ========== CHARACTER EDIT MANAGEMENT ==========
-    function renderCharacterTopStats() {
-      if (!elements.charStatWeight) return;
-
-      elements.charStatWeight.textContent = state.character.weight + ' lb';
-      elements.charStatBodyFat.textContent = state.character.bodyFat + '%';
-      elements.charStatHeight.textContent = state.character.height + ' in';
-    }
-
-    function renderCharacterOptions() {
-      if (!elements.optionHeadValue) return;
-
-      // Capitalize first letter of hair value
-      const hairValue = state.character.hair || 'default';
-      elements.optionHeadValue.textContent = hairValue.charAt(0).toUpperCase() + hairValue.slice(1);
-
-      // Capitalize first letter of skin tone value
-      const skinValue = state.character.skinTone || 'default';
-      elements.optionSkinValue.textContent = skinValue.charAt(0).toUpperCase() + skinValue.slice(1);
-
-      // Format ab count with "packs" suffix
-      const absValue = state.character.abs || 0;
-      elements.optionAbsValue.textContent = absValue + ' packs';
-
-      // Capitalize first letter of pants value
-      const pantsValue = state.character.pants || 'shorts';
-      elements.optionPantsValue.textContent = pantsValue.charAt(0).toUpperCase() + pantsValue.slice(1);
-    }
-
-    function handleCharacterEdit() {
-      // TODO: Open detail edit panel or simple prompt
-      // For now, just log and show a toast
-      console.log('Character edit clicked:', state.character);
-
-      const originalText = elements.saveCharacterBtn.textContent;
-      elements.saveCharacterBtn.textContent = '✓ Saved!';
-      elements.saveCharacterBtn.style.background = 'linear-gradient(90deg, #22c55e, #16a34a)';
-
-      setTimeout(() => {
-        elements.saveCharacterBtn.textContent = originalText;
-        elements.saveCharacterBtn.style.background = '';
-      }, 2000);
-    }
-
-    // ========== STATS SCREEN MANAGEMENT ==========
-    function renderStatsScreen() {
-      // Format streak values
-      const streakText = state.streak === 1 ? '1 day' : state.streak + ' days';
-      const bestText = state.bestStreak === 1 ? '1 day' : state.bestStreak + ' days';
-
-      // Update top stat pills
-      const statsStreak = document.getElementById('stats-streak');
-      const statsBest = document.getElementById('stats-best');
-      const statsCards = document.getElementById('stats-cards');
-
-      if (statsStreak) statsStreak.textContent = streakText;
-      if (statsBest) statsBest.textContent = bestText;
-      if (statsCards) statsCards.textContent = state.profileCards.length;
-
-      // Update grid stats
-      const gridStreak = document.getElementById('stats-grid-streak');
-      const gridBest = document.getElementById('stats-grid-best');
-      const gridCards = document.getElementById('stats-grid-cards');
-
-      if (gridStreak) gridStreak.textContent = streakText;
-      if (gridBest) gridBest.textContent = bestText;
-      if (gridCards) gridCards.textContent = state.profileCards.length;
-
-      // Calculate max pump
-      const gridMax = document.getElementById('stats-grid-max');
-      if (gridMax) {
-        const maxPump = state.profileCards.length > 0
-          ? Math.max(...state.profileCards.map(card => card.pumpPercent || 0))
-          : 0;
-        gridMax.textContent = Math.round(maxPump) + '%';
-      }
-    }
-
-    // ========== UTILITY FUNCTIONS ==========
-    function getTodayString() {
-      return new Date().toISOString().split('T')[0];
-    }
-
-    function formatDate(dateString) {
-      const date = new Date(dateString);
-      return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+      saveStore();
     }
 
     // ========== THEME MANAGEMENT ==========
@@ -1078,236 +1327,116 @@
     }
 
     function updateThemeIcon(theme) {
-      if (elements.themeIcon) {
-        elements.themeIcon.textContent = theme === 'light' ? '🌙' : '☀️';
-      }
-    }
-
-    // ========== PILLAR TOGGLE ==========
-    function togglePillar(pillarName) {
-      // Toggle the state
-      state.pillars[pillarName] = !state.pillars[pillarName];
-
-      // Update UI
-      updatePillarUI(pillarName);
-      updatePumpMeter();
-      saveState();
-    }
-
-    function updatePillarUI(pillarName) {
-      const toggleEl = elements[`${pillarName}Toggle`];
-      const statusEl = toggleEl.querySelector('.pillar-status');
-      const isDone = state.pillars[pillarName];
-
-      if (isDone) {
-        toggleEl.classList.add('done');
-        toggleEl.classList.add('completed');
-        toggleEl.classList.remove('pending');
-        statusEl.textContent = 'Completed';
-      } else {
-        toggleEl.classList.remove('done');
-        toggleEl.classList.remove('completed');
-        toggleEl.classList.add('pending');
-        statusEl.textContent = 'To do';
-      }
-    }
-
-    function updateAllPillarUIs() {
-      Object.keys(state.pillars).forEach(pillar => {
-        updatePillarUI(pillar);
-      });
-    }
-
-    // ========== PUMP METER ==========
-    function updatePumpMeter() {
-      const pillarsArray = Object.values(state.pillars);
-      const completedCount = pillarsArray.filter(done => done).length;
-      const percentage = (completedCount / 4) * 100;
-
-      // Clamp between 0 and 100
-      const value = Math.max(0, Math.min(100, percentage));
-
-      const meter = document.querySelector('.pump-meter');
-      const fill = elements.pumpMeterFill;
-      const label = elements.pumpMeterText;
-      const subtitle = document.getElementById('pumpMeterSubtitle');
-
-      if (!meter || !fill || !label) return value;
-
-      fill.style.width = value + '%';
-      label.textContent = value + '%';
-
-      // Full state toggle for glow
-      if (value >= 100) {
-        meter.classList.add('pump-meter--full');
-      } else {
-        meter.classList.remove('pump-meter--full');
-      }
-
-      // Update subtitle copy
-      if (subtitle) {
-        if (value >= 100) {
-          subtitle.textContent = 'Max Pump reached. Save your card.';
-        } else if (value === 0) {
-          subtitle.textContent = 'Complete your first pillar to start the Pump.';
-        } else {
-          subtitle.textContent = 'Keep going. Each pillar fills the bar.';
-        }
-      }
-
-      return value;
-    }
-
-    // ========== PROFILE CARD GENERATION ==========
-    async function generateProfileCard() {
-      const pumpPercentage = updatePumpMeter();
-
-      elements.loadingOverlay.classList.add('active');
-      elements.generateBtn.disabled = true;
-
-      try {
-        // TODO: Call NanoBanana API with weight, bodyFat, pumpPercentage
-        await new Promise(resolve => setTimeout(resolve, 2500));
-
-        // Create profile card
-        const card = {
-          date: getTodayString(),
-          weight: state.weight,
-          bodyFat: state.bodyFat,
-          pumpPercent: pumpPercentage,
-          pillars: { ...state.pillars }
-        };
-
-        state.profileCards.push(card);
-
-        // Update streak
-        updateStreak();
-
-        // Display the card
-        elements.characterPlaceholder.innerHTML = `
-          <div style="color: rgba(255, 255, 255, 0.8); text-align: center; padding: 1.5rem;">
-            <div style="font-size: 3rem; margin-bottom: 0.75rem;">💪</div>
-            <div style="font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem;">Profile Card!</div>
-            <div style="font-size: 0.85rem; color: rgba(255,255,255,0.6); margin-bottom: 1rem;">${formatDate(card.date)}</div>
-            <div style="font-size: 0.85rem; line-height: 1.6;">
-              <strong>${card.weight} lb</strong> | <strong>${card.bodyFat}%</strong><br>
-              <div style="font-size: 1.75rem; margin: 0.75rem 0; color: ${pumpPercentage === 100 ? '#2dce89' : pumpPercentage >= 50 ? '#ffc107' : '#f5365c'};">
-                ${Math.round(pumpPercentage)}% PUMP
-              </div>
-              ${Object.entries(card.pillars).map(([key, done]) =>
-                `<div style="display: inline-block; margin: 0.2rem; padding: 0.2rem 0.5rem; background: ${done ? 'rgba(40,167,69,0.3)' : 'rgba(220,53,69,0.3)'}; border-radius: 8px; font-size: 0.7rem;">
-                  ${done ? '✓' : '✗'} ${key}
-                </div>`
-              ).join('')}
-            </div>
-          </div>
-        `;
-
-        saveState();
-
-      } catch (error) {
-        console.error('Generation failed:', error);
-        alert('Profile card generation failed. Please try again.');
-      } finally {
-        elements.loadingOverlay.classList.remove('active');
-        elements.generateBtn.disabled = false;
-      }
-    }
-
-    // ========== STREAK MANAGEMENT ==========
-    function updateStreak() {
-      if (state.profileCards.length === 0) {
-        state.streak = 0;
-        state.bestStreak = 0;
-      } else {
-        const sortedCards = state.profileCards.slice().sort((a, b) =>
-          new Date(b.date) - new Date(a.date)
-        );
-
-        let currentStreak = 0;
-        let checkDate = new Date();
-
-        for (const card of sortedCards) {
-          const cardDate = new Date(card.date);
-          cardDate.setHours(0, 0, 0, 0);
-          checkDate.setHours(0, 0, 0, 0);
-
-          const diffDays = Math.floor((checkDate - cardDate) / (1000 * 60 * 60 * 24));
-
-          if (diffDays === currentStreak) {
-            currentStreak++;
-            checkDate.setDate(checkDate.getDate() - 1);
-          } else {
-            break;
-          }
-        }
-
-        state.streak = currentStreak;
-        state.bestStreak = Math.max(state.bestStreak, currentStreak);
-      }
-
-      elements.currentStreak.textContent = state.streak;
-      elements.bestStreak.textContent = state.bestStreak;
-      elements.totalCards.textContent = state.profileCards.length;
-
-      // Update stats screen if currently viewing it
-      if (state.currentPage === 'stats') {
-        renderStatsScreen();
+      const themeIcon = document.querySelector('.theme-icon');
+      if (themeIcon) {
+        themeIcon.textContent = theme === 'light' ? '🌙' : '☀️';
       }
     }
 
     // ========== PERSISTENCE ==========
-    function saveState() {
-      localStorage.setItem('pumpAppState', JSON.stringify(state));
+    function saveStore() {
+      localStorage.setItem('pumpAppStore', JSON.stringify(store));
     }
 
-    function loadState() {
-      const saved = localStorage.getItem('pumpAppState');
+    function loadStore() {
+      const saved = localStorage.getItem('pumpAppStore');
       if (saved) {
         const loaded = JSON.parse(saved);
-        Object.assign(state, loaded);
+        Object.assign(store, loaded);
 
-        if (state.currentPage) {
-          navigateToPage(state.currentPage);
+        if (store.currentPage) {
+          navigateToPage(store.currentPage);
+        } else {
+          navigateToPage('garage');
         }
-
-        updateAllPillarUIs();
-        updatePumpMeter();
-        updateStreak();
+      } else {
+        navigateToPage('garage');
       }
     }
 
     // ========== EVENT LISTENERS ==========
 
     // Navigation
-    elements.navBtns.forEach(btn => {
+    document.querySelectorAll('.nav-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         navigateToPage(btn.dataset.page);
       });
     });
 
     // Theme
-    elements.themeToggle.addEventListener('click', toggleTheme);
+    const themeToggle = document.getElementById('themeToggle');
+    if (themeToggle) {
+      themeToggle.addEventListener('click', toggleTheme);
+    }
 
-    // Pillar toggles
-    elements.fitnessToggle.addEventListener('click', () => togglePillar('fitness'));
-    elements.nutritionToggle.addEventListener('click', () => togglePillar('nutrition'));
-    elements.hydrationToggle.addEventListener('click', () => togglePillar('hydration'));
-    elements.restToggle.addEventListener('click', () => togglePillar('rest'));
+    // Locker screen - Generate character button
+    const lockerBtn = document.getElementById('lockerGenerateBtn');
+    if (lockerBtn) {
+      lockerBtn.addEventListener('click', async () => {
+        readLockerInputsIntoStore();
 
-    // Generate character
-    elements.generateBtn.addEventListener('click', generateProfileCard);
+        lockerBtn.disabled = true;
+        lockerBtn.textContent = "Generating character...";
 
-    // Character edit
-    if (elements.saveCharacterBtn) {
-      elements.saveCharacterBtn.addEventListener('click', handleCharacterEdit);
+        const baseUrl = await ImageService.createBaseCharacter(store.character);
+        store.character.baseImageUrl = baseUrl;
+
+        lockerBtn.disabled = false;
+        lockerBtn.textContent = "Generate character";
+
+        renderLocker();
+        renderSession();
+        saveStore();
+      });
+    }
+
+    // Session screen - Pillar toggles
+    document.querySelector('[data-pillar="fitness"]')?.addEventListener('click', () => togglePillar('fitnessDone'));
+    document.querySelector('[data-pillar="nutrition"]')?.addEventListener('click', () => togglePillar('nutritionDone'));
+    document.querySelector('[data-pillar="hydration"]')?.addEventListener('click', () => togglePillar('hydrationDone'));
+    document.querySelector('[data-pillar="rest"]')?.addEventListener('click', () => togglePillar('restDone'));
+
+    // Session screen - Save button
+    const sessionBtn = document.getElementById('sessionSaveBtn');
+    if (sessionBtn) {
+      sessionBtn.addEventListener('click', async () => {
+        ensurePumpToday();
+        const percent = computePumpPercent();
+        const alreadySaved = store.records.cards.some(c => c.date === store.pumpToday.date);
+        if (percent < 100 || alreadySaved || !store.character.baseImageUrl) return;
+
+        sessionBtn.disabled = true;
+        sessionBtn.textContent = "Generating Pump card...";
+
+        const loadingOverlay = document.getElementById('sessionLoadingOverlay');
+        if (loadingOverlay) loadingOverlay.classList.add('active');
+
+        const cardImageUrl = await ImageService.createPumpCard(
+          store.character.baseImageUrl,
+          {
+            date: store.pumpToday.date,
+            pumpPercent: percent,
+            streak: store.records.streak
+          }
+        );
+
+        addCardToRecords(cardImageUrl);
+
+        if (loadingOverlay) loadingOverlay.classList.remove('active');
+        sessionBtn.disabled = false;
+        sessionBtn.textContent = "Card saved";
+
+        renderSession();
+        renderRecords();
+        saveStore();
+      });
     }
 
     // ========== INITIALIZATION ==========
     function init() {
       initTheme();
-      loadState();
-      console.log('PUMP app initialized - Simple 4-pillar toggle system');
+      loadStore();
+      console.log('PUMP app initialized with new store system');
     }
 
     if (document.readyState === 'loading') {
