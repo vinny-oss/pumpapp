@@ -318,7 +318,7 @@
     .option-pill {
       border-radius: 24px;
       padding: 10px 16px;
-      background: radial-gradient(circle at top, #020617, #020617 70%);
+      background: #020617;
       border: 1px solid rgba(148, 163, 184, 0.75);
       display: flex;
       flex-direction: column;
@@ -329,12 +329,22 @@
     }
 
     .option-pill:hover {
-      border-color: rgba(250, 204, 21, 0.6);
+      border-color: color-mix(in srgb, var(--accent-edit) 60%, transparent);
     }
 
     .option-pill.is-editing {
-      border-color: #facc15;
-      box-shadow: 0 0 0 1px rgba(250, 204, 21, 0.25);
+      border-color: var(--accent-edit);
+      box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent-edit) 25%, transparent);
+    }
+
+    /* Green accent for Records screen pills */
+    .option-pill--records {
+      border-color: color-mix(in srgb, var(--accent-stats) 75%, transparent);
+    }
+
+    .option-pill--records.is-editing {
+      border-color: var(--accent-stats);
+      box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent-stats) 25%, transparent);
     }
 
     /* Pill title (WEIGHT / HEAD / etc.) */
@@ -383,7 +393,7 @@
       height: 26px;
       border-radius: 999px;
       border: 1px solid rgba(148, 163, 184, 0.8);
-      background: radial-gradient(circle at top, #020617, #020617 70%);
+      background: #020617;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -435,7 +445,7 @@
       width: 100%;
       border-radius: 999px;
       padding: 6px 10px;
-      background: radial-gradient(circle at top, #020617, #020617 70%);
+      background: #020617;
       border: 1px solid rgba(55, 65, 81, 0.9);
       color: #e5e7eb;
       font-size: 13px;
@@ -453,7 +463,7 @@
     /* Selected choice */
     .option-pill-choice.is-selected {
       border-color: #4ade80;
-      background: radial-gradient(circle at top, #022c22, #022c22 70%);
+      background: #022c22;
       color: #bbf7d0;
     }
 
@@ -496,7 +506,7 @@
     .grid-card {
       border-radius: 18px;
       padding: 12px 14px;
-      background: radial-gradient(circle at top, #020617, #020617 80%);
+      background: #020617;
       border: 1px solid rgba(51, 65, 85, 0.9);
       box-shadow: 0 10px 24px rgba(0, 0, 0, 0.7);
       display: flex;
@@ -532,13 +542,21 @@
     .garage-screen .grid-card.completed,
     .garage-screen .grid-card.done {
       border-color: rgba(34, 197, 94, 0.9);
-      background: radial-gradient(circle at top left, #022c22, #022c22 70%);
+      background: #022c22;
     }
 
     .garage-screen .grid-card.pillar-completed .grid-subtitle,
     .garage-screen .grid-card.completed .grid-subtitle,
     .garage-screen .grid-card.done .grid-subtitle {
       color: #bbf7d0;
+    }
+
+    /* Subtle panel backgrounds for Session screen */
+    .garage-screen .screen-top,
+    .garage-screen .screen-character {
+      background: rgba(15, 23, 42, 0.3);
+      border-radius: 20px;
+      padding: 12px;
     }
 
     /* ========== PUMP METER ========== */
@@ -554,7 +572,7 @@
       width: 100%;
       height: var(--strip-height);
       border-radius: 999px;
-      background: radial-gradient(circle at top, #020617, #020617 70%);
+      background: #020617;
       border: 1px solid rgba(55, 65, 81, 0.9);
       box-shadow: none;
       overflow: hidden;
@@ -582,7 +600,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 12px;
+      font-size: 15px;
       font-weight: 600;
       color: #f9fafb;
       text-shadow: 0 0 6px rgba(15, 23, 42, 0.9);
@@ -609,7 +627,7 @@
       position: relative;
       border-radius: 24px;
       padding: 18px 16px 20px;
-      background: radial-gradient(circle at top, #020617 0, #020617 55%, #020617 100%);
+      background: #020617;
       border: 1px solid rgba(31, 41, 55, 0.95);
       box-shadow: 0 18px 40px rgba(0, 0, 0, 0.9);
       text-align: center;
@@ -627,26 +645,26 @@
 
     /* Locker screen - gold accent */
     .hero-card--locker {
-      border-color: rgba(250, 204, 21, 0.6);
+      border-color: color-mix(in srgb, var(--accent-edit) 60%, transparent);
     }
     .hero-card--locker::before {
-      border-top-color: rgba(250, 204, 21, 0.9);
+      border-top-color: color-mix(in srgb, var(--accent-edit) 90%, transparent);
     }
 
     /* Session screen - blue accent */
     .hero-card--session {
-      border-color: rgba(59, 130, 246, 0.6);
+      border-color: color-mix(in srgb, var(--accent-garage) 60%, transparent);
     }
     .hero-card--session::before {
-      border-top-color: rgba(59, 130, 246, 0.9);
+      border-top-color: color-mix(in srgb, var(--accent-garage) 90%, transparent);
     }
 
     /* Records screen - green accent */
     .hero-card--records {
-      border-color: rgba(34, 197, 94, 0.6);
+      border-color: color-mix(in srgb, var(--accent-stats) 60%, transparent);
     }
     .hero-card--records::before {
-      border-top-color: rgba(34, 197, 94, 0.9);
+      border-top-color: color-mix(in srgb, var(--accent-stats) 90%, transparent);
     }
 
     /* Legacy support for old character-card class */
@@ -654,7 +672,7 @@
       position: relative;
       border-radius: 24px;
       padding: 18px 16px 20px;
-      background: radial-gradient(circle at top, #020617 0, #020617 55%, #020617 100%);
+      background: #020617;
       border: 1px solid rgba(31, 41, 55, 0.95);
       box-shadow: 0 18px 40px rgba(0, 0, 0, 0.9);
       text-align: center;
@@ -977,17 +995,17 @@
       <section class="screen-top">
         <p class="section-title">PROGRESS</p>
         <div class="top-stat-row">
-          <div class="stat-pill">
-            <div class="stat-pill-label">Streak</div>
-            <div class="stat-pill-value" id="stats-streak">0 days</div>
+          <div class="option-pill option-pill--records" style="cursor: default;">
+            <div class="option-pill-title">STREAK</div>
+            <div class="option-pill-value" id="stats-streak">0 days</div>
           </div>
-          <div class="stat-pill">
-            <div class="stat-pill-label">Best</div>
-            <div class="stat-pill-value" id="stats-best">0 days</div>
+          <div class="option-pill option-pill--records" style="cursor: default;">
+            <div class="option-pill-title">BEST STREAK</div>
+            <div class="option-pill-value" id="stats-best">0 days</div>
           </div>
-          <div class="stat-pill">
-            <div class="stat-pill-label">Cards</div>
-            <div class="stat-pill-value" id="stats-cards">0</div>
+          <div class="option-pill option-pill--records" style="cursor: default;">
+            <div class="option-pill-title">CARDS</div>
+            <div class="option-pill-value" id="stats-cards">0</div>
           </div>
         </div>
       </section>
@@ -1367,6 +1385,11 @@
       return Math.min(max, Math.max(min, value));
     }
 
+    // Helper: format day count with singular/plural
+    function formatDays(count) {
+      return count === 1 ? '1 day' : `${count} days`;
+    }
+
     // Adjust weight with stepper
     function adjustWeight(delta) {
       const step = 5;
@@ -1514,8 +1537,8 @@
 
       if (!meter || !fill || !label) return;
 
-      // Use Math.max to show at least 3% fill even when percent is 0, so label is visible
-      const visualWidth = Math.max(percent, 3);
+      // Show minimal fill at 0% so meter never looks broken
+      const visualWidth = percent === 0 ? 2 : percent;
       fill.style.width = visualWidth + '%';
       label.textContent = percent + '%';
 
@@ -1555,7 +1578,7 @@
 
       if (btn) {
         btn.disabled = percent < 100 || alreadySaved || !store.character.baseImageUrl;
-        btn.textContent = alreadySaved ? "Card saved" : "Generate todays Pump";
+        btn.textContent = alreadySaved ? "Card saved" : "Generate Pump card";
       }
 
       // Update character image in Session
@@ -1642,8 +1665,8 @@
       const bestPill = document.getElementById("stats-best");
       const cardsPill = document.getElementById("stats-cards");
 
-      if (streakPill) streakPill.textContent = `${streak} days`;
-      if (bestPill) bestPill.textContent = `${bestStreak} days`;
+      if (streakPill) streakPill.textContent = formatDays(streak);
+      if (bestPill) bestPill.textContent = formatDays(bestStreak);
       if (cardsPill) cardsPill.textContent = String(cards.length);
 
       // Update grid stats too
@@ -1652,8 +1675,8 @@
       const gridCards = document.getElementById('stats-grid-cards');
       const gridMax = document.getElementById('stats-grid-max');
 
-      if (gridStreak) gridStreak.textContent = `${streak} days`;
-      if (gridBest) gridBest.textContent = `${bestStreak} days`;
+      if (gridStreak) gridStreak.textContent = formatDays(streak);
+      if (gridBest) gridBest.textContent = formatDays(bestStreak);
       if (gridCards) gridCards.textContent = String(cards.length);
 
       if (gridMax) {
@@ -1693,7 +1716,7 @@
         item.innerHTML = `
           <img src="${card.cardImageUrl}" alt="Pump card ${card.date}">
           <span class="records-thumb-date">${card.date}</span>
-          <span class="records-thumb-streak">${card.streakAtDay} day streak</span>
+          <span class="records-thumb-streak">${formatDays(card.streakAtDay)} streak</span>
         `;
         item.addEventListener("click", () => showRecordsCard(card));
         container.appendChild(item);
