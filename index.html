@@ -145,8 +145,8 @@
       display: block;
     }
 
-    /* ========== GARAGE SCREEN ========== */
-    .garage-screen {
+    /* ========== SHARED LAYOUT ========== */
+    .screen-layout {
       max-width: 420px;
       margin: 0 auto;
       padding: 12px 16px 16px;
@@ -155,8 +155,42 @@
       gap: 12px;
     }
 
+    .screen-top {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .garage-screen .screen-top {
+      min-height: 48px;
+    }
+
+    .character-screen .screen-top {
+      min-height: 48px;
+    }
+
+    .screen-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .screen-footer {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      font-size: 11px;
+      color: #9ca3af;
+      opacity: 0.9;
+    }
+
+    .character-footer {
+      justify-content: center;
+      text-align: center;
+    }
+
     @media (max-height: 780px) {
-      .garage-screen {
+      .screen-layout {
         padding-top: 8px;
         padding-bottom: 10px;
         gap: 10px;
@@ -172,72 +206,70 @@
       }
     }
 
-    /* ========== CHARACTER EDIT SCREEN ========== */
-    .character-screen {
-      max-width: 420px;
-      margin: 0 auto;
-      padding: 12px 16px 16px;
+    /* ========== STAT PILLS (Character Edit Top Strip) ========== */
+    .top-stat-row {
+      display: flex;
+      gap: 8px;
+      justify-content: space-between;
+    }
+
+    .stat-pill {
+      flex: 1;
+      border-radius: 999px;
+      padding: 6px 8px;
+      background: #020617;
+      border: 1px solid rgba(148, 163, 184, 0.6);
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      align-items: center;
     }
 
-    @media (max-height: 780px) {
-      .character-screen {
-        padding-top: 8px;
-        padding-bottom: 10px;
-        gap: 10px;
-      }
+    .stat-pill-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #9ca3af;
     }
 
-    .character-attributes-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 10px;
+    .stat-pill-value {
+      font-size: 13px;
+      font-weight: 600;
+      color: #f9fafb;
     }
 
-    .attribute-card {
+    /* ========== OPTION CARDS (Character Edit Grid) ========== */
+    .option-card {
       border-radius: 16px;
-      padding: 10px 10px 12px;
+      padding: 14px 12px;
       background: radial-gradient(circle at top, #020617, #020617 60%, #020617);
       border: 1px solid rgba(148, 163, 184, 0.45);
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
       display: flex;
       flex-direction: column;
-      gap: 6px;
-    }
-
-    .attribute-header {
-      display: flex;
       justify-content: space-between;
-      align-items: center;
+      align-items: flex-start;
+      text-align: left;
+      transition: transform 0.12s ease-out, box-shadow 0.12s ease-out, border-color 0.12s ease-out;
+      cursor: pointer;
     }
 
-    .attribute-label {
-      font-size: 11px;
+    .option-card:active {
+      transform: scale(0.97) translateY(1px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    }
+
+    .option-title {
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
-      letter-spacing: 0.08em;
       color: #e5e7eb;
     }
 
-    .attribute-input {
-      width: 100%;
-      border-radius: 10px;
-      border: 1px solid rgba(55, 65, 81, 0.9);
-      background: #020617;
-      color: #f9fafb;
-      font-size: 13px;
-      padding: 6px 8px;
-      outline: none;
-    }
-
-    .attribute-input:focus {
-      border-color: rgba(59, 130, 246, 0.9);
-      box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.7);
-    }
-
-    .primary-cta--character {
-      margin-top: 4px;
+    .option-value {
+      margin-top: 6px;
+      font-size: 12px;
+      color: #9ca3af;
     }
 
     /* ========== PUMP METER ========== */
@@ -339,13 +371,7 @@
       }
     }
 
-    /* ========== PILLAR GRID ========== */
-    .pillar-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-    }
-
+    /* ========== PILLAR CARDS ========== */
     .pillar-card {
       border-radius: 16px;
       padding: 14px 12px;
@@ -531,37 +557,6 @@
       font-weight: 500;
     }
 
-    /* ========== STAT ROW ========== */
-    .stat-row {
-      display: flex;
-      gap: 10px;
-      justify-content: center;
-    }
-
-    .stat-chip {
-      flex: 1;
-      border-radius: 999px;
-      padding: 8px 10px;
-      background: #020617;
-      border: 1px solid rgba(148, 163, 184, 0.6);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .stat-label {
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.09em;
-      color: #9ca3af;
-    }
-
-    .stat-value {
-      font-size: 15px;
-      font-weight: 600;
-      color: #f9fafb;
-    }
-
     /* ========== PRIMARY CTA ========== */
     .primary-cta {
       border: none;
@@ -589,15 +584,7 @@
       transform: none;
     }
 
-    /* ========== STREAK ROW ========== */
-    .streak-row {
-      display: flex;
-      justify-content: center;
-      gap: 16px;
-      font-size: 11px;
-      color: #9ca3af;
-    }
-
+    /* ========== FOOTER ITEMS ========== */
     .streak-item {
       opacity: 0.85;
     }
@@ -651,46 +638,25 @@
 
   <!-- ========== PAGE 1: GARAGE ========== -->
   <div class="page active" id="garage">
-    <div class="garage-screen">
-      <!-- Pump Meter -->
-      <div class="pump-meter">
-        <div class="pump-meter-header">
-          <span class="pump-meter-icon">⚡</span>
-          <span class="pump-meter-title">Pump meter</span>
-        </div>
-
-        <div class="pump-meter-bar">
-          <div class="pump-meter-fill" id="pumpMeterFill">
-            <span class="pump-meter-percent-label" id="pumpMeterText">0%</span>
+    <div class="screen-layout garage-screen">
+      <!-- Top Strip: Pump Meter -->
+      <div class="screen-top">
+        <div class="pump-meter">
+          <div class="pump-meter-header">
+            <span class="pump-meter-icon">⚡</span>
+            <span class="pump-meter-title">Pump meter</span>
           </div>
+
+          <div class="pump-meter-bar">
+            <div class="pump-meter-fill" id="pumpMeterFill">
+              <span class="pump-meter-percent-label" id="pumpMeterText">0%</span>
+            </div>
+          </div>
+
+          <p class="pump-meter-subtitle" id="pumpMeterSubtitle">
+            Complete your first pillar to start the Pump.
+          </p>
         </div>
-
-        <p class="pump-meter-subtitle" id="pumpMeterSubtitle">
-          Complete your first pillar to start the Pump.
-        </p>
-      </div>
-
-      <!-- Pillar Grid (all 4 pillars) -->
-      <div class="pillar-grid">
-        <button class="pillar-card" id="fitnessToggle" data-pillar="fitness">
-          <span class="pillar-title">Fitness</span>
-          <span class="pillar-status">To do</span>
-        </button>
-
-        <button class="pillar-card" id="nutritionToggle" data-pillar="nutrition">
-          <span class="pillar-title">Nutrition</span>
-          <span class="pillar-status">To do</span>
-        </button>
-
-        <button class="pillar-card" id="hydrationToggle" data-pillar="hydration">
-          <span class="pillar-title">Hydration</span>
-          <span class="pillar-status">To do</span>
-        </button>
-
-        <button class="pillar-card" id="restToggle" data-pillar="rest">
-          <span class="pillar-title">Rest</span>
-          <span class="pillar-status">To do</span>
-        </button>
       </div>
 
       <!-- Character Card -->
@@ -716,13 +682,36 @@
         <p class="character-hint">Log all four pillars to power up your character.</p>
       </div>
 
+      <!-- Grid of 4 Pillar Buttons -->
+      <div class="screen-grid garage-grid">
+        <button class="pillar-card" id="fitnessToggle" data-pillar="fitness">
+          <span class="pillar-title">Fitness</span>
+          <span class="pillar-status">To do</span>
+        </button>
+
+        <button class="pillar-card" id="nutritionToggle" data-pillar="nutrition">
+          <span class="pillar-title">Nutrition</span>
+          <span class="pillar-status">To do</span>
+        </button>
+
+        <button class="pillar-card" id="hydrationToggle" data-pillar="hydration">
+          <span class="pillar-title">Hydration</span>
+          <span class="pillar-status">To do</span>
+        </button>
+
+        <button class="pillar-card" id="restToggle" data-pillar="rest">
+          <span class="pillar-title">Rest</span>
+          <span class="pillar-status">To do</span>
+        </button>
+      </div>
+
       <!-- Primary CTA -->
-      <button class="primary-cta" id="generateBtn">
+      <button class="primary-cta primary-cta-garage" id="generateBtn">
         Save today's Pump card
       </button>
 
-      <!-- Streak Row -->
-      <div class="streak-row">
+      <!-- Footer Row -->
+      <div class="screen-footer garage-footer">
         <span class="streak-item">Streak: <strong id="currentStreak">0</strong></span>
         <span class="streak-item">Best: <strong id="bestStreak">0</strong></span>
         <span class="streak-item">Cards: <strong id="totalCards">0</strong></span>
@@ -740,8 +729,26 @@
 
   <!-- ========== PAGE 3: EDIT CHARACTER ========== -->
   <div class="page" id="edit-character">
-    <div class="character-screen">
-      <!-- Character Preview Card -->
+    <div class="screen-layout character-screen">
+      <!-- Top Strip: Three Stat Pills -->
+      <div class="screen-top">
+        <div class="top-stat-row">
+          <div class="stat-pill">
+            <div class="stat-pill-label">Weight</div>
+            <div class="stat-pill-value" id="char-stat-weight">185 lb</div>
+          </div>
+          <div class="stat-pill">
+            <div class="stat-pill-label">Body fat</div>
+            <div class="stat-pill-value" id="char-stat-bodyfat">15%</div>
+          </div>
+          <div class="stat-pill">
+            <div class="stat-pill-label">Height</div>
+            <div class="stat-pill-value" id="char-stat-height">70 in</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Character Card -->
       <div class="character-card">
         <div class="viewport">
           <div class="character-placeholder" id="characterEditPlaceholder">
@@ -759,65 +766,38 @@
         <p class="character-hint">Edit your stats and style, then save to update your Pump character.</p>
       </div>
 
-      <!-- Character Attributes Grid -->
-      <div class="character-attributes-grid">
-        <div class="attribute-card">
-          <div class="attribute-header">
-            <span class="attribute-label">Height</span>
-          </div>
-          <input type="number" class="attribute-input" id="char-height" min="0" step="1" placeholder="inches">
-        </div>
+      <!-- Grid of 4 Option Buttons -->
+      <div class="screen-grid character-grid">
+        <button class="option-card" id="optionHead" data-option="head">
+          <span class="option-title">Head</span>
+          <span class="option-value" id="option-head-value">Default</span>
+        </button>
 
-        <div class="attribute-card">
-          <div class="attribute-header">
-            <span class="attribute-label">Weight</span>
-          </div>
-          <input type="number" class="attribute-input" id="char-weight" min="0" step="1" placeholder="lb">
-        </div>
+        <button class="option-card" id="optionSkin" data-option="skin">
+          <span class="option-title">Skin tone</span>
+          <span class="option-value" id="option-skin-value">Default</span>
+        </button>
 
-        <div class="attribute-card">
-          <div class="attribute-header">
-            <span class="attribute-label">Body fat %</span>
-          </div>
-          <input type="number" class="attribute-input" id="char-bodyfat" min="0" max="60" step="0.5" placeholder="%">
-        </div>
+        <button class="option-card" id="optionAbs" data-option="abs">
+          <span class="option-title">Ab count</span>
+          <span class="option-value" id="option-abs-value">0</span>
+        </button>
 
-        <div class="attribute-card">
-          <div class="attribute-header">
-            <span class="attribute-label">Ab count</span>
-          </div>
-          <input type="number" class="attribute-input" id="char-abs" min="0" max="10" step="1" placeholder="packs">
-        </div>
-
-        <div class="attribute-card">
-          <div class="attribute-header">
-            <span class="attribute-label">Hair</span>
-          </div>
-          <select class="attribute-input" id="char-hair">
-            <option value="default">Default</option>
-            <option value="bald">Bald</option>
-            <option value="afro">Afro</option>
-            <option value="spiky">Spiky</option>
-          </select>
-        </div>
-
-        <div class="attribute-card">
-          <div class="attribute-header">
-            <span class="attribute-label">Pants</span>
-          </div>
-          <select class="attribute-input" id="char-pants">
-            <option value="shorts">Shorts</option>
-            <option value="joggers">Joggers</option>
-            <option value="armor">Armor</option>
-            <option value="feathers">Feather pants</option>
-          </select>
-        </div>
+        <button class="option-card" id="optionPants" data-option="pants">
+          <span class="option-title">Pants</span>
+          <span class="option-value" id="option-pants-value">Shorts</span>
+        </button>
       </div>
 
       <!-- Primary CTA -->
-      <button class="primary-cta primary-cta--character" id="saveCharacterBtn">
-        Save character changes
+      <button class="primary-cta primary-cta-character" id="saveCharacterBtn">
+        Edit your character
       </button>
+
+      <!-- Footer Row -->
+      <div class="screen-footer character-footer">
+        <span>Character changes will apply to future Pump cards.</span>
+      </div>
     </div>
   </div>
 
@@ -848,11 +828,12 @@
 
       // Character attributes
       character: {
-        height: null,
-        weight: null,
-        bodyFat: null,
-        abs: null,
+        height: 70,
+        weight: 185,
+        bodyFat: 15,
+        abs: 0,
         hair: 'default',
+        skinTone: 'default',
         pants: 'shorts'
       }
     };
@@ -887,13 +868,21 @@
       loadingOverlay: document.getElementById('loadingOverlay'),
       characterPlaceholder: document.getElementById('characterPlaceholder'),
 
-      // Character Edit
-      charHeight: document.getElementById('char-height'),
-      charWeight: document.getElementById('char-weight'),
-      charBodyFat: document.getElementById('char-bodyfat'),
-      charAbs: document.getElementById('char-abs'),
-      charHair: document.getElementById('char-hair'),
-      charPants: document.getElementById('char-pants'),
+      // Character Edit - Stat Pills
+      charStatWeight: document.getElementById('char-stat-weight'),
+      charStatBodyFat: document.getElementById('char-stat-bodyfat'),
+      charStatHeight: document.getElementById('char-stat-height'),
+
+      // Character Edit - Option Cards
+      optionHead: document.getElementById('optionHead'),
+      optionSkin: document.getElementById('optionSkin'),
+      optionAbs: document.getElementById('optionAbs'),
+      optionPants: document.getElementById('optionPants'),
+      optionHeadValue: document.getElementById('option-head-value'),
+      optionSkinValue: document.getElementById('option-skin-value'),
+      optionAbsValue: document.getElementById('option-abs-value'),
+      optionPantsValue: document.getElementById('option-pants-value'),
+
       saveCharacterBtn: document.getElementById('saveCharacterBtn')
     };
 
@@ -915,50 +904,40 @@
         }
       });
 
-      // Load character attributes when navigating to Character Edit
+      // Load character data when navigating to Character Edit
       if (pageName === 'edit-character') {
-        loadCharacterAttributes();
+        renderCharacterTopStats();
+        renderCharacterOptions();
       }
 
       saveState();
     }
 
     // ========== CHARACTER EDIT MANAGEMENT ==========
-    function loadCharacterAttributes() {
-      if (!elements.charHeight) return;
+    function renderCharacterTopStats() {
+      if (!elements.charStatWeight) return;
 
-      elements.charHeight.value = state.character.height || '';
-      elements.charWeight.value = state.character.weight || '';
-      elements.charBodyFat.value = state.character.bodyFat || '';
-      elements.charAbs.value = state.character.abs || '';
-      elements.charHair.value = state.character.hair || 'default';
-      elements.charPants.value = state.character.pants || 'shorts';
+      elements.charStatWeight.textContent = state.character.weight + ' lb';
+      elements.charStatBodyFat.textContent = state.character.bodyFat + '%';
+      elements.charStatHeight.textContent = state.character.height + ' in';
     }
 
-    function saveCharacterAttributes() {
-      if (!elements.charHeight) return;
+    function renderCharacterOptions() {
+      if (!elements.optionHeadValue) return;
 
-      // Parse numeric values
-      const height = elements.charHeight.value ? parseFloat(elements.charHeight.value) : null;
-      const weight = elements.charWeight.value ? parseFloat(elements.charWeight.value) : null;
-      const bodyFat = elements.charBodyFat.value ? parseFloat(elements.charBodyFat.value) : null;
-      const abs = elements.charAbs.value ? parseInt(elements.charAbs.value) : null;
+      elements.optionHeadValue.textContent = state.character.hair || 'Default';
+      elements.optionSkinValue.textContent = state.character.skinTone || 'Default';
+      elements.optionAbsValue.textContent = state.character.abs || '0';
+      elements.optionPantsValue.textContent = state.character.pants || 'Shorts';
+    }
 
-      // Update state
-      state.character = {
-        height: height,
-        weight: weight,
-        bodyFat: bodyFat,
-        abs: abs,
-        hair: elements.charHair.value,
-        pants: elements.charPants.value
-      };
+    function handleCharacterEdit() {
+      // TODO: Open detail edit panel or simple prompt
+      // For now, just log and show a toast
+      console.log('Character edit clicked:', state.character);
 
-      saveState();
-
-      // Show success message
       const originalText = elements.saveCharacterBtn.textContent;
-      elements.saveCharacterBtn.textContent = '✓ Character saved!';
+      elements.saveCharacterBtn.textContent = '✓ Saved!';
       elements.saveCharacterBtn.style.background = 'linear-gradient(90deg, #22c55e, #16a34a)';
 
       setTimeout(() => {
@@ -1208,7 +1187,7 @@
 
     // Character edit
     if (elements.saveCharacterBtn) {
-      elements.saveCharacterBtn.addEventListener('click', saveCharacterAttributes);
+      elements.saveCharacterBtn.addEventListener('click', handleCharacterEdit);
     }
 
     // ========== INITIALIZATION ==========
