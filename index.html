@@ -299,71 +299,80 @@
       }
     }
 
-    /* ========== STAT PILLS (Character Edit Top Strip) ========== */
+    /* ========== UNIFIED OPTION PILLS (Locker Screen) ========== */
     .top-stat-row {
       display: flex;
       gap: 8px;
     }
 
-    .stat-pill {
-      flex: 1;
-      min-width: 110px;
-      min-height: var(--strip-height);
-      border-radius: 999px;
-      padding: 8px 16px;
+    .option-pill {
+      border-radius: 24px;
+      padding: 10px 16px;
       background: radial-gradient(circle at top, #020617, #020617 70%);
       border: 1px solid rgba(148, 163, 184, 0.75);
       display: flex;
       flex-direction: column;
-      align-items: center;
       justify-content: center;
-      gap: 4px;
+      gap: 2px;
       cursor: pointer;
       transition: border-color 0.2s ease, box-shadow 0.2s ease;
     }
 
-    .stat-pill:hover {
+    .option-pill:hover {
       border-color: rgba(250, 204, 21, 0.6);
     }
 
-    .stat-pill.is-editing {
+    .option-pill.is-editing {
       border-color: #facc15;
       box-shadow: 0 0 0 1px rgba(250, 204, 21, 0.25);
     }
 
-    .stat-pill-label {
+    /* Pill title (WEIGHT / HEAD / etc.) */
+    .option-pill-title {
       font-size: 10px;
-      text-transform: uppercase;
       letter-spacing: 0.16em;
+      text-transform: uppercase;
       color: #9ca3af;
     }
 
-    .stat-pill-value {
-      font-size: 16px;
+    /* Main value (185 lb / Mohawk / etc.) */
+    .option-pill-value {
+      font-size: 15px;
       font-weight: 600;
       color: #f9fafb;
     }
 
-    /* Stepper controls */
-    .stat-pill-stepper {
+    /* Edit block - hidden by default */
+    .option-pill-edit {
       display: none;
+      margin-top: 6px;
+    }
+
+    .option-pill.is-editing .option-pill-edit {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .option-pill-edit-row {
+      display: flex;
       align-items: center;
       gap: 6px;
     }
 
-    .stat-pill.is-editing .stat-pill-value {
-      display: none;
+    /* Small subtitle for height rows */
+    .option-pill-subtitle {
+      font-size: 10px;
+      color: #9ca3af;
+      min-width: 40px;
     }
 
-    .stat-pill.is-editing .stat-pill-stepper {
-      display: flex;
-    }
-
-    .stepper-button {
-      width: 28px;
-      height: 28px;
+    /* Plus/minus step buttons */
+    .option-pill-step {
+      width: 26px;
+      height: 26px;
       border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.85);
+      border: 1px solid rgba(148, 163, 184, 0.8);
       background: radial-gradient(circle at top, #020617, #020617 70%);
       display: flex;
       align-items: center;
@@ -371,41 +380,32 @@
       font-size: 18px;
       font-weight: 600;
       color: #e5e7eb;
-      box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.9),
-                  0 10px 20px rgba(15, 23, 42, 0.9);
+      padding: 0;
       cursor: pointer;
       transition: transform 0.1s ease;
     }
 
-    .stepper-button:active {
+    .option-pill-step:active {
       transform: scale(0.96);
     }
 
-    .stepper-number {
-      min-width: 32px;
+    /* Number + unit */
+    .option-pill-number {
+      min-width: 28px;
       text-align: center;
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 600;
       color: #f9fafb;
     }
 
-    .stepper-unit {
+    .option-pill-unit {
       font-size: 11px;
       color: #9ca3af;
     }
 
-    .stat-pill-stepper--height {
-      gap: 4px;
-    }
-
-    .stat-pill-stepper--height .stepper-divider {
-      margin: 0 4px;
-      font-size: 11px;
-      color: #4b5563;
-    }
-
-    .stat-pill-stepper--height .stepper-number {
-      min-width: 20px;
+    /* For stat pills in top row */
+    .top-stat-row .option-pill {
+      flex: 1;
     }
 
     /* Hide browser number spinners if any number inputs remain */
@@ -419,7 +419,7 @@
       -moz-appearance: textfield;
     }
 
-    /* ========== APPEARANCE PILLS ========== */
+    /* ========== APPEARANCE PILLS GRID ========== */
     .appearance-pills {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -427,53 +427,15 @@
       margin-top: 8px;
     }
 
-    .appearance-pill {
-      border-radius: 16px;
-      padding: 10px 12px;
-      background: radial-gradient(circle at top, #020617, #020617 80%);
-      border: 1px solid rgba(51, 65, 85, 0.9);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      cursor: pointer;
-      transition: border-color 0.2s ease, transform 0.12s ease;
-    }
-
-    .appearance-pill:hover {
-      border-color: rgba(250, 204, 21, 0.6);
-    }
-
-    .appearance-pill:active {
-      transform: scale(0.98);
-    }
-
-    .appearance-pill-label {
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: #9ca3af;
-    }
-
-    .appearance-pill-value {
-      font-size: 13px;
-      font-weight: 600;
-      color: #f9fafb;
-    }
-
-    .appearance-pill.editing {
-      border-color: rgba(250, 204, 21, 0.9);
-      background: radial-gradient(circle at top, #1a1410, #1a1410 80%);
-    }
-
+    /* Appearance pills use the same .option-pill base class */
     .appearance-pill-select {
-      margin-top: 2px;
-      padding: 4px 8px;
-      border-radius: 8px;
+      margin-top: 4px;
+      padding: 6px 10px;
+      border-radius: 12px;
       border: 1px solid rgba(250, 204, 21, 0.6);
       background: #020617;
       color: #f9fafb;
-      font-size: 12px;
+      font-size: 13px;
       font-weight: 500;
       width: 100%;
     }
@@ -985,60 +947,55 @@
       <section class="screen-top">
         <p class="screen-label">Character stats</p>
         <div class="top-stat-row">
-          <!-- Weight pill with stepper -->
-          <div class="stat-pill" data-stat="weight">
-            <div class="stat-pill-label">Weight</div>
+          <!-- Weight pill -->
+          <div class="option-pill" data-stat="weight">
+            <div class="option-pill-title">WEIGHT</div>
+            <div class="option-pill-value" data-stat-display="weight">-- lb</div>
 
-            <div class="stat-pill-value" data-stat-display="weight">
-              -- lb
-            </div>
-
-            <div class="stat-pill-stepper" data-stat-stepper="weight">
-              <button class="stepper-button" data-dir="-">−</button>
-              <span class="stepper-number" data-stat-number="weight">--</span>
-              <span class="stepper-unit">lb</span>
-              <button class="stepper-button" data-dir="+">+</button>
-            </div>
-          </div>
-
-          <!-- Body fat pill with stepper -->
-          <div class="stat-pill" data-stat="bodyfat">
-            <div class="stat-pill-label">Body fat</div>
-
-            <div class="stat-pill-value" data-stat-display="bodyfat">
-              --%
-            </div>
-
-            <div class="stat-pill-stepper" data-stat-stepper="bodyfat">
-              <button class="stepper-button" data-dir="-">−</button>
-              <span class="stepper-number" data-stat-number="bodyfat">--</span>
-              <span class="stepper-unit">%</span>
-              <button class="stepper-button" data-dir="+">+</button>
+            <div class="option-pill-edit" data-stat-edit="weight">
+              <div class="option-pill-edit-row">
+                <button class="option-pill-step" data-dir="-">−</button>
+                <div class="option-pill-number" data-stat-number="weight">--</div>
+                <span class="option-pill-unit">lb</span>
+                <button class="option-pill-step" data-dir="+">+</button>
+              </div>
             </div>
           </div>
 
-          <!-- Height pill with dual stepper (feet + inches) -->
-          <div class="stat-pill" data-stat="height">
-            <div class="stat-pill-label">Height</div>
+          <!-- Body fat pill -->
+          <div class="option-pill" data-stat="bodyfat">
+            <div class="option-pill-title">BODY FAT</div>
+            <div class="option-pill-value" data-stat-display="bodyfat">--%</div>
 
-            <div class="stat-pill-value" data-stat-display="height">
-              --
+            <div class="option-pill-edit" data-stat-edit="bodyfat">
+              <div class="option-pill-edit-row">
+                <button class="option-pill-step" data-dir="-">−</button>
+                <div class="option-pill-number" data-stat-number="bodyfat">--</div>
+                <span class="option-pill-unit">%</span>
+                <button class="option-pill-step" data-dir="+">+</button>
+              </div>
             </div>
+          </div>
 
-            <div class="stat-pill-stepper stat-pill-stepper--height" data-stat-stepper="height">
-              <!-- Feet -->
-              <button class="stepper-button" data-dir="-" data-part="feet">−</button>
-              <span class="stepper-number" data-stat-number="heightFeet">-</span>
-              <span class="stepper-unit">ft</span>
-              <button class="stepper-button" data-dir="+" data-part="feet">+</button>
+          <!-- Height pill with stacked feet/inches -->
+          <div class="option-pill" data-stat="height">
+            <div class="option-pill-title">HEIGHT</div>
+            <div class="option-pill-value" data-stat-display="height">--</div>
 
-              <span class="stepper-divider">|</span>
+            <div class="option-pill-edit option-pill-edit--height" data-stat-edit="height">
+              <div class="option-pill-edit-row">
+                <span class="option-pill-subtitle">Feet</span>
+                <button class="option-pill-step" data-dir="-" data-part="feet">−</button>
+                <div class="option-pill-number" data-stat-number="heightFeet">-</div>
+                <button class="option-pill-step" data-dir="+" data-part="feet">+</button>
+              </div>
 
-              <!-- Inches -->
-              <button class="stepper-button" data-dir="-" data-part="inches">−</button>
-              <span class="stepper-number" data-stat-number="heightInches">-</span>
-              <span class="stepper-unit">in</span>
-              <button class="stepper-button" data-dir="+" data-part="inches">+</button>
+              <div class="option-pill-edit-row">
+                <span class="option-pill-subtitle">Inches</span>
+                <button class="option-pill-step" data-dir="-" data-part="inches">−</button>
+                <div class="option-pill-number" data-stat-number="heightInches">-</div>
+                <button class="option-pill-step" data-dir="+" data-part="inches">+</button>
+              </div>
             </div>
           </div>
         </div>
@@ -1067,24 +1024,24 @@
 
       <!-- Appearance Option Pills -->
       <section class="appearance-pills">
-        <div class="appearance-pill" id="head-pill" data-appearance="head">
-          <div class="appearance-pill-label">Head</div>
-          <div class="appearance-pill-value" id="head-value">Default</div>
+        <div class="option-pill" id="head-pill" data-appearance="head">
+          <div class="option-pill-title">HEAD</div>
+          <div class="option-pill-value" id="head-value">Default</div>
         </div>
 
-        <div class="appearance-pill" id="skin-pill" data-appearance="skin">
-          <div class="appearance-pill-label">Skin tone</div>
-          <div class="appearance-pill-value" id="skin-value">Default</div>
+        <div class="option-pill" id="skin-pill" data-appearance="skin">
+          <div class="option-pill-title">SKIN TONE</div>
+          <div class="option-pill-value" id="skin-value">Default</div>
         </div>
 
-        <div class="appearance-pill" id="abs-pill" data-appearance="abs">
-          <div class="appearance-pill-label">Ab count</div>
-          <div class="appearance-pill-value" id="abs-value">0 packs</div>
+        <div class="option-pill" id="abs-pill" data-appearance="abs">
+          <div class="option-pill-title">AB COUNT</div>
+          <div class="option-pill-value" id="abs-value">0 packs</div>
         </div>
 
-        <div class="appearance-pill" id="pants-pill" data-appearance="pants">
-          <div class="appearance-pill-label">Pants</div>
-          <div class="appearance-pill-value" id="pants-value">Shorts</div>
+        <div class="option-pill" id="pants-pill" data-appearance="pants">
+          <div class="option-pill-title">PANTS</div>
+          <div class="option-pill-value" id="pants-value">Shorts</div>
         </div>
       </section>
 
@@ -1327,9 +1284,9 @@
       const pill = document.getElementById(`${type}-pill`);
       const valueEl = document.getElementById(`${type}-value`);
 
-      if (!pill || !valueEl || pill.classList.contains('editing')) return;
+      if (!pill || !valueEl || pill.classList.contains('is-editing')) return;
 
-      pill.classList.add('editing');
+      pill.classList.add('is-editing');
 
       const options = {
         head: [
@@ -1383,7 +1340,7 @@
         } else if (type === 'pants') {
           store.character.pantsStyle = value;
         }
-        pill.classList.remove('editing');
+        pill.classList.remove('is-editing');
         renderLocker();
         saveStore();
       };
@@ -1715,36 +1672,37 @@
       themeToggle.addEventListener('click', toggleTheme);
     }
 
-    // Locker screen - Stat pill stepper controls
-    function attachLockerStatPills() {
-      const pills = document.querySelectorAll(".stat-pill");
+    // Locker screen - Unified pill editing controls
+    function attachLockerPillEditing() {
+      const pills = document.querySelectorAll(".option-pill[data-stat]");
 
       pills.forEach(pill => {
         const stat = pill.dataset.stat;
 
         // Toggle edit mode when pill is clicked (but not on buttons)
         pill.addEventListener("click", e => {
-          if (e.target.closest(".stepper-button")) return; // buttons handled separately
+          if (e.target.closest(".option-pill-step")) return; // buttons handled separately
 
           // Close all other pills
           pills.forEach(p => p.classList.remove("is-editing"));
 
-          // Toggle this pill
+          // Open this pill
           pill.classList.add("is-editing");
         });
 
-        // Wire up stepper buttons
-        pill.querySelectorAll(".stepper-button").forEach(btn => {
+        // Wire up step buttons
+        pill.querySelectorAll(".option-pill-step").forEach(btn => {
           btn.addEventListener("click", e => {
             e.stopPropagation();
             const dir = btn.dataset.dir === "+" ? 1 : -1;
+            const part = btn.dataset.part || null;
 
             if (stat === "weight") {
               adjustWeight(dir);
             } else if (stat === "bodyfat") {
               adjustBodyFat(dir);
             } else if (stat === "height") {
-              adjustHeight(dir, btn.dataset.part); // "feet" or "inches"
+              adjustHeight(dir, part);
             }
           });
         });
@@ -1752,13 +1710,13 @@
 
       // Close edit mode when clicking outside
       document.addEventListener("click", e => {
-        if (!e.target.closest(".stat-pill")) {
+        if (!e.target.closest(".option-pill")) {
           pills.forEach(p => p.classList.remove("is-editing"));
         }
       });
     }
 
-    attachLockerStatPills();
+    attachLockerPillEditing();
 
     // Locker screen - Appearance pill editing
     document.getElementById('head-pill')?.addEventListener('click', () => editAppearancePill('head'));
