@@ -316,6 +316,17 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      cursor: pointer;
+      transition: border-color 0.2s ease;
+    }
+
+    .stat-pill:hover {
+      border-color: rgba(250, 204, 21, 0.6);
+    }
+
+    .stat-pill.editing {
+      border-color: rgba(250, 204, 21, 0.9);
+      background: radial-gradient(circle at top, #1a1410, #1a1410 70%);
     }
 
     .stat-pill-label {
@@ -330,6 +341,103 @@
       font-size: 13px;
       font-weight: 600;
       color: #f9fafb;
+    }
+
+    .stat-pill-edit-input {
+      margin-top: 2px;
+      width: 60px;
+      padding: 2px 6px;
+      border-radius: 6px;
+      border: 1px solid rgba(250, 204, 21, 0.6);
+      background: #020617;
+      color: #f9fafb;
+      font-size: 12px;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .stat-pill-edit-height {
+      display: flex;
+      gap: 4px;
+      margin-top: 2px;
+    }
+
+    .stat-pill-edit-height input {
+      width: 35px;
+      padding: 2px 4px;
+      border-radius: 6px;
+      border: 1px solid rgba(250, 204, 21, 0.6);
+      background: #020617;
+      color: #f9fafb;
+      font-size: 11px;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .stat-pill-edit-height span {
+      font-size: 10px;
+      color: #9ca3af;
+      display: flex;
+      align-items: center;
+    }
+
+    /* ========== APPEARANCE PILLS ========== */
+    .appearance-pills {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .appearance-pill {
+      border-radius: 16px;
+      padding: 10px 12px;
+      background: radial-gradient(circle at top, #020617, #020617 80%);
+      border: 1px solid rgba(51, 65, 85, 0.9);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      cursor: pointer;
+      transition: border-color 0.2s ease, transform 0.12s ease;
+    }
+
+    .appearance-pill:hover {
+      border-color: rgba(250, 204, 21, 0.6);
+    }
+
+    .appearance-pill:active {
+      transform: scale(0.98);
+    }
+
+    .appearance-pill-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #9ca3af;
+    }
+
+    .appearance-pill-value {
+      font-size: 13px;
+      font-weight: 600;
+      color: #f9fafb;
+    }
+
+    .appearance-pill.editing {
+      border-color: rgba(250, 204, 21, 0.9);
+      background: radial-gradient(circle at top, #1a1410, #1a1410 80%);
+    }
+
+    .appearance-pill-select {
+      margin-top: 2px;
+      padding: 4px 8px;
+      border-radius: 8px;
+      border: 1px solid rgba(250, 204, 21, 0.6);
+      background: #020617;
+      color: #f9fafb;
+      font-size: 12px;
+      font-weight: 500;
+      width: 100%;
     }
 
     /* ========== GRID CARDS (Unified for both screens) ========== */
@@ -405,13 +513,6 @@
       inset: 0;
       width: 0%;
       border-radius: inherit;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 12px;
-      font-weight: 600;
-      color: #f9fafb;
-      text-shadow: 0 0 6px rgba(15, 23, 42, 0.9);
       background: linear-gradient(
         90deg,
         #ef4444,
@@ -423,9 +524,18 @@
       transition: width 0.45s cubic-bezier(0.22, 0.61, 0.36, 1);
     }
 
-    .pump-meter-percent-label {
-      position: relative;
+    .pump-meter-label {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 600;
+      color: #f9fafb;
+      text-shadow: 0 0 6px rgba(15, 23, 42, 0.9);
       z-index: 1;
+      pointer-events: none;
     }
 
     .pump-meter-subtitle {
@@ -682,9 +792,8 @@
         <p class="screen-label">Pump meter</p>
         <div class="pump-meter">
           <div class="pump-meter-bar">
-            <div class="pump-meter-fill" id="pumpMeterFill">
-              <span class="pump-meter-percent-label" id="pumpMeterText">0%</span>
-            </div>
+            <div class="pump-meter-fill" id="pumpMeterFill"></div>
+            <div class="pump-meter-label" id="pumpMeterText">0%</div>
           </div>
 
           <p class="pump-meter-subtitle" id="pumpMeterSubtitle">
@@ -702,7 +811,7 @@
               <div class="loading-text">Generating...</div>
             </div>
 
-            <img id="session-character-image" style="width: 100%; height: 100%; object-fit: cover; border-radius: 12px; display: none;">
+            <img id="session-character-image" style="width: 100%; height: 100%; object-fit: cover; border-radius: 12px; display: none;" onerror="this.onerror=null; this.src='https://placehold.co/400x400/020617/ffffff?text=Error+Loading+Image';">
             <div class="character-placeholder" id="session-character-placeholder">
               <svg class="character-silhouette" viewBox="0 0 100 150" fill="currentColor">
                 <ellipse cx="50" cy="20" rx="15" ry="18"/>
@@ -719,10 +828,15 @@
         </div>
       </section>
 
-      <!-- Grid of 4 Pillar Buttons -->
+      <!-- Grid of 4 Pillar Buttons (2x2 layout: Fitness/Rest top, Nutrition/Hydration bottom) -->
       <section class="screen-grid garage-grid">
         <button class="grid-card pillar-card" id="fitnessToggle" data-pillar="fitness">
           <span class="grid-title pillar-title">Fitness</span>
+          <span class="grid-subtitle pillar-status">To do</span>
+        </button>
+
+        <button class="grid-card pillar-card" id="restToggle" data-pillar="rest">
+          <span class="grid-title pillar-title">Rest</span>
           <span class="grid-subtitle pillar-status">To do</span>
         </button>
 
@@ -735,16 +849,11 @@
           <span class="grid-title pillar-title">Hydration</span>
           <span class="grid-subtitle pillar-status">To do</span>
         </button>
-
-        <button class="grid-card pillar-card" id="restToggle" data-pillar="rest">
-          <span class="grid-title pillar-title">Rest</span>
-          <span class="grid-subtitle pillar-status">To do</span>
-        </button>
       </section>
 
       <!-- Primary CTA -->
       <button class="primary-cta primary-cta-session" id="sessionSaveBtn">
-        Save today's Pump card
+        Generate todays Pump
       </button>
 
       <!-- Footer Row -->
@@ -782,7 +891,7 @@
       <section class="screen-character">
         <div class="character-card">
           <div class="viewport">
-            <img id="records-character-image" style="width: 100%; height: 100%; object-fit: cover; border-radius: 12px; display: none;">
+            <img id="records-character-image" style="width: 100%; height: 100%; object-fit: cover; border-radius: 12px; display: none;" onerror="this.onerror=null; this.src='https://placehold.co/400x400/020617/22c55e?text=Error+Loading+Image';">
             <div class="character-placeholder" id="records-character-placeholder">
               <p class="character-placeholder-text" style="font-size: 0.9rem; color: rgba(255, 255, 255, 0.5);">
                 Your lifetime Pump summary will appear here.
@@ -834,37 +943,30 @@
   <!-- ========== PAGE 3: EDIT CHARACTER ========== -->
   <div class="page" id="edit-character">
     <div class="screen-layout character-screen">
-      <!-- Top Strip: Three Stat Pills -->
+      <!-- Top Strip: Three Editable Stat Pills -->
       <section class="screen-top">
         <p class="screen-label">Character stats</p>
         <div class="top-stat-row">
-          <div class="stat-pill">
+          <div class="stat-pill" id="weight-pill" data-stat="weight">
             <div class="stat-pill-label">Weight</div>
             <div class="stat-pill-value" id="char-stat-weight">-- lb</div>
           </div>
-          <div class="stat-pill">
+          <div class="stat-pill" id="bodyfat-pill" data-stat="bodyfat">
             <div class="stat-pill-label">Body fat</div>
             <div class="stat-pill-value" id="char-stat-bodyfat">--%</div>
           </div>
-          <div class="stat-pill">
+          <div class="stat-pill" id="height-pill" data-stat="height">
             <div class="stat-pill-label">Height</div>
-            <div class="stat-pill-value" id="char-stat-height">-- in</div>
+            <div class="stat-pill-value" id="char-stat-height">--</div>
           </div>
         </div>
-      </section>
-
-      <!-- Character Stat Inputs -->
-      <section style="display: flex; flex-direction: column; gap: 8px;">
-        <input type="number" id="char-weight" placeholder="Weight (lb)" style="padding: 10px; border-radius: 8px; border: 1px solid rgba(55, 65, 81, 0.9); background: #020617; color: #f9fafb; font-size: 14px;">
-        <input type="number" id="char-bodyfat" placeholder="Body fat %" style="padding: 10px; border-radius: 8px; border: 1px solid rgba(55, 65, 81, 0.9); background: #020617; color: #f9fafb; font-size: 14px;">
-        <input type="number" id="char-height" placeholder="Height (in)" style="padding: 10px; border-radius: 8px; border: 1px solid rgba(55, 65, 81, 0.9); background: #020617; color: #f9fafb; font-size: 14px;">
       </section>
 
       <!-- Character Card -->
       <section class="screen-character">
         <div class="character-card">
           <div class="viewport">
-            <img id="locker-character-image" style="width: 100%; height: 100%; object-fit: cover; border-radius: 12px; display: none;">
+            <img id="locker-character-image" style="width: 100%; height: 100%; object-fit: cover; border-radius: 12px; display: none;" onerror="this.onerror=null; this.src='https://placehold.co/400x400/020617/facc15?text=Error+Loading+Image';">
             <div class="character-placeholder" id="locker-character-placeholder">
               <svg class="character-silhouette" viewBox="0 0 100 150" fill="currentColor">
                 <ellipse cx="50" cy="20" rx="15" ry="18"/>
@@ -881,36 +983,27 @@
         </div>
       </section>
 
-      <!-- Character Style Options -->
-      <section style="display: flex; flex-direction: column; gap: 8px;">
-        <select id="char-hair" style="padding: 10px; border-radius: 8px; border: 1px solid rgba(55, 65, 81, 0.9); background: #020617; color: #f9fafb; font-size: 14px;">
-          <option value="default">Head: Default</option>
-          <option value="bald">Head: Bald</option>
-          <option value="mohawk">Head: Mohawk</option>
-          <option value="long">Head: Long hair</option>
-        </select>
+      <!-- Appearance Option Pills -->
+      <section class="appearance-pills">
+        <div class="appearance-pill" id="head-pill" data-appearance="head">
+          <div class="appearance-pill-label">Head</div>
+          <div class="appearance-pill-value" id="head-value">Default</div>
+        </div>
 
-        <select id="char-skin" style="padding: 10px; border-radius: 8px; border: 1px solid rgba(55, 65, 81, 0.9); background: #020617; color: #f9fafb; font-size: 14px;">
-          <option value="default">Skin tone: Default</option>
-          <option value="light">Skin tone: Light</option>
-          <option value="medium">Skin tone: Medium</option>
-          <option value="dark">Skin tone: Dark</option>
-        </select>
+        <div class="appearance-pill" id="skin-pill" data-appearance="skin">
+          <div class="appearance-pill-label">Skin tone</div>
+          <div class="appearance-pill-value" id="skin-value">Default</div>
+        </div>
 
-        <select id="char-abs" style="padding: 10px; border-radius: 8px; border: 1px solid rgba(55, 65, 81, 0.9); background: #020617; color: #f9fafb; font-size: 14px;">
-          <option value="0">Ab count: 0 packs</option>
-          <option value="2">Ab count: 2 packs</option>
-          <option value="4">Ab count: 4 packs</option>
-          <option value="6">Ab count: 6 packs</option>
-          <option value="8">Ab count: 8 packs</option>
-        </select>
+        <div class="appearance-pill" id="abs-pill" data-appearance="abs">
+          <div class="appearance-pill-label">Ab count</div>
+          <div class="appearance-pill-value" id="abs-value">0 packs</div>
+        </div>
 
-        <select id="char-pants" style="padding: 10px; border-radius: 8px; border: 1px solid rgba(55, 65, 81, 0.9); background: #020617; color: #f9fafb; font-size: 14px;">
-          <option value="shorts">Pants: Shorts</option>
-          <option value="joggers">Pants: Joggers</option>
-          <option value="leggings">Pants: Leggings</option>
-          <option value="sweatpants">Pants: Sweatpants</option>
-        </select>
+        <div class="appearance-pill" id="pants-pill" data-appearance="pants">
+          <div class="appearance-pill-label">Pants</div>
+          <div class="appearance-pill-value" id="pants-value">Shorts</div>
+        </div>
       </section>
 
       <!-- Primary CTA -->
@@ -976,45 +1069,85 @@
       async createBaseCharacter(characterState) {
         console.log("Mock createBaseCharacter", characterState);
         await sleep(800);
-        return "/assets/mock-base.png";
+        return "https://placehold.co/400x400/020617/ffffff?text=Base+Character";
       },
 
       async createPumpCard(baseImageUrl, cardInput) {
         console.log("Mock createPumpCard", { baseImageUrl, cardInput });
         await sleep(800);
-        const id = Math.floor(Math.random() * 4) + 1;
-        return `/assets/mock-card-${id}.png`;
+        return "https://placehold.co/400x400/020617/22c55e?text=Pump+Card";
       }
     };
 
     // ========== LOCKER SCREEN FUNCTIONS ==========
-    function readLockerInputsIntoStore() {
-      const heightInput = document.getElementById("char-height");
-      const weightInput = document.getElementById("char-weight");
-      const bodyFatInput = document.getElementById("char-bodyfat");
-      const absInput = document.getElementById("char-abs");
-      const hairSelect = document.getElementById("char-hair");
-      const pantsSelect = document.getElementById("char-pants");
-      const skinSelect = document.getElementById("char-skin");
 
-      store.character.heightIn = Number(heightInput.value) || null;
-      store.character.weightLb = Number(weightInput.value) || null;
-      store.character.bodyFatPercent = Number(bodyFatInput.value) || null;
-      store.character.abCount = Number(absInput.value) || 0;
-      store.character.headStyle = hairSelect.value;
-      store.character.pantsStyle = pantsSelect.value;
-      store.character.skinTone = skinSelect.value;
+    // Helper to convert total inches to feet + inches
+    function inchesToFeetInches(totalInches) {
+      if (!totalInches) return { feet: 0, inches: 0 };
+      const feet = Math.floor(totalInches / 12);
+      const inches = totalInches % 12;
+      return { feet, inches };
+    }
+
+    // Helper to convert feet + inches to total inches
+    function feetInchesToInches(feet, inches) {
+      return (Number(feet) || 0) * 12 + (Number(inches) || 0);
+    }
+
+    // Helper to format height display
+    function formatHeight(totalInches) {
+      if (!totalInches) return "--";
+      const { feet, inches } = inchesToFeetInches(totalInches);
+      return `${feet} ft ${inches} in`;
+    }
+
+    // Helper to get appearance display text
+    function getAppearanceDisplayText(type, value) {
+      const displays = {
+        head: {
+          default: "Default",
+          bald: "Bald",
+          mohawk: "Mohawk",
+          long: "Long hair"
+        },
+        skin: {
+          default: "Default",
+          light: "Light",
+          medium: "Medium",
+          dark: "Dark"
+        },
+        abs: {
+          0: "0 packs",
+          2: "2 packs",
+          4: "4 packs",
+          6: "6 packs",
+          8: "8 packs"
+        },
+        pants: {
+          shorts: "Shorts",
+          joggers: "Joggers",
+          leggings: "Leggings",
+          sweatpants: "Sweatpants"
+        }
+      };
+      return displays[type]?.[value] || value;
     }
 
     function renderLocker() {
-      // Update top pills
+      // Update top stat pills
       const w = document.getElementById("char-stat-weight");
       const bf = document.getElementById("char-stat-bodyfat");
       const h = document.getElementById("char-stat-height");
 
       if (w) w.textContent = store.character.weightLb != null ? `${store.character.weightLb} lb` : "-- lb";
       if (bf) bf.textContent = store.character.bodyFatPercent != null ? `${store.character.bodyFatPercent}%` : "--%";
-      if (h) h.textContent = store.character.heightIn != null ? `${store.character.heightIn} in` : "-- in";
+      if (h) h.textContent = store.character.heightIn != null ? formatHeight(store.character.heightIn) : "--";
+
+      // Update appearance pills
+      document.getElementById("head-value").textContent = getAppearanceDisplayText("head", store.character.headStyle);
+      document.getElementById("skin-value").textContent = getAppearanceDisplayText("skin", store.character.skinTone);
+      document.getElementById("abs-value").textContent = getAppearanceDisplayText("abs", store.character.abCount);
+      document.getElementById("pants-value").textContent = getAppearanceDisplayText("pants", store.character.pantsStyle);
 
       // Update preview image
       const img = document.getElementById("locker-character-image");
@@ -1030,23 +1163,155 @@
           placeholder.style.display = "flex";
         }
       }
+    }
 
-      // Update input values from store
-      const heightInput = document.getElementById("char-height");
-      const weightInput = document.getElementById("char-weight");
-      const bodyFatInput = document.getElementById("char-bodyfat");
-      const absInput = document.getElementById("char-abs");
-      const hairSelect = document.getElementById("char-hair");
-      const pantsSelect = document.getElementById("char-pants");
-      const skinSelect = document.getElementById("char-skin");
+    // Edit stat pills
+    function editStatPill(stat) {
+      const pill = document.getElementById(`${stat}-pill`);
+      const valueEl = document.getElementById(`char-stat-${stat}`);
 
-      if (heightInput && store.character.heightIn) heightInput.value = store.character.heightIn;
-      if (weightInput && store.character.weightLb) weightInput.value = store.character.weightLb;
-      if (bodyFatInput && store.character.bodyFatPercent) bodyFatInput.value = store.character.bodyFatPercent;
-      if (absInput) absInput.value = store.character.abCount;
-      if (hairSelect) hairSelect.value = store.character.headStyle;
-      if (pantsSelect) pantsSelect.value = store.character.pantsStyle;
-      if (skinSelect) skinSelect.value = store.character.skinTone;
+      if (!pill || !valueEl || pill.classList.contains('editing')) return;
+
+      pill.classList.add('editing');
+
+      if (stat === 'height') {
+        const { feet, inches } = inchesToFeetInches(store.character.heightIn);
+        valueEl.innerHTML = `
+          <div class="stat-pill-edit-height">
+            <input type="number" id="height-feet-input" value="${feet || ''}" placeholder="0" min="0" max="9">
+            <span>ft</span>
+            <input type="number" id="height-inches-input" value="${inches || ''}" placeholder="0" min="0" max="11">
+            <span>in</span>
+          </div>
+        `;
+
+        const feetInput = document.getElementById('height-feet-input');
+        const inchesInput = document.getElementById('height-inches-input');
+
+        const saveHeight = () => {
+          const totalInches = feetInchesToInches(feetInput.value, inchesInput.value);
+          store.character.heightIn = totalInches || null;
+          pill.classList.remove('editing');
+          renderLocker();
+          saveStore();
+        };
+
+        feetInput.addEventListener('blur', saveHeight);
+        inchesInput.addEventListener('blur', saveHeight);
+        feetInput.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') {
+            inchesInput.focus();
+          }
+        });
+        inchesInput.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') {
+            saveHeight();
+          }
+        });
+
+        feetInput.focus();
+        feetInput.select();
+      } else {
+        const currentValue = stat === 'weight' ? store.character.weightLb : store.character.bodyFatPercent;
+        const unit = stat === 'weight' ? 'lb' : '%';
+
+        valueEl.innerHTML = `<input type="number" class="stat-pill-edit-input" id="${stat}-input" value="${currentValue || ''}" placeholder="0">`;
+
+        const input = document.getElementById(`${stat}-input`);
+
+        const saveStat = () => {
+          const value = Number(input.value) || null;
+          if (stat === 'weight') {
+            store.character.weightLb = value;
+          } else if (stat === 'bodyfat') {
+            store.character.bodyFatPercent = value;
+          }
+          pill.classList.remove('editing');
+          renderLocker();
+          saveStore();
+        };
+
+        input.addEventListener('blur', saveStat);
+        input.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') {
+            saveStat();
+          }
+        });
+
+        input.focus();
+        input.select();
+      }
+    }
+
+    // Edit appearance pills
+    function editAppearancePill(type) {
+      const pill = document.getElementById(`${type}-pill`);
+      const valueEl = document.getElementById(`${type}-value`);
+
+      if (!pill || !valueEl || pill.classList.contains('editing')) return;
+
+      pill.classList.add('editing');
+
+      const options = {
+        head: [
+          { value: 'default', text: 'Default' },
+          { value: 'bald', text: 'Bald' },
+          { value: 'mohawk', text: 'Mohawk' },
+          { value: 'long', text: 'Long hair' }
+        ],
+        skin: [
+          { value: 'default', text: 'Default' },
+          { value: 'light', text: 'Light' },
+          { value: 'medium', text: 'Medium' },
+          { value: 'dark', text: 'Dark' }
+        ],
+        abs: [
+          { value: 0, text: '0 packs' },
+          { value: 2, text: '2 packs' },
+          { value: 4, text: '4 packs' },
+          { value: 6, text: '6 packs' },
+          { value: 8, text: '8 packs' }
+        ],
+        pants: [
+          { value: 'shorts', text: 'Shorts' },
+          { value: 'joggers', text: 'Joggers' },
+          { value: 'leggings', text: 'Leggings' },
+          { value: 'sweatpants', text: 'Sweatpants' }
+        ]
+      };
+
+      const currentValue = type === 'head' ? store.character.headStyle :
+                          type === 'skin' ? store.character.skinTone :
+                          type === 'abs' ? store.character.abCount :
+                          store.character.pantsStyle;
+
+      const selectHtml = options[type].map(opt =>
+        `<option value="${opt.value}" ${opt.value == currentValue ? 'selected' : ''}>${opt.text}</option>`
+      ).join('');
+
+      valueEl.innerHTML = `<select class="appearance-pill-select" id="${type}-select">${selectHtml}</select>`;
+
+      const select = document.getElementById(`${type}-select`);
+
+      const saveAppearance = () => {
+        const value = type === 'abs' ? Number(select.value) : select.value;
+        if (type === 'head') {
+          store.character.headStyle = value;
+        } else if (type === 'skin') {
+          store.character.skinTone = value;
+        } else if (type === 'abs') {
+          store.character.abCount = value;
+        } else if (type === 'pants') {
+          store.character.pantsStyle = value;
+        }
+        pill.classList.remove('editing');
+        renderLocker();
+        saveStore();
+      };
+
+      select.addEventListener('change', saveAppearance);
+      select.addEventListener('blur', saveAppearance);
+      select.focus();
     }
 
     // ========== SESSION SCREEN FUNCTIONS ==========
@@ -1082,7 +1347,9 @@
 
       if (!meter || !fill || !label) return;
 
-      fill.style.width = percent + '%';
+      // Use Math.max to show at least 3% fill even when percent is 0, so label is visible
+      const visualWidth = Math.max(percent, 3);
+      fill.style.width = visualWidth + '%';
       label.textContent = percent + '%';
 
       if (percent >= 100) {
@@ -1121,7 +1388,7 @@
 
       if (btn) {
         btn.disabled = percent < 100 || alreadySaved || !store.character.baseImageUrl;
-        btn.textContent = alreadySaved ? "Card saved" : "Save today's Pump card";
+        btn.textContent = alreadySaved ? "Card saved" : "Generate todays Pump";
       }
 
       // Update character image in Session
@@ -1369,12 +1636,21 @@
       themeToggle.addEventListener('click', toggleTheme);
     }
 
+    // Locker screen - Stat pill editing
+    document.getElementById('weight-pill')?.addEventListener('click', () => editStatPill('weight'));
+    document.getElementById('bodyfat-pill')?.addEventListener('click', () => editStatPill('bodyfat'));
+    document.getElementById('height-pill')?.addEventListener('click', () => editStatPill('height'));
+
+    // Locker screen - Appearance pill editing
+    document.getElementById('head-pill')?.addEventListener('click', () => editAppearancePill('head'));
+    document.getElementById('skin-pill')?.addEventListener('click', () => editAppearancePill('skin'));
+    document.getElementById('abs-pill')?.addEventListener('click', () => editAppearancePill('abs'));
+    document.getElementById('pants-pill')?.addEventListener('click', () => editAppearancePill('pants'));
+
     // Locker screen - Generate character button
     const lockerBtn = document.getElementById('lockerGenerateBtn');
     if (lockerBtn) {
       lockerBtn.addEventListener('click', async () => {
-        readLockerInputsIntoStore();
-
         lockerBtn.disabled = true;
         lockerBtn.textContent = "Generating character...";
 
