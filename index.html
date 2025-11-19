@@ -307,78 +307,116 @@
 
     .stat-pill {
       flex: 1;
+      min-width: 110px;
       min-height: var(--strip-height);
       border-radius: 999px;
-      padding: 6px 10px;
+      padding: 8px 16px;
       background: radial-gradient(circle at top, #020617, #020617 70%);
-      border: 1px solid rgba(55, 65, 81, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.75);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      gap: 4px;
       cursor: pointer;
-      transition: border-color 0.2s ease;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
     }
 
     .stat-pill:hover {
       border-color: rgba(250, 204, 21, 0.6);
     }
 
-    .stat-pill.editing {
-      border-color: rgba(250, 204, 21, 0.9);
-      background: radial-gradient(circle at top, #1a1410, #1a1410 70%);
+    .stat-pill.is-editing {
+      border-color: #facc15;
+      box-shadow: 0 0 0 1px rgba(250, 204, 21, 0.25);
     }
 
     .stat-pill-label {
       font-size: 10px;
       text-transform: uppercase;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.16em;
       color: #9ca3af;
     }
 
     .stat-pill-value {
-      margin-top: 2px;
-      font-size: 13px;
+      font-size: 16px;
       font-weight: 600;
       color: #f9fafb;
     }
 
-    .stat-pill-edit-input {
-      margin-top: 2px;
-      width: 60px;
-      padding: 2px 6px;
-      border-radius: 6px;
-      border: 1px solid rgba(250, 204, 21, 0.6);
-      background: #020617;
-      color: #f9fafb;
-      font-size: 12px;
-      font-weight: 600;
-      text-align: center;
+    /* Stepper controls */
+    .stat-pill-stepper {
+      display: none;
+      align-items: center;
+      gap: 6px;
     }
 
-    .stat-pill-edit-height {
+    .stat-pill.is-editing .stat-pill-value {
+      display: none;
+    }
+
+    .stat-pill.is-editing .stat-pill-stepper {
       display: flex;
-      gap: 4px;
-      margin-top: 2px;
     }
 
-    .stat-pill-edit-height input {
-      width: 35px;
-      padding: 2px 4px;
-      border-radius: 6px;
-      border: 1px solid rgba(250, 204, 21, 0.6);
-      background: #020617;
-      color: #f9fafb;
-      font-size: 11px;
-      font-weight: 600;
-      text-align: center;
-    }
-
-    .stat-pill-edit-height span {
-      font-size: 10px;
-      color: #9ca3af;
+    .stepper-button {
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.85);
+      background: radial-gradient(circle at top, #020617, #020617 70%);
       display: flex;
       align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: 600;
+      color: #e5e7eb;
+      box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.9),
+                  0 10px 20px rgba(15, 23, 42, 0.9);
+      cursor: pointer;
+      transition: transform 0.1s ease;
+    }
+
+    .stepper-button:active {
+      transform: scale(0.96);
+    }
+
+    .stepper-number {
+      min-width: 32px;
+      text-align: center;
+      font-size: 16px;
+      font-weight: 600;
+      color: #f9fafb;
+    }
+
+    .stepper-unit {
+      font-size: 11px;
+      color: #9ca3af;
+    }
+
+    .stat-pill-stepper--height {
+      gap: 4px;
+    }
+
+    .stat-pill-stepper--height .stepper-divider {
+      margin: 0 4px;
+      font-size: 11px;
+      color: #4b5563;
+    }
+
+    .stat-pill-stepper--height .stepper-number {
+      min-width: 20px;
+    }
+
+    /* Hide browser number spinners if any number inputs remain */
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    input[type="number"] {
+      -moz-appearance: textfield;
     }
 
     /* ========== APPEARANCE PILLS ========== */
@@ -947,17 +985,61 @@
       <section class="screen-top">
         <p class="screen-label">Character stats</p>
         <div class="top-stat-row">
-          <div class="stat-pill" id="weight-pill" data-stat="weight">
+          <!-- Weight pill with stepper -->
+          <div class="stat-pill" data-stat="weight">
             <div class="stat-pill-label">Weight</div>
-            <div class="stat-pill-value" id="char-stat-weight">-- lb</div>
+
+            <div class="stat-pill-value" data-stat-display="weight">
+              -- lb
+            </div>
+
+            <div class="stat-pill-stepper" data-stat-stepper="weight">
+              <button class="stepper-button" data-dir="-">−</button>
+              <span class="stepper-number" data-stat-number="weight">--</span>
+              <span class="stepper-unit">lb</span>
+              <button class="stepper-button" data-dir="+">+</button>
+            </div>
           </div>
-          <div class="stat-pill" id="bodyfat-pill" data-stat="bodyfat">
+
+          <!-- Body fat pill with stepper -->
+          <div class="stat-pill" data-stat="bodyfat">
             <div class="stat-pill-label">Body fat</div>
-            <div class="stat-pill-value" id="char-stat-bodyfat">--%</div>
+
+            <div class="stat-pill-value" data-stat-display="bodyfat">
+              --%
+            </div>
+
+            <div class="stat-pill-stepper" data-stat-stepper="bodyfat">
+              <button class="stepper-button" data-dir="-">−</button>
+              <span class="stepper-number" data-stat-number="bodyfat">--</span>
+              <span class="stepper-unit">%</span>
+              <button class="stepper-button" data-dir="+">+</button>
+            </div>
           </div>
-          <div class="stat-pill" id="height-pill" data-stat="height">
+
+          <!-- Height pill with dual stepper (feet + inches) -->
+          <div class="stat-pill" data-stat="height">
             <div class="stat-pill-label">Height</div>
-            <div class="stat-pill-value" id="char-stat-height">--</div>
+
+            <div class="stat-pill-value" data-stat-display="height">
+              --
+            </div>
+
+            <div class="stat-pill-stepper stat-pill-stepper--height" data-stat-stepper="height">
+              <!-- Feet -->
+              <button class="stepper-button" data-dir="-" data-part="feet">−</button>
+              <span class="stepper-number" data-stat-number="heightFeet">-</span>
+              <span class="stepper-unit">ft</span>
+              <button class="stepper-button" data-dir="+" data-part="feet">+</button>
+
+              <span class="stepper-divider">|</span>
+
+              <!-- Inches -->
+              <button class="stepper-button" data-dir="-" data-part="inches">−</button>
+              <span class="stepper-number" data-stat-number="heightInches">-</span>
+              <span class="stepper-unit">in</span>
+              <button class="stepper-button" data-dir="+" data-part="inches">+</button>
+            </div>
           </div>
         </div>
       </section>
@@ -1134,20 +1216,49 @@
     }
 
     function renderLocker() {
-      // Update top stat pills
-      const w = document.getElementById("char-stat-weight");
-      const bf = document.getElementById("char-stat-bodyfat");
-      const h = document.getElementById("char-stat-height");
+      // Update stat pill displays
+      const weightDisplay = document.querySelector('[data-stat-display="weight"]');
+      const bodyfatDisplay = document.querySelector('[data-stat-display="bodyfat"]');
+      const heightDisplay = document.querySelector('[data-stat-display="height"]');
 
-      if (w) w.textContent = store.character.weightLb != null ? `${store.character.weightLb} lb` : "-- lb";
-      if (bf) bf.textContent = store.character.bodyFatPercent != null ? `${store.character.bodyFatPercent}%` : "--%";
-      if (h) h.textContent = store.character.heightIn != null ? formatHeight(store.character.heightIn) : "--";
+      if (weightDisplay) {
+        weightDisplay.textContent = store.character.weightLb != null ? `${store.character.weightLb} lb` : "-- lb";
+      }
+      if (bodyfatDisplay) {
+        bodyfatDisplay.textContent = store.character.bodyFatPercent != null ? `${store.character.bodyFatPercent}%` : "--%";
+      }
+      if (heightDisplay) {
+        heightDisplay.textContent = store.character.heightIn != null ? formatHeight(store.character.heightIn) : "--";
+      }
+
+      // Update stepper numbers
+      const weightNum = document.querySelector('[data-stat-number="weight"]');
+      const bodyfatNum = document.querySelector('[data-stat-number="bodyfat"]');
+      const heightFeetNum = document.querySelector('[data-stat-number="heightFeet"]');
+      const heightInchesNum = document.querySelector('[data-stat-number="heightInches"]');
+
+      if (weightNum) {
+        weightNum.textContent = store.character.weightLb != null ? store.character.weightLb : "--";
+      }
+      if (bodyfatNum) {
+        bodyfatNum.textContent = store.character.bodyFatPercent != null ? store.character.bodyFatPercent : "--";
+      }
+      if (heightFeetNum || heightInchesNum) {
+        const { feet, inches } = inchesToFeetInches(store.character.heightIn);
+        if (heightFeetNum) heightFeetNum.textContent = feet || "-";
+        if (heightInchesNum) heightInchesNum.textContent = inches || "-";
+      }
 
       // Update appearance pills
-      document.getElementById("head-value").textContent = getAppearanceDisplayText("head", store.character.headStyle);
-      document.getElementById("skin-value").textContent = getAppearanceDisplayText("skin", store.character.skinTone);
-      document.getElementById("abs-value").textContent = getAppearanceDisplayText("abs", store.character.abCount);
-      document.getElementById("pants-value").textContent = getAppearanceDisplayText("pants", store.character.pantsStyle);
+      const headValue = document.getElementById("head-value");
+      const skinValue = document.getElementById("skin-value");
+      const absValue = document.getElementById("abs-value");
+      const pantsValue = document.getElementById("pants-value");
+
+      if (headValue) headValue.textContent = getAppearanceDisplayText("head", store.character.headStyle);
+      if (skinValue) skinValue.textContent = getAppearanceDisplayText("skin", store.character.skinTone);
+      if (absValue) absValue.textContent = getAppearanceDisplayText("abs", store.character.abCount);
+      if (pantsValue) pantsValue.textContent = getAppearanceDisplayText("pants", store.character.pantsStyle);
 
       // Update preview image
       const img = document.getElementById("locker-character-image");
@@ -1165,82 +1276,50 @@
       }
     }
 
-    // Edit stat pills
-    function editStatPill(stat) {
-      const pill = document.getElementById(`${stat}-pill`);
-      const valueEl = document.getElementById(`char-stat-${stat}`);
+    // Utility: clamp value between min and max
+    function clamp(value, min, max) {
+      return Math.min(max, Math.max(min, value));
+    }
 
-      if (!pill || !valueEl || pill.classList.contains('editing')) return;
+    // Adjust weight with stepper
+    function adjustWeight(delta) {
+      const step = 5;
+      const min = 80;
+      const max = 400;
+      const current = store.character.weightLb || 150;
+      const next = clamp(current + delta * step, min, max);
+      store.character.weightLb = next;
+      renderLocker();
+      saveStore();
+    }
 
-      pill.classList.add('editing');
+    // Adjust body fat with stepper
+    function adjustBodyFat(delta) {
+      const step = 1;
+      const min = 3;
+      const max = 40;
+      const current = store.character.bodyFatPercent || 15;
+      const next = clamp(current + delta * step, min, max);
+      store.character.bodyFatPercent = next;
+      renderLocker();
+      saveStore();
+    }
 
-      if (stat === 'height') {
-        const { feet, inches } = inchesToFeetInches(store.character.heightIn);
-        valueEl.innerHTML = `
-          <div class="stat-pill-edit-height">
-            <input type="number" id="height-feet-input" value="${feet || ''}" placeholder="0" min="0" max="9">
-            <span>ft</span>
-            <input type="number" id="height-inches-input" value="${inches || ''}" placeholder="0" min="0" max="11">
-            <span>in</span>
-          </div>
-        `;
+    // Adjust height with stepper (feet or inches)
+    function adjustHeight(delta, part) {
+      const inches = store.character.heightIn || 72;
+      let feet = Math.floor(inches / 12);
+      let inchPart = inches % 12;
 
-        const feetInput = document.getElementById('height-feet-input');
-        const inchesInput = document.getElementById('height-inches-input');
-
-        const saveHeight = () => {
-          const totalInches = feetInchesToInches(feetInput.value, inchesInput.value);
-          store.character.heightIn = totalInches || null;
-          pill.classList.remove('editing');
-          renderLocker();
-          saveStore();
-        };
-
-        feetInput.addEventListener('blur', saveHeight);
-        inchesInput.addEventListener('blur', saveHeight);
-        feetInput.addEventListener('keydown', (e) => {
-          if (e.key === 'Enter') {
-            inchesInput.focus();
-          }
-        });
-        inchesInput.addEventListener('keydown', (e) => {
-          if (e.key === 'Enter') {
-            saveHeight();
-          }
-        });
-
-        feetInput.focus();
-        feetInput.select();
-      } else {
-        const currentValue = stat === 'weight' ? store.character.weightLb : store.character.bodyFatPercent;
-        const unit = stat === 'weight' ? 'lb' : '%';
-
-        valueEl.innerHTML = `<input type="number" class="stat-pill-edit-input" id="${stat}-input" value="${currentValue || ''}" placeholder="0">`;
-
-        const input = document.getElementById(`${stat}-input`);
-
-        const saveStat = () => {
-          const value = Number(input.value) || null;
-          if (stat === 'weight') {
-            store.character.weightLb = value;
-          } else if (stat === 'bodyfat') {
-            store.character.bodyFatPercent = value;
-          }
-          pill.classList.remove('editing');
-          renderLocker();
-          saveStore();
-        };
-
-        input.addEventListener('blur', saveStat);
-        input.addEventListener('keydown', (e) => {
-          if (e.key === 'Enter') {
-            saveStat();
-          }
-        });
-
-        input.focus();
-        input.select();
+      if (part === "feet") {
+        feet = clamp(feet + delta, 3, 7);
+      } else if (part === "inches") {
+        inchPart = clamp(inchPart + delta, 0, 11);
       }
+
+      store.character.heightIn = feet * 12 + inchPart;
+      renderLocker();
+      saveStore();
     }
 
     // Edit appearance pills
@@ -1636,10 +1715,50 @@
       themeToggle.addEventListener('click', toggleTheme);
     }
 
-    // Locker screen - Stat pill editing
-    document.getElementById('weight-pill')?.addEventListener('click', () => editStatPill('weight'));
-    document.getElementById('bodyfat-pill')?.addEventListener('click', () => editStatPill('bodyfat'));
-    document.getElementById('height-pill')?.addEventListener('click', () => editStatPill('height'));
+    // Locker screen - Stat pill stepper controls
+    function attachLockerStatPills() {
+      const pills = document.querySelectorAll(".stat-pill");
+
+      pills.forEach(pill => {
+        const stat = pill.dataset.stat;
+
+        // Toggle edit mode when pill is clicked (but not on buttons)
+        pill.addEventListener("click", e => {
+          if (e.target.closest(".stepper-button")) return; // buttons handled separately
+
+          // Close all other pills
+          pills.forEach(p => p.classList.remove("is-editing"));
+
+          // Toggle this pill
+          pill.classList.add("is-editing");
+        });
+
+        // Wire up stepper buttons
+        pill.querySelectorAll(".stepper-button").forEach(btn => {
+          btn.addEventListener("click", e => {
+            e.stopPropagation();
+            const dir = btn.dataset.dir === "+" ? 1 : -1;
+
+            if (stat === "weight") {
+              adjustWeight(dir);
+            } else if (stat === "bodyfat") {
+              adjustBodyFat(dir);
+            } else if (stat === "height") {
+              adjustHeight(dir, btn.dataset.part); // "feet" or "inches"
+            }
+          });
+        });
+      });
+
+      // Close edit mode when clicking outside
+      document.addEventListener("click", e => {
+        if (!e.target.closest(".stat-pill")) {
+          pills.forEach(p => p.classList.remove("is-editing"));
+        }
+      });
+    }
+
+    attachLockerStatPills();
 
     // Locker screen - Appearance pill editing
     document.getElementById('head-pill')?.addEventListener('click', () => editAppearancePill('head'));
