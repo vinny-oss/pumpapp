@@ -1378,8 +1378,10 @@
           if (e.target.closest(".option-pill-choice")) return;
 
           const alreadyEditing = pill.classList.contains("is-editing");
+
+          // Close ALL pills (stat + appearance)
           document
-            .querySelectorAll(".option-pill[data-appearance]")
+            .querySelectorAll(".option-pill[data-stat], .option-pill[data-appearance]")
             .forEach(p => p.classList.remove("is-editing"));
 
           if (!alreadyEditing) {
@@ -1749,11 +1751,17 @@
         pill.addEventListener("click", e => {
           if (e.target.closest(".option-pill-step")) return; // buttons handled separately
 
-          // Close all other pills
-          pills.forEach(p => p.classList.remove("is-editing"));
+          const isEditing = pill.classList.contains("is-editing");
 
-          // Open this pill
-          pill.classList.add("is-editing");
+          // Close ALL pills (stat + appearance)
+          document
+            .querySelectorAll(".option-pill[data-stat], .option-pill[data-appearance]")
+            .forEach(p => p.classList.remove("is-editing"));
+
+          // Only open this pill if it wasn't already editing
+          if (!isEditing) {
+            pill.classList.add("is-editing");
+          }
         });
 
         // Wire up step buttons
@@ -1777,7 +1785,9 @@
       // Close edit mode when clicking outside
       document.addEventListener("click", e => {
         if (!e.target.closest(".option-pill")) {
-          pills.forEach(p => p.classList.remove("is-editing"));
+          document
+            .querySelectorAll(".option-pill[data-stat], .option-pill[data-appearance]")
+            .forEach(p => p.classList.remove("is-editing"));
         }
       });
     }
