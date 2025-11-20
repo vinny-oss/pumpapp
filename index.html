@@ -245,7 +245,87 @@
       text-align: center;
     }
 
-    /* ========== RECORDS GALLERY ========== */
+    /* ========== PUMP CARDS (Records Screen) ========== */
+    .pump-card {
+      border-radius: 20px;
+      border: 2px solid color-mix(in srgb, var(--accent-stats) 60%, transparent);
+      background: #020617;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      color: #e5e7eb;
+      cursor: pointer;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .pump-card:hover {
+      border-color: var(--accent-stats);
+      box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent-stats) 25%, transparent);
+    }
+
+    /* Top row: date and pump percent */
+    .pump-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 10px;
+      font-weight: 600;
+      color: #9ca3af;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .pump-card-date {
+      color: #9ca3af;
+    }
+
+    .pump-card-pump {
+      color: var(--accent-stats);
+    }
+
+    /* Middle area: image or placeholder */
+    .pump-card-body {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 120px;
+      background: rgba(15, 23, 42, 0.3);
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+      color: rgba(255, 255, 255, 0.4);
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    /* Bottom row: streak */
+    .pump-card-footer {
+      text-align: center;
+      font-size: 11px;
+      color: #9ca3af;
+    }
+
+    /* Featured (large) variant */
+    .pump-card--featured {
+      padding: 16px;
+    }
+
+    .pump-card--featured .pump-card-header {
+      font-size: 11px;
+    }
+
+    .pump-card--featured .pump-card-body {
+      min-height: 200px;
+      font-size: 16px;
+    }
+
+    .pump-card--featured .pump-card-footer {
+      font-size: 12px;
+    }
+
+    /* Gallery of pump cards */
     .records-gallery {
       margin-top: 10px;
       display: flex;
@@ -254,41 +334,9 @@
       padding-bottom: 4px;
     }
 
-    .records-thumb {
-      min-width: 80px;
-      border-radius: 14px;
-      border: 1px solid rgba(55, 65, 81, 0.9);
-      background: #020617;
-      padding: 4px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      font-size: 10px;
-      color: #9ca3af;
-      cursor: pointer;
-      transition: border-color 0.2s ease;
-    }
-
-    .records-thumb:hover {
-      border-color: rgba(34, 197, 94, 0.9);
-    }
-
-    .records-thumb img {
-      width: 100%;
-      border-radius: 10px;
-      display: block;
-      margin-bottom: 4px;
-    }
-
-    .records-thumb-date {
-      font-size: 9px;
-      font-weight: 600;
-      color: #f9fafb;
-    }
-
-    .records-thumb-streak {
-      font-size: 8px;
-      color: #9ca3af;
+    .records-gallery .pump-card {
+      min-width: 140px;
+      flex-shrink: 0;
     }
 
     @media (max-height: 780px) {
@@ -934,7 +982,7 @@
               <div class="loading-text">Generating...</div>
             </div>
 
-            <img id="session-character-image" style="width: 100%; height: 100%; object-fit: cover; border-radius: 12px; display: none;" onerror="this.onerror=null; this.src='https://placehold.co/400x400/020617/ffffff?text=Error+Loading+Image';">
+            <img id="session-character-image" style="max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 12px; display: none;" onerror="this.onerror=null; this.src='https://placehold.co/400x400/020617/ffffff?text=Error+Loading+Image';">
             <div class="character-placeholder" id="session-character-placeholder">
               <svg class="character-silhouette" viewBox="0 0 100 150" fill="currentColor">
                 <ellipse cx="50" cy="20" rx="15" ry="18"/>
@@ -1010,18 +1058,19 @@
         </div>
       </section>
 
-      <!-- Character Card -->
+      <!-- Featured Pump Card -->
       <section class="screen-character">
-        <div class="hero-card hero-card--records">
-          <div class="viewport">
-            <img id="records-character-image" style="width: 100%; height: 100%; object-fit: cover; border-radius: 12px; display: none;" onerror="this.onerror=null; this.src='https://placehold.co/400x400/020617/22c55e?text=Error+Loading+Image';">
-            <div class="character-placeholder" id="records-character-placeholder">
-              <p class="character-placeholder-text" style="font-size: 0.9rem; color: rgba(255, 255, 255, 0.5);">
-                Your lifetime Pump summary will appear here.
-              </p>
-            </div>
+        <div class="pump-card pump-card--featured" id="records-featured-card">
+          <div class="pump-card-header">
+            <span class="pump-card-date" id="featured-card-date">--</span>
+            <span class="pump-card-pump" id="featured-card-pump">Pump: --%</span>
           </div>
-          <p class="hero-subtitle">Track your progress and celebrate your wins.</p>
+          <div class="pump-card-body" id="featured-card-body">
+            Pump Card
+          </div>
+          <div class="pump-card-footer" id="featured-card-footer">
+            Streak: -- day(s)
+          </div>
         </div>
       </section>
 
@@ -1686,19 +1735,24 @@
         gridMax.textContent = Math.round(maxPump) + '%';
       }
 
+      // Update featured pump card
       const lastCard = cards[cards.length - 1];
+      const featuredDate = document.getElementById("featured-card-date");
+      const featuredPump = document.getElementById("featured-card-pump");
+      const featuredBody = document.getElementById("featured-card-body");
+      const featuredFooter = document.getElementById("featured-card-footer");
 
-      const bigImg = document.getElementById("records-character-image");
-      const bigPlaceholder = document.getElementById("records-character-placeholder");
-
-      if (bigImg && bigPlaceholder) {
+      if (featuredDate && featuredPump && featuredBody && featuredFooter) {
         if (lastCard) {
-          bigImg.src = lastCard.cardImageUrl;
-          bigImg.style.display = "block";
-          bigPlaceholder.style.display = "none";
+          featuredDate.textContent = lastCard.date;
+          featuredPump.textContent = `Pump: ${Math.round(lastCard.pumpPercent)}%`;
+          featuredBody.textContent = "Pump Card";
+          featuredFooter.textContent = `Streak: ${formatDays(lastCard.streakAtDay)}`;
         } else {
-          bigImg.style.display = "none";
-          bigPlaceholder.style.display = "flex";
+          featuredDate.textContent = "--";
+          featuredPump.textContent = "Pump: --%";
+          featuredBody.textContent = "No cards yet";
+          featuredFooter.textContent = "Streak: -- day(s)";
         }
       }
 
@@ -1712,11 +1766,18 @@
 
       store.records.cards.slice().reverse().forEach(card => {
         const item = document.createElement("button");
-        item.className = "records-thumb";
+        item.className = "pump-card";
         item.innerHTML = `
-          <img src="${card.cardImageUrl}" alt="Pump card ${card.date}">
-          <span class="records-thumb-date">${card.date}</span>
-          <span class="records-thumb-streak">${formatDays(card.streakAtDay)} streak</span>
+          <div class="pump-card-header">
+            <span class="pump-card-date">${card.date}</span>
+            <span class="pump-card-pump">Pump: ${Math.round(card.pumpPercent)}%</span>
+          </div>
+          <div class="pump-card-body">
+            Pump Card
+          </div>
+          <div class="pump-card-footer">
+            Streak: ${formatDays(card.streakAtDay)}
+          </div>
         `;
         item.addEventListener("click", () => showRecordsCard(card));
         container.appendChild(item);
@@ -1724,14 +1785,17 @@
     }
 
     function showRecordsCard(card) {
-      const bigImg = document.getElementById("records-character-image");
-      if (bigImg) {
-        bigImg.src = card.cardImageUrl;
-        bigImg.style.display = "block";
-      }
-      const placeholder = document.getElementById("records-character-placeholder");
-      if (placeholder) {
-        placeholder.style.display = "none";
+      // Update featured pump card with selected card's data
+      const featuredDate = document.getElementById("featured-card-date");
+      const featuredPump = document.getElementById("featured-card-pump");
+      const featuredBody = document.getElementById("featured-card-body");
+      const featuredFooter = document.getElementById("featured-card-footer");
+
+      if (featuredDate && featuredPump && featuredBody && featuredFooter) {
+        featuredDate.textContent = card.date;
+        featuredPump.textContent = `Pump: ${Math.round(card.pumpPercent)}%`;
+        featuredBody.textContent = "Pump Card";
+        featuredFooter.textContent = `Streak: ${formatDays(card.streakAtDay)}`;
       }
     }
 
