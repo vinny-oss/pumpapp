@@ -72,11 +72,11 @@
             width: 100%;
             height: 0%;
             overflow: hidden;
-            transition: height 4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: height 12s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .water-container.filling {
-            height: 100%;
+            height: 90%;
         }
 
         .water {
@@ -93,29 +93,49 @@
 
         .wave {
             position: absolute;
-            top: -20px;
+            top: -35px;
             left: -50%;
             width: 200%;
-            height: 40px;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120"><path d="M0,50 Q150,10 300,50 T600,50 T900,50 T1200,50 L1200,120 L0,120 Z" fill="rgba(100,200,255,0.4)"/></svg>') repeat-x;
-            background-size: 600px 40px;
+            height: 70px;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120"><path d="M0,50 Q150,10 300,50 T600,50 T900,50 T1200,50 L1200,120 L0,120 Z" fill="rgba(100,200,255,0.6)"/></svg>') repeat-x;
+            background-size: 600px 70px;
             animation: wave 3s linear infinite;
         }
 
         .wave:nth-child(2) {
-            top: -15px;
-            animation: wave 4s linear infinite reverse;
-            opacity: 0.6;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120"><path d="M0,60 Q200,20 400,60 T800,60 T1200,60 L1200,120 L0,120 Z" fill="rgba(150,220,255,0.3)"/></svg>') repeat-x;
-            background-size: 800px 40px;
+            top: -25px;
+            height: 60px;
+            animation: wave 4.5s linear infinite reverse;
+            opacity: 0.7;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120"><path d="M0,60 Q200,15 400,60 T800,60 T1200,60 L1200,120 L0,120 Z" fill="rgba(150,220,255,0.5)"/></svg>') repeat-x;
+            background-size: 800px 60px;
         }
 
         .wave:nth-child(3) {
-            top: -25px;
-            animation: wave 5s linear infinite;
-            opacity: 0.4;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120"><path d="M0,40 Q100,0 200,40 T400,40 T600,40 T800,40 T1000,40 T1200,40 L1200,120 L0,120 Z" fill="rgba(180,230,255,0.2)"/></svg>') repeat-x;
-            background-size: 400px 40px;
+            top: -40px;
+            height: 65px;
+            animation: wave 6s linear infinite;
+            opacity: 0.5;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120"><path d="M0,40 Q100,0 200,40 T400,40 T600,40 T800,40 T1000,40 T1200,40 L1200,120 L0,120 Z" fill="rgba(180,230,255,0.4)"/></svg>') repeat-x;
+            background-size: 400px 65px;
+        }
+
+        .wave:nth-child(4) {
+            top: -50px;
+            height: 80px;
+            animation: wave 5.5s linear infinite reverse;
+            opacity: 0.3;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120"><path d="M0,55 Q250,5 500,55 T1000,55 T1500,55 L1500,120 L0,120 Z" fill="rgba(200,240,255,0.35)"/></svg>') repeat-x;
+            background-size: 1000px 80px;
+        }
+
+        .wave:nth-child(5) {
+            top: -15px;
+            height: 50px;
+            animation: wave 3.8s linear infinite;
+            opacity: 0.8;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120"><path d="M0,45 Q180,20 360,45 T720,45 T1080,45 L1080,120 L0,120 Z" fill="rgba(120,210,255,0.45)"/></svg>') repeat-x;
+            background-size: 720px 50px;
         }
 
         @keyframes wave {
@@ -359,6 +379,8 @@
                 <div class="wave"></div>
                 <div class="wave"></div>
                 <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
 
                 <!-- Bubbles -->
                 <div class="bubble"></div>
@@ -389,7 +411,7 @@
                 // Uncomment to auto-reset
                 // waterContainer.classList.remove('filling');
                 // fillButton.classList.remove('hidden');
-            }, 4000);
+            }, 12000);
         });
 
         // Optional: Double-click to reset
