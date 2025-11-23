@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phone Screen Water Tank</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+        }
+
+        .phone-container {
+            position: relative;
+            width: 390px;
+            height: 844px;
+            background: #1a1a1a;
+            border-radius: 45px;
+            box-shadow:
+                0 0 0 12px #2a2a2a,
+                0 0 0 14px #1a1a1a,
+                0 25px 80px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+        }
+
+        .notch {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 180px;
+            height: 30px;
+            background: #1a1a1a;
+            border-radius: 0 0 20px 20px;
+            z-index: 1000;
+        }
+
+        .screen {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, #e8f4f8 0%, #b8d4e8 100%);
+            overflow: hidden;
+        }
+
+        .tank-border {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            top: 0;
+            border: 3px solid rgba(100, 100, 100, 0.3);
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        .water-container {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 0%;
+            overflow: hidden;
+            transition: height 4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .water-container.filling {
+            height: 100%;
+        }
+
+        .water {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom,
+                rgba(64, 164, 223, 0.7) 0%,
+                rgba(41, 128, 185, 0.8) 50%,
+                rgba(30, 96, 145, 0.9) 100%);
+        }
+
+        .wave {
+            position: absolute;
+            top: -20px;
+            left: -50%;
+            width: 200%;
+            height: 40px;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120"><path d="M0,50 Q150,10 300,50 T600,50 T900,50 T1200,50 L1200,120 L0,120 Z" fill="rgba(100,200,255,0.4)"/></svg>') repeat-x;
+            background-size: 600px 40px;
+            animation: wave 3s linear infinite;
+        }
+
+        .wave:nth-child(2) {
+            top: -15px;
+            animation: wave 4s linear infinite reverse;
+            opacity: 0.6;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120"><path d="M0,60 Q200,20 400,60 T800,60 T1200,60 L1200,120 L0,120 Z" fill="rgba(150,220,255,0.3)"/></svg>') repeat-x;
+            background-size: 800px 40px;
+        }
+
+        .wave:nth-child(3) {
+            top: -25px;
+            animation: wave 5s linear infinite;
+            opacity: 0.4;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120"><path d="M0,40 Q100,0 200,40 T400,40 T600,40 T800,40 T1000,40 T1200,40 L1200,120 L0,120 Z" fill="rgba(180,230,255,0.2)"/></svg>') repeat-x;
+            background-size: 400px 40px;
+        }
+
+        @keyframes wave {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(50%);
+            }
+        }
+
+        .bubble {
+            position: absolute;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 30%,
+                rgba(255, 255, 255, 0.8),
+                rgba(255, 255, 255, 0.3) 50%,
+                rgba(255, 255, 255, 0.1));
+            border-radius: 50%;
+            opacity: 0;
+            animation: rise linear infinite;
+        }
+
+        @keyframes rise {
+            0% {
+                bottom: 0;
+                opacity: 0;
+                transform: translateX(0) scale(0);
+            }
+            10% {
+                opacity: 1;
+                transform: translateX(0) scale(1);
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                bottom: 100%;
+                opacity: 0;
+                transform: translateX(var(--drift)) scale(0.5);
+            }
+        }
+
+        .bubble:nth-child(1) {
+            left: 10%;
+            width: 15px;
+            height: 15px;
+            animation-duration: 4s;
+            animation-delay: 0.5s;
+            --drift: 20px;
+        }
+        .bubble:nth-child(2) {
+            left: 25%;
+            width: 10px;
+            height: 10px;
+            animation-duration: 5s;
+            animation-delay: 1s;
+            --drift: -15px;
+        }
+        .bubble:nth-child(3) {
+            left: 40%;
+            width: 20px;
+            height: 20px;
+            animation-duration: 6s;
+            animation-delay: 0.2s;
+            --drift: 30px;
+        }
+        .bubble:nth-child(4) {
+            left: 55%;
+            width: 12px;
+            height: 12px;
+            animation-duration: 5.5s;
+            animation-delay: 1.5s;
+            --drift: -25px;
+        }
+        .bubble:nth-child(5) {
+            left: 70%;
+            width: 8px;
+            height: 8px;
+            animation-duration: 4.5s;
+            animation-delay: 0.8s;
+            --drift: 15px;
+        }
+        .bubble:nth-child(6) {
+            left: 85%;
+            width: 18px;
+            height: 18px;
+            animation-duration: 5.8s;
+            animation-delay: 0.3s;
+            --drift: -20px;
+        }
+        .bubble:nth-child(7) {
+            left: 15%;
+            width: 14px;
+            height: 14px;
+            animation-duration: 6.2s;
+            animation-delay: 2s;
+            --drift: 25px;
+        }
+        .bubble:nth-child(8) {
+            left: 60%;
+            width: 11px;
+            height: 11px;
+            animation-duration: 4.8s;
+            animation-delay: 1.2s;
+            --drift: -30px;
+        }
+
+        .shimmer {
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg,
+                transparent 0%,
+                rgba(255, 255, 255, 0.3) 50%,
+                transparent 100%);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% {
+                left: -100%;
+            }
+            50% {
+                left: 100%;
+            }
+        }
+
+        .light-rays {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at 50% 0%,
+                rgba(255, 255, 255, 0.2) 0%,
+                transparent 50%);
+            opacity: 0.6;
+        }
+
+        .fill-button {
+            position: absolute;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 20px 50px;
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow:
+                0 10px 30px rgba(102, 126, 234, 0.4),
+                inset 0 -2px 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            z-index: 200;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .fill-button:hover {
+            transform: translateX(-50%) translateY(-3px);
+            box-shadow:
+                0 15px 40px rgba(102, 126, 234, 0.6),
+                inset 0 -2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .fill-button:active {
+            transform: translateX(-50%) translateY(-1px);
+            box-shadow:
+                0 8px 20px rgba(102, 126, 234, 0.4),
+                inset 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .fill-button.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .water-container.filling .bubble {
+            animation-play-state: running;
+        }
+
+        .caustics {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 60%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+            animation: caustics 6s ease-in-out infinite;
+        }
+
+        @keyframes caustics {
+            0%, 100% {
+                opacity: 0.3;
+                transform: scale(1) rotate(0deg);
+            }
+            50% {
+                opacity: 0.6;
+                transform: scale(1.1) rotate(5deg);
+            }
+        }
+
+        .info-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 18px;
+            color: rgba(100, 100, 100, 0.6);
+            text-align: center;
+            z-index: 50;
+            transition: opacity 0.5s;
+        }
+
+        .water-container.filling ~ .info-text {
+            opacity: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="phone-container">
+        <div class="notch"></div>
+        <div class="screen">
+            <div class="info-text">Press FILL to start the magic ✨</div>
+
+            <div class="water-container" id="waterContainer">
+                <div class="light-rays"></div>
+                <div class="water">
+                    <div class="caustics"></div>
+                    <div class="shimmer"></div>
+                </div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+
+                <!-- Bubbles -->
+                <div class="bubble"></div>
+                <div class="bubble"></div>
+                <div class="bubble"></div>
+                <div class="bubble"></div>
+                <div class="bubble"></div>
+                <div class="bubble"></div>
+                <div class="bubble"></div>
+                <div class="bubble"></div>
+            </div>
+
+            <div class="tank-border"></div>
+            <button class="fill-button" id="fillButton">FILL</button>
+        </div>
+    </div>
+
+    <script>
+        const fillButton = document.getElementById('fillButton');
+        const waterContainer = document.getElementById('waterContainer');
+
+        fillButton.addEventListener('click', () => {
+            waterContainer.classList.add('filling');
+            fillButton.classList.add('hidden');
+
+            // Optional: Reset after animation completes
+            setTimeout(() => {
+                // Uncomment to auto-reset
+                // waterContainer.classList.remove('filling');
+                // fillButton.classList.remove('hidden');
+            }, 4000);
+        });
+
+        // Optional: Double-click to reset
+        waterContainer.addEventListener('dblclick', () => {
+            waterContainer.classList.remove('filling');
+            fillButton.classList.remove('hidden');
+        });
+    </script>
+</body>
+</html>
