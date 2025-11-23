@@ -50,19 +50,21 @@
             position: relative;
             width: 100%;
             height: 100%;
-            background: linear-gradient(to bottom, #e8f4f8 0%, #b8d4e8 100%);
+            background: #f0f8ff;
             overflow: hidden;
         }
 
-        .tank-border {
+        .tank-glass {
             position: absolute;
             bottom: 0;
             left: 0;
             right: 0;
             top: 0;
-            border: 3px solid rgba(100, 100, 100, 0.3);
+            background:
+                linear-gradient(90deg, rgba(255,255,255,0.1) 0%, transparent 10%, transparent 90%, rgba(255,255,255,0.1) 100%),
+                linear-gradient(to bottom, rgba(255,255,255,0.05) 0%, transparent 20%);
             pointer-events: none;
-            z-index: 100;
+            z-index: 150;
         }
 
         .water-container {
@@ -71,211 +73,248 @@
             left: 0;
             width: 100%;
             height: 0%;
-            overflow: hidden;
-            transition: height 12s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: visible;
+            transition: height 10s cubic-bezier(0.25, 0.1, 0.25, 1);
         }
 
         .water-container.filling {
             height: 90%;
         }
 
-        .water {
+        .water-body {
             position: absolute;
             bottom: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(to bottom,
-                rgba(64, 164, 223, 0.7) 0%,
-                rgba(41, 128, 185, 0.8) 50%,
-                rgba(30, 96, 145, 0.9) 100%);
+            background:
+                radial-gradient(ellipse at 30% 30%, rgba(100, 200, 255, 0.3) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 60%, rgba(80, 180, 240, 0.25) 0%, transparent 50%),
+                linear-gradient(to bottom,
+                    rgba(100, 190, 255, 0.75) 0%,
+                    rgba(70, 160, 230, 0.85) 30%,
+                    rgba(50, 140, 210, 0.9) 60%,
+                    rgba(30, 120, 190, 0.95) 100%);
+            filter: url(#water-filter);
         }
 
-        .wave {
+        .water-surface {
             position: absolute;
-            top: -35px;
-            left: -50%;
-            width: 200%;
-            height: 70px;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120"><path d="M0,50 Q150,10 300,50 T600,50 T900,50 T1200,50 L1200,120 L0,120 Z" fill="rgba(100,200,255,0.6)"/></svg>') repeat-x;
-            background-size: 600px 70px;
-            animation: wave 3s linear infinite;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            overflow: hidden;
         }
 
-        .wave:nth-child(2) {
-            top: -25px;
-            height: 60px;
-            animation: wave 4.5s linear infinite reverse;
-            opacity: 0.7;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120"><path d="M0,60 Q200,15 400,60 T800,60 T1200,60 L1200,120 L0,120 Z" fill="rgba(150,220,255,0.5)"/></svg>') repeat-x;
-            background-size: 800px 60px;
+        .surface-layer {
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 300%;
+            height: 100%;
         }
 
-        .wave:nth-child(3) {
-            top: -40px;
-            height: 65px;
-            animation: wave 6s linear infinite;
-            opacity: 0.5;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120"><path d="M0,40 Q100,0 200,40 T400,40 T600,40 T800,40 T1000,40 T1200,40 L1200,120 L0,120 Z" fill="rgba(180,230,255,0.4)"/></svg>') repeat-x;
-            background-size: 400px 65px;
+        .foam-particle {
+            position: absolute;
+            background: radial-gradient(circle, rgba(255,255,255,0.9) 0%, rgba(240,250,255,0.6) 40%, transparent 70%);
+            border-radius: 50%;
+            animation: float-foam linear infinite;
         }
 
-        .wave:nth-child(4) {
-            top: -50px;
-            height: 80px;
-            animation: wave 5.5s linear infinite reverse;
-            opacity: 0.3;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120"><path d="M0,55 Q250,5 500,55 T1000,55 T1500,55 L1500,120 L0,120 Z" fill="rgba(200,240,255,0.35)"/></svg>') repeat-x;
-            background-size: 1000px 80px;
-        }
-
-        .wave:nth-child(5) {
-            top: -15px;
-            height: 50px;
-            animation: wave 3.8s linear infinite;
-            opacity: 0.8;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120"><path d="M0,45 Q180,20 360,45 T720,45 T1080,45 L1080,120 L0,120 Z" fill="rgba(120,210,255,0.45)"/></svg>') repeat-x;
-            background-size: 720px 50px;
-        }
-
-        @keyframes wave {
+        @keyframes float-foam {
             0% {
-                transform: translateX(0);
+                transform: translate(0, 0) scale(1);
+                opacity: 0;
+            }
+            5% {
+                opacity: 0.8;
+            }
+            80% {
+                opacity: 0.8;
             }
             100% {
-                transform: translateX(50%);
+                transform: translate(var(--drift-x), var(--drift-y)) scale(0.3);
+                opacity: 0;
             }
         }
 
-        .bubble {
+        .water-wave {
             position: absolute;
-            bottom: 0;
-            background: radial-gradient(circle at 30% 30%,
-                rgba(255, 255, 255, 0.8),
-                rgba(255, 255, 255, 0.3) 50%,
-                rgba(255, 255, 255, 0.1));
-            border-radius: 50%;
-            opacity: 0;
-            animation: rise linear infinite;
+            top: -5px;
+            left: 0;
+            width: 100%;
+            height: 40px;
         }
 
-        @keyframes rise {
+        .wave-svg {
+            position: absolute;
+            width: 200%;
+            height: 100%;
+            left: 0;
+        }
+
+        .wave-path {
+            animation: wave-move 3s ease-in-out infinite;
+        }
+
+        .wave-path:nth-child(2) {
+            animation: wave-move 4s ease-in-out infinite reverse;
+            opacity: 0.6;
+        }
+
+        .wave-path:nth-child(3) {
+            animation: wave-move 5s ease-in-out infinite;
+            opacity: 0.4;
+        }
+
+        @keyframes wave-move {
+            0%, 100% {
+                d: path("M0,20 Q50,10 100,20 T200,20 T300,20 T400,20 T500,20 T600,20 T700,20 T800,20 L800,50 L0,50 Z");
+            }
+            50% {
+                d: path("M0,10 Q50,20 100,10 T200,10 T300,10 T400,10 T500,10 T600,10 T700,10 T800,10 L800,50 L0,50 Z");
+            }
+        }
+
+        .real-bubble {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle at 35% 35%,
+                rgba(255, 255, 255, 0.9) 0%,
+                rgba(255, 255, 255, 0.6) 20%,
+                rgba(180, 220, 255, 0.4) 45%,
+                rgba(100, 180, 255, 0.2) 70%,
+                transparent 100%);
+            box-shadow:
+                inset -2px -2px 4px rgba(255, 255, 255, 0.6),
+                inset 2px 2px 4px rgba(0, 100, 200, 0.3);
+            animation: bubble-rise linear infinite;
+        }
+
+        @keyframes bubble-rise {
             0% {
-                bottom: 0;
+                bottom: -20px;
                 opacity: 0;
-                transform: translateX(0) scale(0);
+                transform: translateX(0) scale(0.5);
             }
             10% {
                 opacity: 1;
                 transform: translateX(0) scale(1);
             }
             90% {
-                opacity: 1;
+                opacity: 0.9;
             }
             100% {
                 bottom: 100%;
                 opacity: 0;
-                transform: translateX(var(--drift)) scale(0.5);
+                transform: translateX(var(--bubble-drift)) scale(var(--bubble-scale));
             }
         }
 
-        .bubble:nth-child(1) {
-            left: 10%;
-            width: 15px;
-            height: 15px;
-            animation-duration: 4s;
-            animation-delay: 0.5s;
-            --drift: 20px;
-        }
-        .bubble:nth-child(2) {
-            left: 25%;
-            width: 10px;
-            height: 10px;
-            animation-duration: 5s;
-            animation-delay: 1s;
-            --drift: -15px;
-        }
-        .bubble:nth-child(3) {
-            left: 40%;
-            width: 20px;
-            height: 20px;
-            animation-duration: 6s;
-            animation-delay: 0.2s;
-            --drift: 30px;
-        }
-        .bubble:nth-child(4) {
-            left: 55%;
-            width: 12px;
-            height: 12px;
-            animation-duration: 5.5s;
-            animation-delay: 1.5s;
-            --drift: -25px;
-        }
-        .bubble:nth-child(5) {
-            left: 70%;
-            width: 8px;
-            height: 8px;
-            animation-duration: 4.5s;
-            animation-delay: 0.8s;
-            --drift: 15px;
-        }
-        .bubble:nth-child(6) {
-            left: 85%;
-            width: 18px;
-            height: 18px;
-            animation-duration: 5.8s;
-            animation-delay: 0.3s;
-            --drift: -20px;
-        }
-        .bubble:nth-child(7) {
-            left: 15%;
-            width: 14px;
-            height: 14px;
-            animation-duration: 6.2s;
-            animation-delay: 2s;
-            --drift: 25px;
-        }
-        .bubble:nth-child(8) {
-            left: 60%;
-            width: 11px;
-            height: 11px;
-            animation-duration: 4.8s;
-            animation-delay: 1.2s;
-            --drift: -30px;
-        }
-
-        .shimmer {
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg,
-                transparent 0%,
-                rgba(255, 255, 255, 0.3) 50%,
-                transparent 100%);
-            animation: shimmer 3s infinite;
-        }
-
-        @keyframes shimmer {
-            0%, 100% {
-                left: -100%;
-            }
-            50% {
-                left: 100%;
-            }
-        }
-
-        .light-rays {
+        .refraction {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(ellipse at 50% 0%,
-                rgba(255, 255, 255, 0.2) 0%,
-                transparent 50%);
-            opacity: 0.6;
+            background:
+                repeating-linear-gradient(0deg,
+                    transparent 0px,
+                    rgba(255, 255, 255, 0.03) 1px,
+                    transparent 2px,
+                    transparent 4px);
+            animation: refract 8s ease-in-out infinite;
+        }
+
+        @keyframes refract {
+            0%, 100% {
+                opacity: 0.4;
+                transform: translateY(0);
+            }
+            50% {
+                opacity: 0.7;
+                transform: translateY(-20px);
+            }
+        }
+
+        .caustic-light {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                radial-gradient(ellipse at 20% 20%, rgba(255, 255, 255, 0.15) 0%, transparent 30%),
+                radial-gradient(ellipse at 80% 40%, rgba(255, 255, 255, 0.12) 0%, transparent 35%),
+                radial-gradient(ellipse at 40% 70%, rgba(255, 255, 255, 0.1) 0%, transparent 30%),
+                radial-gradient(ellipse at 60% 90%, rgba(255, 255, 255, 0.08) 0%, transparent 25%);
+            animation: caustic-dance 7s ease-in-out infinite;
+            mix-blend-mode: overlay;
+        }
+
+        @keyframes caustic-dance {
+            0%, 100% {
+                transform: translate(0, 0) scale(1);
+                opacity: 0.5;
+            }
+            33% {
+                transform: translate(10px, -15px) scale(1.1);
+                opacity: 0.7;
+            }
+            66% {
+                transform: translate(-10px, -10px) scale(0.95);
+                opacity: 0.6;
+            }
+        }
+
+        .turbulence {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 80px;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        .water-container.filling .turbulence {
+            opacity: 1;
+            animation: churn 1.5s ease-in-out infinite;
+        }
+
+        @keyframes churn {
+            0%, 100% {
+                transform: translateX(-50%) rotate(0deg) scale(1);
+            }
+            50% {
+                transform: translateX(-50%) rotate(180deg) scale(1.2);
+            }
+        }
+
+        .churn-particle {
+            position: absolute;
+            background: radial-gradient(circle, rgba(200, 230, 255, 0.7), transparent);
+            border-radius: 50%;
+            animation: churn-spread 1s ease-out infinite;
+        }
+
+        @keyframes churn-spread {
+            0% {
+                width: 5px;
+                height: 5px;
+                top: 50%;
+                left: 50%;
+                opacity: 1;
+            }
+            100% {
+                width: 40px;
+                height: 40px;
+                top: 0;
+                left: 0;
+                opacity: 0;
+            }
         }
 
         .fill-button {
@@ -318,82 +357,69 @@
             opacity: 0;
             pointer-events: none;
         }
-
-        .water-container.filling .bubble {
-            animation-play-state: running;
-        }
-
-        .caustics {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image:
-                radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 60%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 40% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
-            animation: caustics 6s ease-in-out infinite;
-        }
-
-        @keyframes caustics {
-            0%, 100% {
-                opacity: 0.3;
-                transform: scale(1) rotate(0deg);
-            }
-            50% {
-                opacity: 0.6;
-                transform: scale(1.1) rotate(5deg);
-            }
-        }
-
-        .info-text {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 18px;
-            color: rgba(100, 100, 100, 0.6);
-            text-align: center;
-            z-index: 50;
-            transition: opacity 0.5s;
-        }
-
-        .water-container.filling ~ .info-text {
-            opacity: 0;
-        }
     </style>
 </head>
 <body>
+    <svg style="position: absolute; width: 0; height: 0;">
+        <defs>
+            <filter id="water-filter">
+                <feTurbulence type="fractalNoise" baseFrequency="0.01 0.03" numOctaves="3" seed="1">
+                    <animate attributeName="baseFrequency" dur="20s" values="0.01 0.03;0.02 0.04;0.01 0.03" repeatCount="indefinite"/>
+                </feTurbulence>
+                <feDisplacementMap in="SourceGraphic" scale="8"/>
+            </filter>
+        </defs>
+    </svg>
+
     <div class="phone-container">
         <div class="notch"></div>
         <div class="screen">
-            <div class="info-text">Press FILL to start the magic ✨</div>
-
             <div class="water-container" id="waterContainer">
-                <div class="light-rays"></div>
-                <div class="water">
-                    <div class="caustics"></div>
-                    <div class="shimmer"></div>
+                <div class="water-body">
+                    <div class="caustic-light"></div>
+                    <div class="refraction"></div>
                 </div>
-                <div class="wave"></div>
-                <div class="wave"></div>
-                <div class="wave"></div>
-                <div class="wave"></div>
-                <div class="wave"></div>
 
-                <!-- Bubbles -->
-                <div class="bubble"></div>
-                <div class="bubble"></div>
-                <div class="bubble"></div>
-                <div class="bubble"></div>
-                <div class="bubble"></div>
-                <div class="bubble"></div>
-                <div class="bubble"></div>
-                <div class="bubble"></div>
+                <div class="water-surface">
+                    <div class="water-wave">
+                        <svg class="wave-svg" viewBox="0 0 800 50" preserveAspectRatio="none">
+                            <path class="wave-path" d="M0,20 Q50,10 100,20 T200,20 T300,20 T400,20 T500,20 T600,20 T700,20 T800,20 L800,50 L0,50 Z"
+                                  fill="rgba(150, 210, 255, 0.4)">
+                                <animate attributeName="d" dur="3s" repeatCount="indefinite"
+                                    values="M0,20 Q50,10 100,20 T200,20 T300,20 T400,20 T500,20 T600,20 T700,20 T800,20 L800,50 L0,50 Z;
+                                            M0,10 Q50,20 100,10 T200,10 T300,10 T400,10 T500,10 T600,10 T700,10 T800,10 L800,50 L0,50 Z;
+                                            M0,20 Q50,10 100,20 T200,20 T300,20 T400,20 T500,20 T600,20 T700,20 T800,20 L800,50 L0,50 Z"/>
+                            </path>
+                            <path class="wave-path" d="M0,15 Q60,25 120,15 T240,15 T360,15 T480,15 T600,15 T720,15 T800,15 L800,50 L0,50 Z"
+                                  fill="rgba(120, 195, 245, 0.5)">
+                                <animate attributeName="d" dur="4s" repeatCount="indefinite"
+                                    values="M0,15 Q60,25 120,15 T240,15 T360,15 T480,15 T600,15 T720,15 T800,15 L800,50 L0,50 Z;
+                                            M0,25 Q60,15 120,25 T240,25 T360,25 T480,25 T600,25 T720,25 T800,25 L800,50 L0,50 Z;
+                                            M0,15 Q60,25 120,15 T240,15 T360,15 T480,15 T600,15 T720,15 T800,15 L800,50 L0,50 Z"/>
+                            </path>
+                            <path class="wave-path" d="M0,25 Q40,15 80,25 T160,25 T240,25 T320,25 T400,25 T480,25 T560,25 T640,25 T720,25 T800,25 L800,50 L0,50 Z"
+                                  fill="rgba(100, 180, 235, 0.6)">
+                                <animate attributeName="d" dur="5s" repeatCount="indefinite"
+                                    values="M0,25 Q40,15 80,25 T160,25 T240,25 T320,25 T400,25 T480,25 T560,25 T640,25 T720,25 T800,25 L800,50 L0,50 Z;
+                                            M0,15 Q40,25 80,15 T160,15 T240,15 T320,15 T400,15 T480,15 T560,15 T640,15 T720,15 T800,15 L800,50 L0,50 Z;
+                                            M0,25 Q40,15 80,25 T160,25 T240,25 T320,25 T400,25 T480,25 T560,25 T640,25 T720,25 T800,25 L800,50 L0,50 Z"/>
+                            </path>
+                        </svg>
+                    </div>
+
+                    <div class="turbulence" id="turbulence">
+                        <div class="churn-particle" style="animation-delay: 0s;"></div>
+                        <div class="churn-particle" style="animation-delay: 0.3s;"></div>
+                        <div class="churn-particle" style="animation-delay: 0.6s;"></div>
+                        <div class="churn-particle" style="animation-delay: 0.9s;"></div>
+                    </div>
+                </div>
+
+                <div id="bubblesContainer"></div>
+                <div id="foamContainer"></div>
             </div>
 
-            <div class="tank-border"></div>
+            <div class="tank-glass"></div>
             <button class="fill-button" id="fillButton">FILL</button>
         </div>
     </div>
@@ -401,20 +427,72 @@
     <script>
         const fillButton = document.getElementById('fillButton');
         const waterContainer = document.getElementById('waterContainer');
+        const bubblesContainer = document.getElementById('bubblesContainer');
+        const foamContainer = document.getElementById('foamContainer');
+
+        // Create realistic bubbles
+        function createBubbles() {
+            const bubbleCount = 25;
+            for (let i = 0; i < bubbleCount; i++) {
+                const bubble = document.createElement('div');
+                bubble.className = 'real-bubble';
+
+                const size = Math.random() * 15 + 5;
+                const left = Math.random() * 100;
+                const duration = Math.random() * 4 + 3;
+                const delay = Math.random() * 5;
+                const drift = (Math.random() - 0.5) * 100;
+                const scale = Math.random() * 0.5 + 0.3;
+
+                bubble.style.width = size + 'px';
+                bubble.style.height = size + 'px';
+                bubble.style.left = left + '%';
+                bubble.style.animationDuration = duration + 's';
+                bubble.style.animationDelay = delay + 's';
+                bubble.style.setProperty('--bubble-drift', drift + 'px');
+                bubble.style.setProperty('--bubble-scale', scale);
+
+                bubblesContainer.appendChild(bubble);
+            }
+        }
+
+        // Create foam particles
+        function createFoam() {
+            const foamCount = 30;
+            for (let i = 0; i < foamCount; i++) {
+                const foam = document.createElement('div');
+                foam.className = 'foam-particle';
+
+                const size = Math.random() * 8 + 3;
+                const left = Math.random() * 100;
+                const top = Math.random() * 30;
+                const duration = Math.random() * 3 + 2;
+                const delay = Math.random() * 4;
+                const driftX = (Math.random() - 0.5) * 80;
+                const driftY = (Math.random() - 0.5) * 40;
+
+                foam.style.width = size + 'px';
+                foam.style.height = size + 'px';
+                foam.style.left = left + '%';
+                foam.style.top = top + 'px';
+                foam.style.animationDuration = duration + 's';
+                foam.style.animationDelay = delay + 's';
+                foam.style.setProperty('--drift-x', driftX + 'px');
+                foam.style.setProperty('--drift-y', driftY + 'px');
+
+                foamContainer.appendChild(foam);
+            }
+        }
+
+        createBubbles();
+        createFoam();
 
         fillButton.addEventListener('click', () => {
             waterContainer.classList.add('filling');
             fillButton.classList.add('hidden');
-
-            // Optional: Reset after animation completes
-            setTimeout(() => {
-                // Uncomment to auto-reset
-                // waterContainer.classList.remove('filling');
-                // fillButton.classList.remove('hidden');
-            }, 12000);
         });
 
-        // Optional: Double-click to reset
+        // Double-click to reset
         waterContainer.addEventListener('dblclick', () => {
             waterContainer.classList.remove('filling');
             fillButton.classList.remove('hidden');
