@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PUMP - Chalk Dust Explosion</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%);
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+        }
+
+        .phone-container {
+            position: relative;
+            width: 390px;
+            height: 844px;
+            background: #1a1a1a;
+            border-radius: 45px;
+            box-shadow:
+                0 0 0 12px #2a2a2a,
+                0 0 0 14px #1a1a1a,
+                0 25px 80px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+        }
+
+        .notch {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 180px;
+            height: 30px;
+            background: #1a1a1a;
+            border-radius: 0 0 20px 20px;
+            z-index: 1000;
+        }
+
+        .screen {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%, #2a2a2a 0%, #0a0a0a 100%);
+            overflow: hidden;
+        }
+
+        /* Concrete texture overlay */
+        .concrete-texture {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image:
+                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.02) 2px, rgba(255,255,255,0.02) 4px),
+                repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(255,255,255,0.02) 2px, rgba(255,255,255,0.02) 4px);
+            opacity: 0.3;
+        }
+
+        /* Metallic shine bars */
+        .metal-shine {
+            position: absolute;
+            width: 3px;
+            height: 100%;
+            background: linear-gradient(180deg,
+                transparent 0%,
+                rgba(200, 200, 220, 0.4) 20%,
+                rgba(255, 255, 255, 0.6) 50%,
+                rgba(200, 200, 220, 0.4) 80%,
+                transparent 100%);
+            animation: metal-gleam 4s ease-in-out infinite;
+            opacity: 0.6;
+        }
+
+        @keyframes metal-gleam {
+            0%, 100% {
+                transform: translateY(0);
+                opacity: 0.3;
+            }
+            50% {
+                transform: translateY(-20px);
+                opacity: 0.8;
+            }
+        }
+
+        .metal-shine:nth-child(1) { left: 15%; animation-delay: 0s; }
+        .metal-shine:nth-child(2) { left: 40%; animation-delay: 1s; }
+        .metal-shine:nth-child(3) { left: 60%; animation-delay: 0.5s; }
+        .metal-shine:nth-child(4) { left: 85%; animation-delay: 1.5s; }
+
+        /* Chalk dust particles */
+        .chalk-particle {
+            position: absolute;
+            background: radial-gradient(circle,
+                rgba(255, 255, 255, 0.9) 0%,
+                rgba(240, 240, 240, 0.7) 40%,
+                rgba(220, 220, 220, 0.4) 70%,
+                transparent 100%);
+            border-radius: 50%;
+            animation: chalk-drift ease-out infinite;
+            filter: blur(1px);
+        }
+
+        @keyframes chalk-drift {
+            0% {
+                bottom: 40%;
+                opacity: 0;
+                transform: translate(0, 0) scale(0.3);
+            }
+            10% {
+                opacity: 1;
+                transform: translate(0, 0) scale(1);
+            }
+            90% {
+                opacity: 0.8;
+            }
+            100% {
+                bottom: 80%;
+                opacity: 0;
+                transform: translate(var(--drift-x), var(--drift-y)) scale(0.5);
+            }
+        }
+
+        /* Heavy chalk cloud */
+        .chalk-cloud {
+            position: absolute;
+            bottom: 35%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle,
+                rgba(255, 255, 255, 0.4) 0%,
+                rgba(240, 240, 240, 0.25) 30%,
+                rgba(220, 220, 220, 0.15) 50%,
+                transparent 70%);
+            border-radius: 50%;
+            filter: blur(30px);
+            animation: cloud-expand 3s ease-out infinite;
+        }
+
+        @keyframes cloud-expand {
+            0% {
+                transform: translateX(-50%) scale(0.5);
+                opacity: 0;
+            }
+            30% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateX(-50%) scale(2);
+                opacity: 0;
+            }
+        }
+
+        /* Impact burst rings */
+        .impact-ring {
+            position: absolute;
+            bottom: 40%;
+            left: 50%;
+            width: 80px;
+            height: 80px;
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            animation: ring-expand 2s ease-out infinite;
+        }
+
+        @keyframes ring-expand {
+            0% {
+                width: 40px;
+                height: 40px;
+                opacity: 1;
+            }
+            100% {
+                width: 300px;
+                height: 300px;
+                opacity: 0;
+            }
+        }
+
+        .impact-ring:nth-child(2) {
+            animation-delay: 0.3s;
+        }
+
+        .impact-ring:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+
+        /* Powder wisps */
+        .powder-wisp {
+            position: absolute;
+            background: radial-gradient(ellipse,
+                rgba(255, 255, 255, 0.3) 0%,
+                rgba(240, 240, 245, 0.2) 40%,
+                transparent 70%);
+            filter: blur(20px);
+            animation: wisp-float ease-in-out infinite;
+        }
+
+        @keyframes wisp-float {
+            0% {
+                bottom: 30%;
+                opacity: 0;
+                transform: translateX(0) scale(0.7);
+            }
+            20% {
+                opacity: 0.6;
+            }
+            80% {
+                opacity: 0.4;
+            }
+            100% {
+                bottom: 70%;
+                opacity: 0;
+                transform: translateX(var(--wisp-drift)) scale(1.3);
+            }
+        }
+
+        /* Fine dust particles */
+        .dust-mote {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+            box-shadow: 0 0 2px rgba(255, 255, 255, 0.5);
+            animation: mote-drift ease-in-out infinite;
+        }
+
+        @keyframes mote-drift {
+            0%, 100% {
+                transform: translate(0, 0);
+                opacity: 0.3;
+            }
+            50% {
+                transform: translate(var(--mote-x), var(--mote-y));
+                opacity: 0.9;
+            }
+        }
+
+        /* Weight plate shine */
+        .plate-shine {
+            position: absolute;
+            width: 120px;
+            height: 4px;
+            background: linear-gradient(90deg,
+                transparent 0%,
+                rgba(200, 200, 220, 0.3) 20%,
+                rgba(255, 255, 255, 0.7) 50%,
+                rgba(200, 200, 220, 0.3) 80%,
+                transparent 100%);
+            transform: rotate(-45deg);
+            animation: shine-sweep 5s ease-in-out infinite;
+            filter: blur(3px);
+        }
+
+        @keyframes shine-sweep {
+            0%, 100% {
+                left: -150px;
+                opacity: 0;
+            }
+            50% {
+                left: 100%;
+                opacity: 1;
+            }
+        }
+
+        .plate-shine:nth-child(1) { top: 20%; animation-delay: 0s; }
+        .plate-shine:nth-child(2) { top: 50%; animation-delay: 1.5s; }
+        .plate-shine:nth-child(3) { top: 75%; animation-delay: 3s; }
+
+        /* Gritty vignette */
+        .vignette {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 40%,
+                transparent 0%,
+                rgba(0, 0, 0, 0.4) 60%,
+                rgba(0, 0, 0, 0.8) 100%);
+            pointer-events: none;
+        }
+
+        /* Chalk explosion bursts */
+        .chalk-burst {
+            position: absolute;
+            bottom: 40%;
+            left: 50%;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            box-shadow: 0 0 6px rgba(255, 255, 255, 0.8);
+            animation: burst-out ease-out infinite;
+        }
+
+        @keyframes burst-out {
+            0% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(calc(-50% + var(--burst-x)), calc(-50% + var(--burst-y))) scale(0);
+                opacity: 0;
+            }
+        }
+
+        /* Subtle grid like weight rack */
+        .weight-grid {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image:
+                linear-gradient(rgba(100, 100, 110, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(100, 100, 110, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+            opacity: 0.4;
+        }
+
+        /* Ground mist */
+        .ground-mist {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 150px;
+            background: linear-gradient(to top,
+                rgba(255, 255, 255, 0.08) 0%,
+                rgba(255, 255, 255, 0.04) 50%,
+                transparent 100%);
+            filter: blur(15px);
+            animation: mist-roll 8s ease-in-out infinite;
+        }
+
+        @keyframes mist-roll {
+            0%, 100% {
+                transform: translateX(0);
+                opacity: 0.6;
+            }
+            50% {
+                transform: translateX(20px);
+                opacity: 0.8;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="phone-container">
+        <div class="notch"></div>
+        <div class="screen">
+            <div class="concrete-texture"></div>
+            <div class="weight-grid"></div>
+
+            <div class="metal-shine"></div>
+            <div class="metal-shine"></div>
+            <div class="metal-shine"></div>
+            <div class="metal-shine"></div>
+
+            <div class="plate-shine"></div>
+            <div class="plate-shine"></div>
+            <div class="plate-shine"></div>
+
+            <div class="chalk-cloud"></div>
+
+            <div class="impact-ring"></div>
+            <div class="impact-ring"></div>
+            <div class="impact-ring"></div>
+
+            <div id="chalkContainer"></div>
+            <div id="wispContainer"></div>
+            <div id="dustContainer"></div>
+            <div id="burstContainer"></div>
+
+            <div class="ground-mist"></div>
+            <div class="vignette"></div>
+        </div>
+    </div>
+
+    <script>
+        // Create chalk particles
+        const chalkContainer = document.getElementById('chalkContainer');
+        for (let i = 0; i < 40; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'chalk-particle';
+
+            const size = Math.random() * 8 + 3;
+            const left = 50 + (Math.random() - 0.5) * 40;
+            const duration = Math.random() * 3 + 2;
+            const delay = Math.random() * 3;
+            const driftX = (Math.random() - 0.5) * 150;
+            const driftY = (Math.random() - 0.5) * 100;
+
+            particle.style.width = size + 'px';
+            particle.style.height = size + 'px';
+            particle.style.left = left + '%';
+            particle.style.animationDuration = duration + 's';
+            particle.style.animationDelay = delay + 's';
+            particle.style.setProperty('--drift-x', driftX + 'px');
+            particle.style.setProperty('--drift-y', driftY + 'px');
+
+            chalkContainer.appendChild(particle);
+        }
+
+        // Create powder wisps
+        const wispContainer = document.getElementById('wispContainer');
+        for (let i = 0; i < 10; i++) {
+            const wisp = document.createElement('div');
+            wisp.className = 'powder-wisp';
+
+            const width = Math.random() * 100 + 60;
+            const height = Math.random() * 80 + 50;
+            const left = 50 + (Math.random() - 0.5) * 50;
+            const duration = Math.random() * 5 + 4;
+            const delay = Math.random() * 4;
+            const drift = (Math.random() - 0.5) * 120;
+
+            wisp.style.width = width + 'px';
+            wisp.style.height = height + 'px';
+            wisp.style.left = left + '%';
+            wisp.style.animationDuration = duration + 's';
+            wisp.style.animationDelay = delay + 's';
+            wisp.style.setProperty('--wisp-drift', drift + 'px');
+
+            wispContainer.appendChild(wisp);
+        }
+
+        // Create dust motes
+        const dustContainer = document.getElementById('dustContainer');
+        for (let i = 0; i < 50; i++) {
+            const mote = document.createElement('div');
+            mote.className = 'dust-mote';
+
+            const top = Math.random() * 100;
+            const left = Math.random() * 100;
+            const duration = Math.random() * 5 + 3;
+            const delay = Math.random() * 6;
+            const driftX = (Math.random() - 0.5) * 30;
+            const driftY = (Math.random() - 0.5) * 30;
+
+            mote.style.top = top + '%';
+            mote.style.left = left + '%';
+            mote.style.animationDuration = duration + 's';
+            mote.style.animationDelay = delay + 's';
+            mote.style.setProperty('--mote-x', driftX + 'px');
+            mote.style.setProperty('--mote-y', driftY + 'px');
+
+            dustContainer.appendChild(mote);
+        }
+
+        // Create explosion bursts
+        const burstContainer = document.getElementById('burstContainer');
+        for (let i = 0; i < 30; i++) {
+            const burst = document.createElement('div');
+            burst.className = 'chalk-burst';
+
+            const angle = (Math.random() * 360) * Math.PI / 180;
+            const distance = Math.random() * 150 + 50;
+            const duration = Math.random() * 1.5 + 1;
+            const delay = Math.random() * 2;
+
+            burst.style.animationDuration = duration + 's';
+            burst.style.animationDelay = delay + 's';
+            burst.style.setProperty('--burst-x', Math.cos(angle) * distance + 'px');
+            burst.style.setProperty('--burst-y', Math.sin(angle) * distance + 'px');
+
+            burstContainer.appendChild(burst);
+        }
+    </script>
+</body>
+</html>
