@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Furnace Light - Golden Steam</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1a0f0a 0%, #3d2817 50%, #1a0f0a 100%);
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+        }
+
+        .phone-container {
+            position: relative;
+            width: 390px;
+            height: 844px;
+            background: #1a1a1a;
+            border-radius: 45px;
+            box-shadow:
+                0 0 0 12px #2a2a2a,
+                0 0 0 14px #1a1a1a,
+                0 25px 80px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+        }
+
+        .notch {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 180px;
+            height: 30px;
+            background: #1a1a1a;
+            border-radius: 0 0 20px 20px;
+            z-index: 1000;
+        }
+
+        .screen {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 80%, #3d2817 0%, #1a0f0a 50%, #0a0503 100%);
+            overflow: hidden;
+        }
+
+        /* Base glow from bottom */
+        .furnace-glow {
+            position: absolute;
+            bottom: -10%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150%;
+            height: 60%;
+            background: radial-gradient(ellipse at 50% 100%,
+                rgba(255, 200, 0, 0.4) 0%,
+                rgba(255, 150, 0, 0.3) 20%,
+                rgba(255, 100, 0, 0.2) 40%,
+                transparent 70%);
+            animation: glow-pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes glow-pulse {
+            0%, 100% {
+                opacity: 1;
+                transform: translateX(-50%) scale(1);
+            }
+            50% {
+                opacity: 0.7;
+                transform: translateX(-50%) scale(1.1);
+            }
+        }
+
+        /* Light rays shooting up */
+        .light-ray {
+            position: absolute;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to top,
+                rgba(255, 200, 0, 0.8) 0%,
+                rgba(255, 200, 0, 0.4) 50%,
+                transparent 100%);
+            transform-origin: bottom center;
+            opacity: 0;
+            animation: ray-shine 3s ease-out infinite;
+            box-shadow: 0 0 10px rgba(255, 200, 0, 0.8);
+        }
+
+        @keyframes ray-shine {
+            0% {
+                height: 0;
+                opacity: 0;
+            }
+            20% {
+                opacity: 1;
+            }
+            100% {
+                height: 100vh;
+                opacity: 0;
+            }
+        }
+
+        .light-ray:nth-child(1) {
+            left: 20%;
+            animation-delay: 0s;
+            animation-duration: 3s;
+        }
+        .light-ray:nth-child(2) {
+            left: 35%;
+            animation-delay: 0.8s;
+            animation-duration: 3.5s;
+        }
+        .light-ray:nth-child(3) {
+            left: 50%;
+            animation-delay: 0.3s;
+            animation-duration: 2.8s;
+        }
+        .light-ray:nth-child(4) {
+            left: 65%;
+            animation-delay: 1.2s;
+            animation-duration: 3.2s;
+        }
+        .light-ray:nth-child(5) {
+            left: 80%;
+            animation-delay: 0.5s;
+            animation-duration: 3s;
+        }
+
+        /* Floating embers */
+        .ember {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle,
+                rgba(255, 220, 100, 1) 0%,
+                rgba(255, 150, 50, 0.9) 30%,
+                rgba(255, 100, 0, 0.6) 60%,
+                transparent 100%);
+            box-shadow:
+                0 0 10px rgba(255, 200, 0, 0.8),
+                0 0 20px rgba(255, 150, 0, 0.5);
+            animation: ember-float linear infinite;
+        }
+
+        @keyframes ember-float {
+            0% {
+                bottom: -5%;
+                opacity: 0;
+                transform: translateX(0) scale(0.5);
+            }
+            10% {
+                opacity: 1;
+                transform: translateX(0) scale(1);
+            }
+            90% {
+                opacity: 0.9;
+            }
+            100% {
+                bottom: 105%;
+                opacity: 0;
+                transform: translateX(var(--ember-drift)) scale(0.3);
+            }
+        }
+
+        /* Heat distortion waves */
+        .heat-wave {
+            position: absolute;
+            width: 100%;
+            height: 80px;
+            bottom: 0;
+            background: linear-gradient(to top,
+                rgba(255, 150, 0, 0.1) 0%,
+                transparent 100%);
+            animation: heat-shimmer 2s ease-in-out infinite;
+            filter: blur(20px);
+        }
+
+        @keyframes heat-shimmer {
+            0%, 100% {
+                transform: translateY(0) scaleY(1);
+                opacity: 0.6;
+            }
+            50% {
+                transform: translateY(-10px) scaleY(1.1);
+                opacity: 0.8;
+            }
+        }
+
+        .heat-wave:nth-child(2) {
+            bottom: 50px;
+            animation-delay: 0.5s;
+            opacity: 0.5;
+        }
+
+        .heat-wave:nth-child(3) {
+            bottom: 100px;
+            animation-delay: 1s;
+            opacity: 0.4;
+        }
+
+        /* Steam wisps */
+        .steam {
+            position: absolute;
+            bottom: 20%;
+            border-radius: 50%;
+            background: radial-gradient(circle,
+                rgba(255, 230, 180, 0.3) 0%,
+                rgba(255, 200, 100, 0.15) 40%,
+                transparent 70%);
+            filter: blur(15px);
+            animation: steam-rise ease-out infinite;
+        }
+
+        @keyframes steam-rise {
+            0% {
+                bottom: 20%;
+                opacity: 0;
+                transform: translateX(0) scale(0.8);
+            }
+            20% {
+                opacity: 0.6;
+            }
+            80% {
+                opacity: 0.4;
+            }
+            100% {
+                bottom: 90%;
+                opacity: 0;
+                transform: translateX(var(--steam-drift)) scale(1.5);
+            }
+        }
+
+        /* Sparkles */
+        .sparkle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow:
+                0 0 5px rgba(255, 220, 100, 1),
+                0 0 10px rgba(255, 200, 50, 0.8),
+                0 0 15px rgba(255, 150, 0, 0.6);
+            animation: sparkle-twinkle ease-in-out infinite;
+        }
+
+        @keyframes sparkle-twinkle {
+            0%, 100% {
+                opacity: 0;
+                transform: scale(0);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.5);
+            }
+        }
+
+        /* Glowing core at bottom */
+        .core-glow {
+            position: absolute;
+            bottom: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle,
+                rgba(255, 255, 200, 0.8) 0%,
+                rgba(255, 200, 100, 0.6) 25%,
+                rgba(255, 150, 50, 0.4) 50%,
+                transparent 70%);
+            border-radius: 50%;
+            animation: core-pulse 3s ease-in-out infinite;
+            filter: blur(30px);
+        }
+
+        @keyframes core-pulse {
+            0%, 100% {
+                transform: translateX(-50%) scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: translateX(-50%) scale(1.3);
+                opacity: 0.8;
+            }
+        }
+
+        /* Ambient particles */
+        .ambient-particle {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            background: rgba(255, 220, 100, 0.6);
+            border-radius: 50%;
+            box-shadow: 0 0 2px rgba(255, 200, 50, 0.8);
+            animation: ambient-drift ease-in-out infinite;
+        }
+
+        @keyframes ambient-drift {
+            0%, 100% {
+                transform: translate(0, 0);
+                opacity: 0.3;
+            }
+            50% {
+                transform: translate(var(--drift-x), var(--drift-y));
+                opacity: 0.8;
+            }
+        }
+
+        /* Vignette overlay */
+        .vignette {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%,
+                transparent 0%,
+                rgba(0, 0, 0, 0.3) 70%,
+                rgba(0, 0, 0, 0.6) 100%);
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="phone-container">
+        <div class="notch"></div>
+        <div class="screen">
+            <div class="core-glow"></div>
+            <div class="furnace-glow"></div>
+
+            <div class="heat-wave"></div>
+            <div class="heat-wave"></div>
+            <div class="heat-wave"></div>
+
+            <div class="light-ray"></div>
+            <div class="light-ray"></div>
+            <div class="light-ray"></div>
+            <div class="light-ray"></div>
+            <div class="light-ray"></div>
+
+            <div id="embersContainer"></div>
+            <div id="steamContainer"></div>
+            <div id="sparklesContainer"></div>
+            <div id="ambientContainer"></div>
+
+            <div class="vignette"></div>
+        </div>
+    </div>
+
+    <script>
+        // Create floating embers
+        const embersContainer = document.getElementById('embersContainer');
+        for (let i = 0; i < 20; i++) {
+            const ember = document.createElement('div');
+            ember.className = 'ember';
+
+            const size = Math.random() * 6 + 3;
+            const left = Math.random() * 100;
+            const duration = Math.random() * 4 + 4;
+            const delay = Math.random() * 5;
+            const drift = (Math.random() - 0.5) * 100;
+
+            ember.style.width = size + 'px';
+            ember.style.height = size + 'px';
+            ember.style.left = left + '%';
+            ember.style.animationDuration = duration + 's';
+            ember.style.animationDelay = delay + 's';
+            ember.style.setProperty('--ember-drift', drift + 'px');
+
+            embersContainer.appendChild(ember);
+        }
+
+        // Create steam wisps
+        const steamContainer = document.getElementById('steamContainer');
+        for (let i = 0; i < 8; i++) {
+            const steam = document.createElement('div');
+            steam.className = 'steam';
+
+            const size = Math.random() * 100 + 80;
+            const left = Math.random() * 100;
+            const duration = Math.random() * 6 + 6;
+            const delay = Math.random() * 8;
+            const drift = (Math.random() - 0.5) * 150;
+
+            steam.style.width = size + 'px';
+            steam.style.height = size + 'px';
+            steam.style.left = left + '%';
+            steam.style.animationDuration = duration + 's';
+            steam.style.animationDelay = delay + 's';
+            steam.style.setProperty('--steam-drift', drift + 'px');
+
+            steamContainer.appendChild(steam);
+        }
+
+        // Create sparkles
+        const sparklesContainer = document.getElementById('sparklesContainer');
+        for (let i = 0; i < 15; i++) {
+            const sparkle = document.createElement('div');
+            sparkle.className = 'sparkle';
+
+            const top = Math.random() * 70 + 20;
+            const left = Math.random() * 100;
+            const duration = Math.random() * 2 + 1;
+            const delay = Math.random() * 5;
+
+            sparkle.style.top = top + '%';
+            sparkle.style.left = left + '%';
+            sparkle.style.animationDuration = duration + 's';
+            sparkle.style.animationDelay = delay + 's';
+
+            sparklesContainer.appendChild(sparkle);
+        }
+
+        // Create ambient particles
+        const ambientContainer = document.getElementById('ambientContainer');
+        for (let i = 0; i < 30; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'ambient-particle';
+
+            const top = Math.random() * 100;
+            const left = Math.random() * 100;
+            const duration = Math.random() * 4 + 4;
+            const delay = Math.random() * 6;
+            const driftX = (Math.random() - 0.5) * 40;
+            const driftY = (Math.random() - 0.5) * 40;
+
+            particle.style.top = top + '%';
+            particle.style.left = left + '%';
+            particle.style.animationDuration = duration + 's';
+            particle.style.animationDelay = delay + 's';
+            particle.style.setProperty('--drift-x', driftX + 'px');
+            particle.style.setProperty('--drift-y', driftY + 'px');
+
+            ambientContainer.appendChild(particle);
+        }
+    </script>
+</body>
+</html>
