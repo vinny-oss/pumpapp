@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TITAN - Robot Assembly</title>
+    <title>TITAN - Tech Background</title>
     <style>
         * {
             margin: 0;
@@ -71,334 +71,6 @@
             100% { transform: translateY(50px); }
         }
 
-        .robot-container {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 300px;
-            height: 500px;
-        }
-
-        /* Robot Parts */
-        .robot-part {
-            position: absolute;
-            opacity: 0;
-            filter: drop-shadow(0 0 10px rgba(0, 255, 255, 0.8));
-        }
-
-        .robot-container.assembling .robot-part {
-            animation: assemble 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-        }
-
-        @keyframes assemble {
-            0% {
-                transform: translate(var(--start-x), var(--start-y)) rotate(var(--start-rotate)) scale(0.3);
-                opacity: 0;
-            }
-            60% {
-                opacity: 1;
-            }
-            100% {
-                transform: translate(0, 0) rotate(0deg) scale(1);
-                opacity: 1;
-            }
-        }
-
-        /* Head */
-        .head {
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 80px;
-            --start-x: 0px;
-            --start-y: -300px;
-            --start-rotate: -180deg;
-            animation-delay: 0s;
-        }
-
-        .head-shape {
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #2a2a3e 0%, #1a1a2e 100%);
-            clip-path: polygon(20% 0%, 80% 0%, 100% 30%, 100% 70%, 80% 100%, 20% 100%, 0% 70%, 0% 30%);
-            border: 2px solid #00ffff;
-            position: relative;
-        }
-
-        .eye {
-            position: absolute;
-            width: 20px;
-            height: 8px;
-            background: #ff0000;
-            top: 35px;
-            box-shadow:
-                0 0 10px #ff0000,
-                0 0 20px #ff0000,
-                inset 0 0 5px rgba(255, 255, 255, 0.5);
-            animation: eye-glow 2s ease-in-out infinite;
-        }
-
-        .eye.left { left: 15px; }
-        .eye.right { right: 15px; }
-
-        @keyframes eye-glow {
-            0%, 100% { opacity: 1; box-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000; }
-            50% { opacity: 0.7; box-shadow: 0 0 20px #ff0000, 0 0 40px #ff0000, 0 0 60px #ff0000; }
-        }
-
-        /* Torso */
-        .torso {
-            top: 110px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 120px;
-            height: 140px;
-            --start-x: 250px;
-            --start-y: 150px;
-            --start-rotate: 90deg;
-            animation-delay: 0.2s;
-        }
-
-        .torso-shape {
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #3a3a5e 0%, #2a2a4e 100%);
-            clip-path: polygon(15% 0%, 85% 0%, 100% 15%, 100% 100%, 70% 100%, 70% 85%, 30% 85%, 30% 100%, 0% 100%, 0% 15%);
-            border: 2px solid #00ffff;
-            position: relative;
-        }
-
-        .core {
-            position: absolute;
-            width: 40px;
-            height: 40px;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: radial-gradient(circle, #00ffff 0%, #0088ff 50%, transparent 70%);
-            border-radius: 50%;
-            animation: core-pulse 1.5s ease-in-out infinite;
-            box-shadow:
-                0 0 20px #00ffff,
-                0 0 40px #00ffff,
-                inset 0 0 20px rgba(255, 255, 255, 0.5);
-        }
-
-        @keyframes core-pulse {
-            0%, 100% {
-                transform: translate(-50%, -50%) scale(1);
-                opacity: 1;
-            }
-            50% {
-                transform: translate(-50%, -50%) scale(1.2);
-                opacity: 0.8;
-            }
-        }
-
-        .energy-line {
-            position: absolute;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, #00ffff, transparent);
-            animation: energy-flow 2s linear infinite;
-        }
-
-        .energy-line:nth-child(1) {
-            top: 30%;
-            left: 0;
-            width: 100%;
-        }
-
-        .energy-line:nth-child(2) {
-            top: 70%;
-            left: 0;
-            width: 100%;
-            animation-delay: 1s;
-        }
-
-        @keyframes energy-flow {
-            0% { opacity: 0; transform: translateX(-100%); }
-            50% { opacity: 1; }
-            100% { opacity: 0; transform: translateX(100%); }
-        }
-
-        /* Arms */
-        .arm {
-            width: 30px;
-            height: 120px;
-            top: 120px;
-            --start-y: -200px;
-            animation-delay: 0.4s;
-        }
-
-        .arm.left {
-            left: 20px;
-            --start-x: -200px;
-            --start-rotate: -90deg;
-        }
-
-        .arm.right {
-            right: 20px;
-            --start-x: 200px;
-            --start-rotate: 90deg;
-        }
-
-        .arm-shape {
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(180deg, #3a3a5e 0%, #2a2a4e 100%);
-            border: 2px solid #00ffff;
-            clip-path: polygon(0% 0%, 100% 0%, 90% 60%, 100% 100%, 0% 100%, 10% 60%);
-            position: relative;
-        }
-
-        .joint {
-            position: absolute;
-            width: 12px;
-            height: 12px;
-            background: #00ffff;
-            border-radius: 50%;
-            left: 50%;
-            transform: translateX(-50%);
-            box-shadow: 0 0 10px #00ffff;
-        }
-
-        .joint.shoulder { top: 5px; }
-        .joint.elbow { top: 50%; }
-        .joint.wrist { bottom: 5px; }
-
-        /* Legs */
-        .leg {
-            width: 40px;
-            height: 160px;
-            top: 250px;
-            --start-y: 300px;
-            animation-delay: 0.6s;
-        }
-
-        .leg.left {
-            left: 80px;
-            --start-x: -150px;
-            --start-rotate: -45deg;
-        }
-
-        .leg.right {
-            right: 80px;
-            --start-x: 150px;
-            --start-rotate: 45deg;
-        }
-
-        .leg-shape {
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(180deg, #3a3a5e 0%, #2a2a4e 100%);
-            border: 2px solid #00ffff;
-            clip-path: polygon(20% 0%, 80% 0%, 100% 60%, 100% 100%, 0% 100%, 0% 60%);
-            position: relative;
-        }
-
-        /* Sparks */
-        .spark {
-            position: absolute;
-            width: 3px;
-            height: 3px;
-            background: #ffff00;
-            border-radius: 50%;
-            opacity: 0;
-            box-shadow: 0 0 5px #ffff00;
-        }
-
-        .robot-container.assembling .spark {
-            animation: spark-fly 0.8s ease-out forwards;
-        }
-
-        @keyframes spark-fly {
-            0% {
-                opacity: 1;
-                transform: translate(0, 0) scale(1);
-            }
-            100% {
-                opacity: 0;
-                transform: translate(var(--spark-x), var(--spark-y)) scale(0);
-            }
-        }
-
-        /* Power button */
-        .power-button {
-            position: absolute;
-            bottom: 100px;
-            left: 50%;
-            transform: translateX(-50%);
-            padding: 20px 50px;
-            font-size: 24px;
-            font-weight: bold;
-            color: #00ffff;
-            background: linear-gradient(135deg, #1a1a2e 0%, #2a2a4e 100%);
-            border: 3px solid #00ffff;
-            border-radius: 50px;
-            cursor: pointer;
-            box-shadow:
-                0 0 20px rgba(0, 255, 255, 0.5),
-                inset 0 0 20px rgba(0, 255, 255, 0.1);
-            transition: all 0.3s ease;
-            z-index: 200;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            animation: button-pulse 2s ease-in-out infinite;
-        }
-
-        @keyframes button-pulse {
-            0%, 100% { box-shadow: 0 0 20px rgba(0, 255, 255, 0.5), inset 0 0 20px rgba(0, 255, 255, 0.1); }
-            50% { box-shadow: 0 0 40px rgba(0, 255, 255, 0.8), inset 0 0 30px rgba(0, 255, 255, 0.2); }
-        }
-
-        .power-button:hover {
-            transform: translateX(-50%) translateY(-3px);
-            box-shadow:
-                0 0 40px rgba(0, 255, 255, 0.8),
-                inset 0 0 30px rgba(0, 255, 255, 0.2);
-        }
-
-        .power-button:active {
-            transform: translateX(-50%) translateY(0);
-        }
-
-        .power-button.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        /* Shockwave effect */
-        .shockwave {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 100px;
-            height: 100px;
-            border: 3px solid #00ffff;
-            border-radius: 50%;
-            opacity: 0;
-            transform: translate(-50%, -50%);
-        }
-
-        .robot-container.assembling .shockwave {
-            animation: shockwave-expand 1.5s ease-out 0.8s;
-        }
-
-        @keyframes shockwave-expand {
-            0% {
-                width: 50px;
-                height: 50px;
-                opacity: 1;
-            }
-            100% {
-                width: 500px;
-                height: 500px;
-                opacity: 0;
-            }
-        }
-
         /* Circuit lines background */
         .circuit {
             position: absolute;
@@ -419,12 +91,141 @@
         .circuit:nth-child(3) { left: 50%; animation-delay: 0.5s; }
         .circuit:nth-child(4) { left: 70%; animation-delay: 1.5s; }
         .circuit:nth-child(5) { left: 90%; animation-delay: 0.8s; }
+
+        /* Glowing orbs floating around */
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0, 255, 255, 0.4) 0%, transparent 70%);
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.6);
+            animation: float-orb 8s ease-in-out infinite;
+        }
+
+        @keyframes float-orb {
+            0%, 100% {
+                transform: translate(0, 0);
+                opacity: 0.4;
+            }
+            50% {
+                transform: translate(var(--drift-x), var(--drift-y));
+                opacity: 0.8;
+            }
+        }
+
+        .orb:nth-child(6) {
+            width: 80px;
+            height: 80px;
+            top: 20%;
+            left: 15%;
+            --drift-x: 30px;
+            --drift-y: -40px;
+            animation-delay: 0s;
+        }
+
+        .orb:nth-child(7) {
+            width: 60px;
+            height: 60px;
+            top: 50%;
+            right: 20%;
+            --drift-x: -25px;
+            --drift-y: 30px;
+            animation-delay: 2s;
+        }
+
+        .orb:nth-child(8) {
+            width: 100px;
+            height: 100px;
+            bottom: 25%;
+            left: 25%;
+            --drift-x: 40px;
+            --drift-y: -30px;
+            animation-delay: 4s;
+        }
+
+        /* Particle effects */
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #00ffff;
+            border-radius: 50%;
+            box-shadow: 0 0 3px #00ffff;
+            animation: particle-drift 6s linear infinite;
+        }
+
+        @keyframes particle-drift {
+            0% {
+                opacity: 0;
+                transform: translateY(0) translateX(0);
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100vh) translateX(var(--particle-drift));
+            }
+        }
+
+        .particle:nth-child(9) { left: 5%; animation-delay: 0s; --particle-drift: 20px; }
+        .particle:nth-child(10) { left: 15%; animation-delay: 1.5s; --particle-drift: -15px; }
+        .particle:nth-child(11) { left: 25%; animation-delay: 3s; --particle-drift: 25px; }
+        .particle:nth-child(12) { left: 35%; animation-delay: 0.8s; --particle-drift: -20px; }
+        .particle:nth-child(13) { left: 45%; animation-delay: 2.2s; --particle-drift: 15px; }
+        .particle:nth-child(14) { left: 55%; animation-delay: 1.2s; --particle-drift: -25px; }
+        .particle:nth-child(15) { left: 65%; animation-delay: 2.8s; --particle-drift: 18px; }
+        .particle:nth-child(16) { left: 75%; animation-delay: 0.5s; --particle-drift: -22px; }
+        .particle:nth-child(17) { left: 85%; animation-delay: 1.8s; --particle-drift: 20px; }
+        .particle:nth-child(18) { left: 95%; animation-delay: 2.5s; --particle-drift: -18px; }
+
+        /* Scanline effect */
+        .scanline {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #00ffff, transparent);
+            box-shadow: 0 0 10px #00ffff;
+            animation: scanline-move 4s linear infinite;
+        }
+
+        @keyframes scanline-move {
+            0% {
+                top: -2px;
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.8;
+            }
+            90% {
+                opacity: 0.8;
+            }
+            100% {
+                top: 100%;
+                opacity: 0;
+            }
+        }
+
+        /* Hexagon patterns */
+        .hex-pattern {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0.05;
+            background-image:
+                repeating-linear-gradient(0deg, #00ffff 0px, #00ffff 1px, transparent 1px, transparent 50px),
+                repeating-linear-gradient(60deg, #00ffff 0px, #00ffff 1px, transparent 1px, transparent 50px),
+                repeating-linear-gradient(-60deg, #00ffff 0px, #00ffff 1px, transparent 1px, transparent 50px);
+        }
     </style>
 </head>
 <body>
     <div class="phone-container">
         <div class="notch"></div>
         <div class="screen">
+            <div class="hex-pattern"></div>
             <div class="grid-bg"></div>
 
             <div class="circuit"></div>
@@ -433,122 +234,23 @@
             <div class="circuit"></div>
             <div class="circuit"></div>
 
-            <div class="robot-container" id="robotContainer">
-                <!-- Head -->
-                <div class="robot-part head">
-                    <div class="head-shape">
-                        <div class="eye left"></div>
-                        <div class="eye right"></div>
-                    </div>
-                </div>
+            <div class="orb"></div>
+            <div class="orb"></div>
+            <div class="orb"></div>
 
-                <!-- Torso -->
-                <div class="robot-part torso">
-                    <div class="torso-shape">
-                        <div class="core"></div>
-                        <div class="energy-line"></div>
-                        <div class="energy-line"></div>
-                    </div>
-                </div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
 
-                <!-- Arms -->
-                <div class="robot-part arm left">
-                    <div class="arm-shape">
-                        <div class="joint shoulder"></div>
-                        <div class="joint elbow"></div>
-                        <div class="joint wrist"></div>
-                    </div>
-                </div>
-
-                <div class="robot-part arm right">
-                    <div class="arm-shape">
-                        <div class="joint shoulder"></div>
-                        <div class="joint elbow"></div>
-                        <div class="joint wrist"></div>
-                    </div>
-                </div>
-
-                <!-- Legs -->
-                <div class="robot-part leg left">
-                    <div class="leg-shape">
-                        <div class="joint shoulder"></div>
-                        <div class="joint elbow"></div>
-                    </div>
-                </div>
-
-                <div class="robot-part leg right">
-                    <div class="leg-shape">
-                        <div class="joint shoulder"></div>
-                        <div class="joint elbow"></div>
-                    </div>
-                </div>
-
-                <!-- Sparks container -->
-                <div id="sparksContainer"></div>
-
-                <!-- Shockwave -->
-                <div class="shockwave"></div>
-            </div>
-
-            <button class="power-button" id="powerButton">ACTIVATE</button>
+            <div class="scanline"></div>
         </div>
     </div>
-
-    <script>
-        const powerButton = document.getElementById('powerButton');
-        const robotContainer = document.getElementById('robotContainer');
-        const sparksContainer = document.getElementById('sparksContainer');
-
-        function createSparks() {
-            const sparkPositions = [
-                { x: 150, y: 100 },
-                { x: 150, y: 200 },
-                { x: 50, y: 180 },
-                { x: 250, y: 180 },
-                { x: 100, y: 300 },
-                { x: 200, y: 300 }
-            ];
-
-            sparkPositions.forEach((pos, index) => {
-                for (let i = 0; i < 5; i++) {
-                    const spark = document.createElement('div');
-                    spark.className = 'spark';
-                    spark.style.left = pos.x + 'px';
-                    spark.style.top = pos.y + 'px';
-                    spark.style.animationDelay = (index * 0.1 + i * 0.05) + 's';
-
-                    const angle = (Math.random() * 360) * Math.PI / 180;
-                    const distance = 30 + Math.random() * 30;
-                    spark.style.setProperty('--spark-x', Math.cos(angle) * distance + 'px');
-                    spark.style.setProperty('--spark-y', Math.sin(angle) * distance + 'px');
-
-                    sparksContainer.appendChild(spark);
-                }
-            });
-        }
-
-        createSparks();
-
-        powerButton.addEventListener('click', () => {
-            robotContainer.classList.add('assembling');
-            powerButton.classList.add('hidden');
-
-            // Sound effect simulation (visual feedback)
-            document.body.style.animation = 'none';
-            setTimeout(() => {
-                document.body.style.animation = '';
-            }, 10);
-        });
-
-        // Double-click to reset
-        robotContainer.addEventListener('dblclick', () => {
-            robotContainer.classList.remove('assembling');
-            powerButton.classList.remove('hidden');
-
-            // Reset sparks
-            sparksContainer.innerHTML = '';
-            createSparks();
-        });
-    </script>
 </body>
 </html>
